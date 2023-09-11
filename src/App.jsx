@@ -1,16 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Route, Routes } from "react-router-dom";
+import NotFoundPage from "./pages/NotFoundPage";
+import HomePage from "./pages/HomePage";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      Le Quoc Huy
-    </>
-  )
+    <Routes>
+      {/* {user && user.role === "ADMIN" ? ( */}
+      <>
+        <Route path="/" element={<HomePage />} />
+
+        <Route path="*" element={<NotFoundPage />} />
+      </>
+      {/* ) : ( */}
+      <>
+        {/* <Route path="/auth" element={<Login />} />
+        <Route path="*" element={<Login />} /> */}
+      </>
+      {/* )} */}
+    </Routes>
+  );
 }
 
-export default App
+export default App;
