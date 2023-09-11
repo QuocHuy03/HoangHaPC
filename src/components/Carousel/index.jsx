@@ -1,15 +1,22 @@
-import React, { useRef } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
+import React from "react";
+import { Swiper } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "./style.css";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-export default function Carousel({ images, delay, navigation, pagination }) {
+export default function Carousel({
+  delay,
+  navigation,
+  pagination,
+  children,
+  breakpoints,
+}) {
   return (
     <Swiper
       spaceBetween={30}
       centeredSlides={true}
+      breakpoints={breakpoints}
       autoplay={{
         delay: delay,
         disableOnInteraction: false,
@@ -19,19 +26,7 @@ export default function Carousel({ images, delay, navigation, pagination }) {
       modules={[Autoplay, Pagination, Navigation]}
       className="mySwiper"
     >
-      {images?.map((item) => (
-        <SwiperSlide key={item.id}>
-          <img
-            data-src={item.image}
-            alt={item.name}
-            width={291}
-            height={192}
-            className="lazy w-100 h-auto loaded"
-            src={item.image}
-            data-was-processed="true"
-          />
-        </SwiperSlide>
-      ))}
+      {children}
     </Swiper>
   );
 }
