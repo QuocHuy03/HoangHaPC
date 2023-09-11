@@ -1,22 +1,31 @@
 import React from "react";
 import Layout from "../../components/Layout";
 import "./style.css";
-
+import Carousel from "../../components/Carousel";
+import { bannerImages } from "../../constants/image";
+import { Swiper, SwiperSlide } from "swiper/react";
 export default function HomePage() {
   return (
     <Layout>
+      {/* Banner */}
       <div className="container hover-img">
         <div className="home-banner-group">
           <div className="home-slider-group">
-          <img
-                data-src="https://hoanghapccdn.com/media/banner/25_Jul965ee5691da68843d14d6b494adcae22.png"
-                alt="Banner-356"
-                width={291}
-                height={192}
-                className="lazy w-100 h-auto loaded"
-                src="https://hoanghapccdn.com/media/banner/25_Jul965ee5691da68843d14d6b494adcae22.png"
-                data-was-processed="true"
-              />
+            <Carousel delay={4000} navigation={false} pagination={false}>
+              {bannerImages?.map((item) => (
+                <SwiperSlide key={item.id}>
+                  <img
+                    data-src={item.image}
+                    alt={item.name}
+                    width={291}
+                    height={192}
+                    className="lazy w-100 h-auto loaded"
+                    src={item.image}
+                    data-was-processed="true"
+                  />
+                </SwiperSlide>
+              ))}
+            </Carousel>
           </div>
           <div className="home-right-slider">
             <a href="/ad.php?id=356">
@@ -123,6 +132,253 @@ export default function HomePage() {
               data-was-processed="true"
             />
           </a>
+        </div>
+      </div>
+      {/* Top Bán PC */}
+      <div
+        className="home-collection-group lazy"
+        data-bg="url(https://i.imgur.com/QvdPH94.png)"
+        data-was-processed="true"
+        style={{
+          backgroundImage: 'url("https://i.imgur.com/QvdPH94.png")',
+        }}
+      >
+        <div className="container">
+          {/* tab */}
+          <div
+            className="home-collection-title loaded"
+            id="js-home-collection-title"
+          >
+            <a
+              href="/collection/top-pc-ban-chay"
+              data-id={3}
+              className="current"
+            >
+              <b>TOP PC BÁN CHẠY</b>
+              <span>Nhất năm 2023</span>
+            </a>
+            <a href="/collection/top-pc-khung" data-id={4}>
+              <b>TOP PC CỰC KHỦNG</b>
+              <span>Dành cho dân đồ họa</span>
+            </a>
+            <a href="/collection/giai-nhiet-pc" data-id={5}>
+              <b>GIẢI NHIỆT PC</b>
+              <span>Nâng cao hiệu suất</span>
+            </a>
+            <a href="/collection/man-hinh-do-hoa" data-id={6}>
+              <b>MÀN HÌNH ĐỒ HỌA</b>
+              <span>Nhiều ưu đãi hấp dẫn</span>
+            </a>
+            <a href="/collection/goc-thanh-ly" data-id={7}>
+              <b>GÓC THANH LÝ</b>
+              <span>Xả hàng không lợi nhuận</span>
+            </a>
+          </div>
+          {/* san pham */}
+          <div
+            className="p-container"
+            id="js-collection-holder"
+            style={{
+              marginTop: "25px",
+            }}
+          >
+            <Carousel
+              delay={4000}
+              navigation={false}
+              pagination={false}
+              breakpoints={{
+                640: {
+                  slidesPerView: 2,
+                  spaceBetween: 20,
+                },
+                768: {
+                  slidesPerView: 4,
+                  spaceBetween: 40,
+                },
+                1024: {
+                  slidesPerView: 5,
+                  spaceBetween: 50,
+                },
+              }}
+            >
+              {bannerImages?.map((item) => (
+                <SwiperSlide key={item.id}>
+                  <div className="p-item">
+                    <a
+                      href="/hhpc-3d-lumion-i5-13600k-32g-nvidia-rtx-3060-12g"
+                      className="p-img"
+                    >
+                      <img
+                        src="https://hoanghapccdn.com/media/product/250_3792_hhpc_sama_tan_120_ha5.jpg"
+                        alt="HHPC 3D i5 13600K | 32G | NVIDIA RTX 3060 12G"
+                        width={250}
+                        height={250}
+                      />
+                    </a>
+                    <div className="p-text">
+                      <a
+                        href="/hhpc-3d-lumion-i5-13600k-32g-nvidia-rtx-3060-12g"
+                        className="p-name"
+                      >
+                        <h3 className="inherit">
+                          HHPC 3D i5 13600K | 32G | NVIDIA RTX 3060 12G
+                        </h3>
+                      </a>
+                      <div className="p-price-group">
+                        <span className="p-price">23.950.000 đ</span>
+                        <del className="p-old-price">26.500.000 đ</del>
+                        <span className="p-discount">(Tiết kiệm: 10%)</span>
+                      </div>
+                      <div className="p-btn-group">
+                        <p>
+                          <span style={{ color: "#0DB866" }}>
+                            <i className="icons icon-check" /> Còn hàng
+                          </span>
+                          <span style={{ color: "#A3A3A3" }}>
+                            <i className="icons icon-gift" /> Quà tặng
+                          </span>
+                        </p>
+                        <a
+                          href="javascript:void(0)"
+                          className="p-add-cart"
+                          onclick="addProductToCart(3792, 1,'')"
+                        />
+                      </div>
+                    </div>
+                    <div className="p-tooltip">
+                      <p className="tooltip-title">
+                        HHPC 3D i5 13600K | 32G | NVIDIA RTX 3060 12G
+                      </p>
+                      <div className="tooltip-content">
+                        <table>
+                          <tbody>
+                            <tr>
+                              <td>Giá bán</td>
+                              <td>
+                                <span className="tooltip-price">
+                                  23.950.000 đ
+                                </span>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>Bảo hành</td>
+                              <td>36 tháng</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <div className="tooltip-content-item">
+                          <b className="title">
+                            <i className="tooltip-icon icon-doc" /> Thông số sản
+                            phẩm
+                          </b>
+                          <div className="tooltip-content-list">
+                            <div className="item">
+                              CPU : INTEL CORE i5 13600K up 5.1GHz | 14 CORE |
+                              20 THREAD
+                            </div>
+                            <div className="item">
+                              RAM : 32GB DDR4 3600 MHz (2x16G)
+                            </div>
+                            <div className="item">
+                              VGA : MANLI RTX 3060 12GB GDDR6
+                            </div>
+                          </div>
+                        </div>
+                        <div className="tooltip-content-item">
+                          <b className="title">
+                            <i className="tooltip-icon icon-gift" /> Chương
+                            trình khuyến mãi
+                          </b>
+                          <div className="tooltip-content-list">
+                            <div className="item">
+                              <p>
+                                <span
+                                  style={{
+                                    color: "#ff0000",
+                                    fontSize: "12pt",
+                                  }}
+                                >
+                                  <strong>
+                                    ƯU ĐÃI KHI MUA KÈM PC TẠI HOÀNG HÀ PC
+                                  </strong>
+                                </span>
+                              </p>
+                            </div>
+                            <div className="item">
+                              <p>
+                                <span style={{ fontSize: "12pt" }}>
+                                  ⭐ Tặng ngay{" "}
+                                  <span
+                                    style={{
+                                      fontSize: "13pt",
+                                      color: "#ff0000",
+                                    }}
+                                  >
+                                    <strong>
+                                      bộ phím chuột và bàn di chuột + 5 mét dây
+                                      mạng
+                                    </strong>
+                                  </span>{" "}
+                                  khi mua cấu hình PC trên{" "}
+                                </span>
+                              </p>
+                            </div>
+                            <div className="item">
+                              <p>
+                                <span style={{ fontSize: "12pt" }}>
+                                  ⭐ Giảm ngay{" "}
+                                  <strong>
+                                    <span style={{ color: "#ff0000" }}>
+                                      100.000đ
+                                    </span>
+                                  </strong>{" "}
+                                  khi mua thêm{" "}
+                                  <span style={{ color: "#ff0000" }}>
+                                    <strong>
+                                      <a
+                                        style={{ color: "#ff0000" }}
+                                        href="/man-hinh-may-tinh"
+                                      >
+                                        Màn Hình Máy Tính
+                                      </a>
+                                    </strong>
+                                  </span>
+                                  .
+                                </span>
+                              </p>
+                            </div>
+                            <div className="item">
+                              <p>
+                                <span style={{ fontSize: "12pt" }}>
+                                  ⭐ Giảm ngay{" "}
+                                  <strong>
+                                    <span style={{ color: "#ff0000" }}>
+                                      200.000đ
+                                    </span>
+                                  </strong>{" "}
+                                  khi mua thêm{" "}
+                                  <strong>
+                                    <span style={{ color: "#ff0000" }}>
+                                      <a
+                                        style={{ color: "#ff0000" }}
+                                        href="/ram-bo-nho-trong"
+                                      >
+                                        RAM
+                                      </a>
+                                    </span>
+                                  </strong>
+                                </span>
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Carousel>
+          </div>
         </div>
       </div>
     </Layout>

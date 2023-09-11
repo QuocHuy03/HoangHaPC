@@ -5,7 +5,7 @@ export default function HeaderBottom() {
     <div className="global-header-bottom-group container d-flex flex-wrap align-items-center position-relative">
       <a href="/" className="header-left-group header-logo">
         <img
-          src="/template/2022/images/Logo_hoanghapc.png"
+          src="https://hoanghapc.vn/template/2022/images/Logo_hoanghapc.png"
           alt="Hoàng Hà PC - Chuyên Cung Cấp Máy Tính Đồ Họa Cao Cấp"
           width={247}
           height={96}
