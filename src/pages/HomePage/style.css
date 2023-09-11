@@ -48,8 +48,8 @@
   flex-wrap: wrap;
 }
 .home-under-block-slider a {
-    width: calc(100% / 4 - 9px);
+  width: calc(100% / 4 - 9px);
 }
 .home-under-block-slider {
-    margin: 16px 0 32px 0;
+  margin: 16px 0 32px 0;
 }
