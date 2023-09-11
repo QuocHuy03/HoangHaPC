@@ -4,29 +4,12 @@ import { useLocation } from "react-router-dom";
 export default function HeaderBottom() {
   const location = useLocation();
   const [isDropdown, setIsDropdown] = useState(false);
-  const dropdownRef = useRef(null);
-
-  const toggleDropdown = () => {
-    setIsDropdown(!isDropdown);
-  };
-
-  const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setIsDropdown(false);
-    }
-  };
-
   useEffect(() => {
-    if (location.pathname === "/") { 
+    if (location.pathname === "/") {
       setIsDropdown(true);
     } else {
       setIsDropdown(false);
     }
-
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
   }, [location.pathname]);
   return (
     <div className="global-header-bottom-group container d-flex flex-wrap align-items-center position-relative">
@@ -126,47 +109,46 @@ export default function HeaderBottom() {
           <span className="js-cart-count cart-count">0</span>
         </a>
       </div>
-      <div className="header-left-group header-menu-group" ref={dropdownRef}>
-        <p className="title" onClick={toggleDropdown}>
+      <div className="header-left-group header-menu-group">
+        <p className="title">
           <i className="icons icon-menu" />
           <span>Danh mục sản phẩm</span>
           <i className="icons icon-down" />
         </p>
-        {isDropdown && (
-          <div className="menu-list menu-homepage">
-            <div className="item">
-              <a href="/pc-workstation" className="cat-1">
-                <i
-                  className="cat-thum lazy"
-                  data-bg="url(https://hoanghapccdn.com/media/category/cat_4d485476e07e02638e8e2133cdf8f56d.png)"
-                  data-was-processed="true"
-                  style={{
-                    backgroundImage:
-                      'url("https://hoanghapccdn.com/media/category/cat_4d485476e07e02638e8e2133cdf8f56d.png")',
-                  }}
-                />
-                <span className="cat-title">PC Thiết Kế Đồ Họa 3D</span>
-              </a>
-              <div className="sub-menu">
-                <div className="sub-item">
-                  <a href="/hhpc-3d-lumion" className="cat-2">
-                    HHPC 3D Lumion
-                  </a>
-                </div>
-                <div className="sub-item">
-                  <a href="/hhpc-3d" className="cat-2">
-                    HHPC 3D
-                  </a>
-                </div>
-                <div className="sub-item">
-                  <a href="/hhpc-3d-render" className="cat-2">
-                    HHPC 3D Render
-                  </a>
-                </div>
+
+        <div className={isDropdown ? `menu-list menu-homepage` : `menu-list `}>
+          <div className="item">
+            <a href="/pc-workstation" className="cat-1">
+              <i
+                className="cat-thum lazy"
+                data-bg="url(https://hoanghapccdn.com/media/category/cat_4d485476e07e02638e8e2133cdf8f56d.png)"
+                data-was-processed="true"
+                style={{
+                  backgroundImage:
+                    'url("https://hoanghapccdn.com/media/category/cat_4d485476e07e02638e8e2133cdf8f56d.png")',
+                }}
+              />
+              <span className="cat-title">PC Thiết Kế Đồ Họa 3D</span>
+            </a>
+            <div className="sub-menu">
+              <div className="sub-item">
+                <a href="/hhpc-3d-lumion" className="cat-2">
+                  HHPC 3D Lumion
+                </a>
+              </div>
+              <div className="sub-item">
+                <a href="/hhpc-3d" className="cat-2">
+                  HHPC 3D
+                </a>
+              </div>
+              <div className="sub-item">
+                <a href="/hhpc-3d-render" className="cat-2">
+                  HHPC 3D Render
+                </a>
               </div>
             </div>
           </div>
-        )}
+        </div>
       </div>
       <div className="header-middle-group header-search-group">
         <form method="get" action="/tim" name="search">
@@ -241,7 +223,6 @@ export default function HeaderBottom() {
           id="js-seach-result"
           style={{ display: "none" }}
         >
-          {" "}
         </div>
       </div>
       <a href="/buildpc" className="header-right-group header-buildpc">
