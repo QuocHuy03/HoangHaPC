@@ -1,4 +1,6 @@
-import React from "react";
+import React from 'react';
+
+import { Link } from 'react-router-dom';
 
 export default function HeaderTop() {
   return (
@@ -37,9 +39,9 @@ export default function HeaderTop() {
                       <i className="icons icon-phone" />
                       <span className="text">Hotline bảo hành: 19006100</span>
                     </a>
-                    <a href="mailto:hoanghapcws@gmail.com" rel="nofollow">
+                    <a href="mailto:qhuy.dev@gmail.com" rel="nofollow">
                       <i className="icons icon-email" />
-                      <span className="text">Email: hoanghapcws@gmail.com</span>
+                      <span className="text">Email: qhuy.dev@gmail.com</span>
                     </a>
                     <a href="javascript:void(0)">
                       <i className="icons icon-time" />
@@ -535,13 +537,13 @@ export default function HeaderTop() {
           </a>
         </div>
         <div className="item-right text-white text-14 font-600">
-          <a href="javascript:void(0)" onclick="_showCustomerPopup('register')">
+          <Link to={"/register"}>
             Đăng ký
-          </a>
+          </Link>
           <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-          <a href="javascript:void(0)" onclick="_showCustomerPopup('login')">
+          <Link to={"/login"}>
             Đăng nhập
-          </a>
+          </Link>
         </div>
       </div>
     </div>
