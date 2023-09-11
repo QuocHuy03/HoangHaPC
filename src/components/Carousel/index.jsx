@@ -1,7 +1,32 @@
-import React from 'react'
-
-export default function Carousel() {
+import React from "react";
+import { Swiper } from "swiper/react";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import "./style.css";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+export default function Carousel({
+  delay,
+  navigation,
+  pagination,
+  children,
+  breakpoints,
+}) {
   return (
-    <div>Carousel</div>
-  )
+    <Swiper
+      spaceBetween={30}
+      centeredSlides={true}
+      breakpoints={breakpoints}
+      autoplay={{
+        delay: delay,
+        disableOnInteraction: false,
+      }}
+      pagination={pagination}
+      navigation={navigation}
+      modules={[Autoplay, Pagination, Navigation]}
+      className="mySwiper"
+    >
+      {children}
+    </Swiper>
+  );
 }
