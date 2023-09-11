@@ -90,13 +90,9 @@ export default function LoginPage() {
               </p>
               <div className="d-flex flex-wrap align-items-center justify-content-end">
                 <a className="btn-forgot-password">Quên mật khẩu ?</a>
-<<<<<<< HEAD
-                <a className="popup-btn btn-login">Đăng nhập</a>
-=======
                 <a className="popup-btn btn-login" style={{ color: "white" }}>
                   Đăng nhập
                 </a>
->>>>>>> master
               </div>
               <div className="text-center">
                 <p
