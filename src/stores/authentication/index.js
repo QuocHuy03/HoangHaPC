@@ -41,19 +41,19 @@ const authenticationReducer = createSlice({
     },
   },
 
-  extraReducers: (builder) => {
-    builder
-      .addCase(loginThunk.fulfilled, (state, action) => {
-        state.user = action.payload;
-        state.isLoggedIn = true;
-        state.error = null;
-      })
-      .addCase(loginThunk.rejected, (state, action) => {
-        state.user = null;
-        state.isLoggedIn = false;
-        state.error = action.error.message;
-      });
-  },
+  // extraReducers: (builder) => {
+  //   builder
+  //     .addCase(loginThunk.fulfilled, (state, action) => {
+  //       state.user = action.payload;
+  //       state.isLoggedIn = true;
+  //       state.error = null;
+  //     })
+  //     .addCase(loginThunk.rejected, (state, action) => {
+  //       state.user = null;
+  //       state.isLoggedIn = false;
+  //       state.error = action.error.message;
+  //     });
+  // },
 });
 
 export const {
