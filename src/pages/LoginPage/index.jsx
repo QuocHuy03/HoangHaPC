@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Layout from "../../components/Layout";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 const getGoogleAuthUrl = () => {
   const url = `https://accounts.google.com/o/oauth2/v2/auth`;
