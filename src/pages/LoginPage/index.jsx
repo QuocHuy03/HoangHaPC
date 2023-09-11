@@ -4,7 +4,9 @@ import Layout from "../../components/Layout";
 export default function LoginPage() {
   return (
     <Layout>
-      <div className="global-popup-content">
+      <div className="global-popup-content" style={{
+        marginTop: "40px"
+      }}>
         <div className="item-left-auth">
           <img
             src="https://hoanghapc.vn/template/2022/images/popup-customer-bg.png"
@@ -18,21 +20,14 @@ export default function LoginPage() {
             <div className="popup-btn-direction justify-content-end">
               <a href="/" />
               <a
-                href="javascript:void(0)"
                 className="fas fa-times close-popup mb-icons"
-                onclick="_closeCustomerPopup();"
                 aria-hidden="true"
               />
             </div>
             <div className="box-title-auth">
               <p>Đăng nhập bằng Email</p>
               <p>
-                <a
-                  href="javascript:void(0)"
-                >
-                  Đăng ký
-                </a>{" "}
-                nếu chưa có tài khoản.
+                <a>Đăng ký</a> nếu chưa có tài khoản.
               </p>
             </div>
             <div className="input-holder-auth">
@@ -49,11 +44,7 @@ export default function LoginPage() {
                   placeholder="Mật khẩu"
                   id="js-popup-login-password"
                 />
-                <a
-                  href="javascript:void(0)"
-                  className="icons icon-eye"
-                  onclick="show_hide_pass(this)"
-                />
+                <a className="icons icon-eye" onclick="show_hide_pass(this)" />
               </div>
               <p
                 className="mt-1 red"
@@ -64,19 +55,11 @@ export default function LoginPage() {
               </p>
               <div className="d-flex flex-wrap align-items-center justify-content-end">
                 <a
-                  href="javascript:void(0)"
-                  onclick="_showCustomerPopup('forgotPassword')"
                   className="btn-forgot-password"
                 >
                   Quên mật khẩu ?
                 </a>
-                <a
-                  href="javascript:void(0)"
-                  onclick="_accountLogin();"
-                  className="popup-btn btn-login"
-                >
-                  Đăng nhập
-                </a>
+                <a className="popup-btn btn-login">Đăng nhập</a>
               </div>
               <div className="text-center">
                 <p
@@ -87,12 +70,10 @@ export default function LoginPage() {
                 </p>
                 <div className="popup-icons-group">
                   <a
-                    href="javascript:void(0)"
                     onclick="open_oauth('Google')"
                     className="icons icon-google"
                   />
                   <a
-                    href="javascript:void(0)"
                     onclick="open_oauth('Facebook')"
                     className="icons icon-facebook"
                   />
