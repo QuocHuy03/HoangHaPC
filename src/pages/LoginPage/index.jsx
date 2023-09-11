@@ -4,9 +4,12 @@ import Layout from "../../components/Layout";
 export default function LoginPage() {
   return (
     <Layout>
-      <div className="global-popup-content" style={{
-        marginTop: "40px"
-      }}>
+      <div
+        className="global-popup-content"
+        style={{
+          marginTop: "40px",
+        }}
+      >
         <div className="item-left-auth">
           <img
             src="https://hoanghapc.vn/template/2022/images/popup-customer-bg.png"
@@ -54,12 +57,10 @@ export default function LoginPage() {
                 {/* // note */}
               </p>
               <div className="d-flex flex-wrap align-items-center justify-content-end">
-                <a
-                  className="btn-forgot-password"
-                >
-                  Quên mật khẩu ?
+                <a className="btn-forgot-password">Quên mật khẩu ?</a>
+                <a className="popup-btn btn-login" style={{ color: "white" }}>
+                  Đăng nhập
                 </a>
-                <a className="popup-btn btn-login">Đăng nhập</a>
               </div>
               <div className="text-center">
                 <p
