@@ -17,7 +17,7 @@ export default function HeaderBottom() {
   };
 
   useEffect(() => {
-    if (location.pathname === "/") {
+    if (location.pathname === "/") { 
       setIsDropdown(true);
     } else {
       setIsDropdown(false);
