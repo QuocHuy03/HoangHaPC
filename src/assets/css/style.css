@@ -1106,7 +1106,7 @@ iframe {
   cursor: pointer;
 }
 .icons {
-  background: url(../images/sprite.png) no-repeat;
+  background: url(https://i.imgur.com/JjhAqLd.png) no-repeat;
   background-size: 250px 300px;
 }
 .custom-nav .owl-nav {
@@ -1647,24 +1647,16 @@ iframe {
 .global-popup-login {
   display: none;
 }
-.global-popup-login .global-popup-content {
+.global-popup-content {
   max-width: 800px;
   width: 100%;
   margin: auto;
   background: #fff;
   border-radius: 16px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  z-index: 100;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   color: #404d5f;
 }
-.global-popup-login .item-left {
+.item-left-auth {
   width: 299px;
   background-position: center;
   border-right: 1px solid #e5eaf1;
@@ -1678,40 +1670,40 @@ iframe {
   -ms-flex-pack: center;
   justify-content: center;
 }
-.global-popup-login .item-right {
+.item-right-auth {
   width: calc(100% - 300px);
   padding: 21px 40px 25px;
   position: relative;
 }
-.global-popup-login .close-popup {
+.close-popup-auth {
   color: #404d5f;
   font-size: 21px;
   margin-right: -20px;
 }
-.global-popup-login .box-title {
+.box-title-auth {
   line-height: 20px;
   margin: 24px 0;
   font-size: 16px;
 }
-.global-popup-login .box-title a {
+.box-title-auth a {
   color: #1988ec;
   text-decoration: underline;
   font-weight: 600;
 }
-.global-popup-login .box-title p {
+.box-title-auth p {
   margin: 0;
 }
-.global-popup-login .box-title p:first-child {
+.box-title-auth p:first-child {
   margin-bottom: 4px;
   font-weight: 700;
   font-size: 28px;
   line-height: 32px;
 }
-.global-popup-login .input-box {
+.input-box-auth {
   position: relative;
   margin-bottom: 16px;
 }
-.global-popup-login .input-box input {
+.input-box-auth input {
   width: 100%;
   margin: 0;
   padding: 0 20px 0 0;
@@ -1720,7 +1712,7 @@ iframe {
   border-bottom: 1px solid #e1e9ec;
   font-size: 16px;
 }
-.global-popup-login .icon-eye {
+.icon-eye {
   width: 12px;
   height: 12px;
   position: absolute;
@@ -1728,19 +1720,19 @@ iframe {
   top: 5px;
   background-position: -213px -52px;
 }
-.global-popup-login .icon-google {
+.icon-google {
   background-position: -8px -186px;
 }
-.global-popup-login .icon-facebook {
+.icon-facebook {
   background-position: -64px -186px;
 }
-.global-popup-login .btn-forgot-password {
+.btn-forgot-password {
   color: #697789;
   font-weight: 600;
   font-size: 14px;
   line-height: 18px;
 }
-.global-popup-login .popup-btn {
+.popup-btn {
   width: 100%;
   background: #1988ec;
   border-radius: 8px;
@@ -1752,7 +1744,7 @@ iframe {
   font-size: 16px;
   display: block;
 }
-.global-popup-login .popup-icons-group {
+.popup-icons-group {
   margin: 24px 0;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1764,12 +1756,12 @@ iframe {
   -ms-flex-pack: center;
   justify-content: center;
 }
-.global-popup-login .popup-icons-group .icons {
+.popup-icons-group .icons {
   width: 40px;
   height: 40px;
   margin: 0 8px;
 }
-.global-popup-login .popup-btn-direction {
+.popup-btn-direction {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1780,10 +1772,10 @@ iframe {
   -ms-flex-pack: justify;
   justify-content: space-between;
 }
-.global-popup-login .popup-content-group {
+.popup-content-group {
   display: none;
 }
-.global-popup-login .btn-back {
+.btn-back {
   width: 10px;
   height: 10px;
   border: 2px solid #404d5f;
@@ -1792,10 +1784,10 @@ iframe {
   border-right: 0;
   border-top: 0;
 }
-.global-popup-login .popup-registor-group .input-box {
+.popup-registor-group .input-box {
   margin-bottom: 32px;
 }
-.global-popup-login .popup-registor-group .popup-btn {
+.popup-registor-group .popup-btn {
   margin-top: 40px;
 }
 .header-static-group {
