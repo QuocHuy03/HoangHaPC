@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import "./style.css";
 import "swiper/css";
-export default function Carousel({ images }) {
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+export default function Carousel({ images, delay, navigation, pagination }) {
   return (
-    <Swiper className="mySwiper">
+    <Swiper
+      spaceBetween={30}
+      centeredSlides={true}
+      autoplay={{
+        delay: delay,
+        disableOnInteraction: false,
+      }}
+      pagination={pagination}
+      navigation={navigation}
+      modules={[Autoplay, Pagination, Navigation]}
+      className="mySwiper"
+    >
       {images?.map((item) => (
         <SwiperSlide key={item.id}>
           <img

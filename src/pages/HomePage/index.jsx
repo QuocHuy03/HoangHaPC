@@ -10,7 +10,7 @@ export default function HomePage() {
       <div className="container hover-img">
         <div className="home-banner-group">
           <div className="home-slider-group">
-            <Carousel images={bannerImages}/>
+            <Carousel images={bannerImages} delay={4000} navigation={false} pagination={false} />
           </div>
           <div className="home-right-slider">
             <a href="/ad.php?id=356">
