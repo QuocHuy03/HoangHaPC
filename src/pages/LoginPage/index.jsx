@@ -1,7 +1,39 @@
 import React from "react";
 import Layout from "../../components/Layout";
+import { Link } from "react-router-dom";
+
+const getGoogleAuthUrl = () => {
+  const url = `https://accounts.google.com/o/oauth2/v2/auth`;
+  const query = {
+    client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+    redirect_uri: import.meta.env.VITE_GOOGLE_AUTHORIZED_REDIRECT_URI,
+    response_type: "code",
+    scope: [
+      "https://www.googleapis.com/auth/userinfo.profile",
+      "https://www.googleapis.com/auth/userinfo.email",
+    ].join(" "),
+    prompt: "consent",
+    access_type: "offline",
+  };
+  const qs = new URLSearchParams(query);
+  return `${url}?${qs.toString()}`;
+};
 
 export default function LoginPage() {
+  const oauthURL = getGoogleAuthUrl();
+  const [params] = useSearchParams();
+  useEffect(() => {
+    const accessToken = params.get("accessToken");
+    const refreshToken = params.get("refreshToken");
+    const newUser = params.get("newUser");
+    if (newUser === "false") {
+      alert("Login");
+    } else {
+      alert("Đăng Ký");
+    }
+    localStorage.setItem("access_token", accessToken);
+    localStorage.setItem("refresh_token", refreshToken);
+  }, [params]);
   return (
     <Layout>
       <div
@@ -30,7 +62,7 @@ export default function LoginPage() {
             <div className="box-title-auth">
               <p>Đăng nhập bằng Email</p>
               <p>
-                <a>Đăng ký</a> nếu chưa có tài khoản.
+                <Link to={"/register"}>Đăng ký</Link> nếu chưa có tài khoản.
               </p>
             </div>
             <div className="input-holder-auth">
@@ -70,14 +102,9 @@ export default function LoginPage() {
                   - Hoặc đăng nhập bằng -
                 </p>
                 <div className="popup-icons-group">
-                  <a
-                    onclick="open_oauth('Google')"
-                    className="icons icon-google"
-                  />
-                  <a
-                    onclick="open_oauth('Facebook')"
-                    className="icons icon-facebook"
-                  />
+                  <Link to={oauthURL} className="icons icon-google"></Link>
+
+                  <Link to={"/login"} className="icons icon-facebook" />
                 </div>
                 <p className="m-0 mb-text-12-lh-16">
                   Bằng việc tiếp tục, bạn đã chấp nhận{" "}
