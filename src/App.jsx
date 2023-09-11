@@ -3,16 +3,17 @@ import NotFoundPage from "./pages/NotFoundPage";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import { URL_CONSTANTS } from "./constants/url.constants";
 
 function App() {
   return (
     <Routes>
       {/* {user && user.role === "ADMIN" ? ( */}
       <>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="*" element={<NotFoundPage />} />
+        <Route path={URL_CONSTANTS.HOME} element={<HomePage />} />
+        <Route path={URL_CONSTANTS.LOGIN} element={<LoginPage />} />
+        <Route path={URL_CONSTANTS.REGISTER} element={<RegisterPage />} />
+        <Route path={URL_CONSTANTS.NOTFOUND} element={<NotFoundPage />} />
       </>
       {/* ) : ( */}
       <>
