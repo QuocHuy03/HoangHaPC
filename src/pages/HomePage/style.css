@@ -7,18 +7,22 @@
   display: flex;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  align-items: center;
 }
 
 .home-slider-group {
   width: 594px;
   margin: 12px 12px 12px 0;
 }
-
+.home-slider-group img {
+  border-radius: 10px;
+}
+.home-right-slider a {
+  margin-bottom: 19px;
+}
 .home-right-slider {
   width: calc(100% - 606px);
   margin-bottom: 12px;
-  margin-top: 5px;
+  margin-top: 10px;
 }
 .home-under-slider,
 .home-under-block-slider {

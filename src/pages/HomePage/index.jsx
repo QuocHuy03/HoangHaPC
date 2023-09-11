@@ -1,6 +1,8 @@
 import React from "react";
 import Layout from "../../components/Layout";
 import "./style.css";
+import Carousel from "../../components/Carousel";
+import { bannerImages } from "../../constants/image";
 
 export default function HomePage() {
   return (
@@ -8,15 +10,7 @@ export default function HomePage() {
       <div className="container hover-img">
         <div className="home-banner-group">
           <div className="home-slider-group">
-          <img
-                data-src="https://hoanghapccdn.com/media/banner/25_Jul965ee5691da68843d14d6b494adcae22.png"
-                alt="Banner-356"
-                width={291}
-                height={192}
-                className="lazy w-100 h-auto loaded"
-                src="https://hoanghapccdn.com/media/banner/25_Jul965ee5691da68843d14d6b494adcae22.png"
-                data-was-processed="true"
-              />
+            <Carousel images={bannerImages}/>
           </div>
           <div className="home-right-slider">
             <a href="/ad.php?id=356">
