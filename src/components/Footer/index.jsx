@@ -1,8 +1,10 @@
 import React from "react";
+import System from "../System";
 
 export default function Footer() {
   return (
     <React.Fragment>
+      <System/>
       <div>
         <div className="footer-info-group text-16">
           <div className="container">
