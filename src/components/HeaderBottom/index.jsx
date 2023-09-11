@@ -1,4 +1,6 @@
-import React from "react";
+import './headerbottom.css';
+
+import React from 'react';
 
 export default function HeaderBottom() {
   return (
