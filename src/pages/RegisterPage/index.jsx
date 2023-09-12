@@ -28,11 +28,11 @@ export default function RegisterPage() {
               ></a>
             </div>
             <div className="box-title-auth">
-              <p>Đăng nhập bằng Email</p>
+              <p>Tạo tài khoản</p>
               <p>Vui lòng cho chúng tôi biết thông tin về bạn</p>
             </div>
 
-            <div className="input-holder-auth">
+            <div className="input-holder-auth" style={{padding:"6px"}}>
               <div className="input-box-auth">
                 <input
                   type="text"
@@ -87,7 +87,7 @@ export default function RegisterPage() {
                 {/* // note */}
               </p>
               <div className="d-flex flex-wrap align-items-center justify-content-end">
-                <a className="popup-btn btn-login">Tạo tài khoản</a>
+                <a className="popup-btn btn-login" style={{ color: "white" }}>Tạo tài khoản</a>
               </div>
             </div>
           </div>
