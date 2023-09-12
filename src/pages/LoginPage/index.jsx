@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+import React from "react";
+import Layout from "../../components/Layout";
+
+export default function LoginPage() {
+=======
 import React, { useEffect } from "react";
 import Layout from "../../components/Layout";
 import { Link, useSearchParams } from "react-router-dom";
@@ -34,6 +40,7 @@ export default function LoginPage() {
     localStorage.setItem("access_token", accessToken);
     localStorage.setItem("refresh_token", refreshToken);
   }, [params]);
+>>>>>>> master
   return (
     <Layout>
       <div
@@ -62,7 +69,11 @@ export default function LoginPage() {
             <div className="box-title-auth">
               <p>Đăng nhập bằng Email</p>
               <p>
+<<<<<<< HEAD
+                <a>Đăng ký</a> nếu chưa có tài khoản.
+=======
                 <Link to={"/register"}>Đăng ký</Link> nếu chưa có tài khoản.
+>>>>>>> master
               </p>
             </div>
             <div className="input-holder-auth">
@@ -90,9 +101,13 @@ export default function LoginPage() {
               </p>
               <div className="d-flex flex-wrap align-items-center justify-content-end">
                 <a className="btn-forgot-password">Quên mật khẩu ?</a>
+<<<<<<< HEAD
+                <a className="popup-btn btn-login">Đăng nhập</a>
+=======
                 <a className="popup-btn btn-login" style={{ color: "white" }}>
                   Đăng nhập
                 </a>
+>>>>>>> master
               </div>
               <div className="text-center">
                 <p
@@ -102,9 +117,20 @@ export default function LoginPage() {
                   - Hoặc đăng nhập bằng -
                 </p>
                 <div className="popup-icons-group">
+<<<<<<< HEAD
+                  <a
+                    onclick="open_oauth('Google')"
+                    className="icons icon-google"
+                  />
+                  <a
+                    onclick="open_oauth('Facebook')"
+                    className="icons icon-facebook"
+                  />
+=======
                   <Link to={oauthURL} className="icons icon-google"></Link>
 
                   <Link to={"/login"} className="icons icon-facebook" />
+>>>>>>> master
                 </div>
                 <p className="m-0 mb-text-12-lh-16">
                   Bằng việc tiếp tục, bạn đã chấp nhận{" "}
