@@ -3,7 +3,7 @@ import Layout from "../../components/Layout";
 import "./style.css";
 import Carousel from "../../components/Carousel";
 import { bannerImages } from "../../constants/image";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { SwiperSlide } from "swiper/react";
 export default function HomePage() {
   return (
     <Layout>
@@ -184,6 +184,7 @@ export default function HomePage() {
           >
             <Carousel
               delay={4000}
+              spaceBetween={10}
               navigation={false}
               pagination={false}
               breakpoints={{
