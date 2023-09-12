@@ -1,5 +1,11 @@
+<<<<<<< HEAD
+import './headerbottom.css';
+
+import React from 'react';
+=======
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
+>>>>>>> master
 
 export default function HeaderBottom() {
   const location = useLocation();
