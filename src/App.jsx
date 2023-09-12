@@ -22,11 +22,11 @@ function App() {
     console.log("accessToken : ", accessToken);
     console.log("refreshToken : ", refreshToken);
     const newUser = params.get("newUser");
-    if (newUser === "false") {
-      alert("Login");
-    } else {
-      alert("Đăng Ký");
-    }
+    // if (newUser === "false") {
+    //   alert("Login");
+    // } else {
+    //   alert("Đăng Ký");
+    // }
   }, [params]);
   return (
     <Routes>
