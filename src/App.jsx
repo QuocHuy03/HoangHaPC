@@ -11,14 +11,14 @@ function App() {
   useEffect(() => {
     const accessToken = params.get("accessToken");
     const refreshToken = params.get("refreshToken");
+    console.log("accessToken : ", accessToken);
+    console.log("refreshToken : ", refreshToken);
     const newUser = params.get("newUser");
     if (newUser === "false") {
       alert("Login");
     } else {
       alert("Đăng Ký");
     }
-    localStorage.setItem("access_token", accessToken);
-    localStorage.setItem("refresh_token", refreshToken);
   }, [params]);
   return (
     <Routes>
