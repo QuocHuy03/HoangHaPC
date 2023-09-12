@@ -13,6 +13,8 @@ import BlogDetailPage from "./pages/BlogDetailPage";
 import BlogPage from "./pages/BlogPage";
 import PromotionDetailPage from "./pages/PromotionDetailPage";
 import CartPage from "./pages/CartPage";
+import ProfilePage from "./pages/ProfilePage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 function App() {
   const [params] = useSearchParams();
@@ -44,6 +46,8 @@ function App() {
         <Route path={URL_CONSTANTS.BLOG_DETAIL} element={<BlogDetailPage />} />
         <Route path={URL_CONSTANTS.PROMOTION_DETAIL} element={<PromotionDetailPage />} />
         <Route path={URL_CONSTANTS.CART} element={<CartPage />} />
+        <Route path={URL_CONSTANTS.PROFILE} element={<ProfilePage />} />
+        <Route path={URL_CONSTANTS.RESET_PASSWORD} element={<ResetPasswordPage />} />
 
       </>
       {/* ) : ( */}
