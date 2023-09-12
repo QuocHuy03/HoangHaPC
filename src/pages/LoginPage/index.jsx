@@ -52,7 +52,7 @@ export default function LoginPage() {
               <p>Đăng nhập bằng Email</p>
               <p>
 
-                <a>Đăng ký</a> nếu chưa có tài khoản.
+             
                 <Link to={"/register"}>Đăng ký</Link> nếu chưa có tài khoản.
               </p>
             </div>
