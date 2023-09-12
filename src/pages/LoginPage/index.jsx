@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Layout from "../../components/Layout";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 const getGoogleAuthUrl = () => {
   const url = `https://accounts.google.com/o/oauth2/v2/auth`;
@@ -21,6 +21,19 @@ const getGoogleAuthUrl = () => {
 
 export default function LoginPage() {
   const oauthURL = getGoogleAuthUrl();
+  const [params] = useSearchParams();
+  useEffect(() => {
+    const accessToken = params.get("accessToken");
+    const refreshToken = params.get("refreshToken");
+    const newUser = params.get("newUser");
+    if (newUser === "false") {
+      alert("Login");
+    } else {
+      alert("Đăng Ký");
+    }
+    localStorage.setItem("access_token", accessToken);
+    localStorage.setItem("refresh_token", refreshToken);
+  }, [params]);
   return (
     <Layout>
       <div
