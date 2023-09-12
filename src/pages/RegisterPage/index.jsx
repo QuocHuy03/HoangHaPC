@@ -1,3 +1,7 @@
+import React from "react";
+import Layout from "../../components/Layout";
+import { Link } from "react-router-dom";
+
 export default function RegisterPage() {
   return (
     <Layout>
@@ -18,19 +22,17 @@ export default function RegisterPage() {
         <div className="item-right-auth" id="js-popup-holder">
           <div className="popup-content-group d-block" id="js-popup-login">
             <div class="popup-btn-direction">
-              <a class="btn-back" onclick="_showCustomerPopup('login')"></a>
+              <Link to={"/login"} class="btn-back"></Link>
               <a
                 class="fas fa-times close-popup mb-icons"
-                onclick="_closeCustomerPopup();"
-                aria-hidden="true"
               ></a>
             </div>
             <div className="box-title-auth">
-              <p>Đăng nhập bằng Email</p>
+              <p>Tạo tài khoản</p>
               <p>Vui lòng cho chúng tôi biết thông tin về bạn</p>
             </div>
 
-            <div className="input-holder-auth">
+            <div className="input-holder-auth" style={{padding:"6px"}}>
               <div className="input-box-auth">
                 <input
                   type="text"
@@ -85,7 +87,7 @@ export default function RegisterPage() {
                 {/* // note */}
               </p>
               <div className="d-flex flex-wrap align-items-center justify-content-end">
-                <a className="popup-btn btn-login">Tạo tài khoản</a>
+                <a className="popup-btn btn-login" style={{ color: "white" }}>Tạo tài khoản</a>
               </div>
             </div>
           </div>
@@ -93,5 +95,4 @@ export default function RegisterPage() {
       </div>
     </Layout>
   );
-
-      }
+}
