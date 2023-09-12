@@ -1,11 +1,48 @@
-import React from 'react';
+import React from "react";
 
-import System from '../System';
+import System from "../System";
 
 export default function Footer() {
   return (
     <React.Fragment>
-      <System/>
+      <div
+        className="footer-newsletter-group lazy"
+        data-bg="url(https://i.imgur.com/S0TOw5c.png)"
+        data-was-processed="true"
+        style={{
+          backgroundImage: 'url("https://i.imgur.com/S0TOw5c.png")',
+          marginTop: "40px",
+        }}
+      >
+        <div className="container d-flex flex-wrap align-items-center justify-content-between">
+          <div className="item-left">
+            <b className="d-block">
+              Nhận thông báo khuyến mại <br /> hoặc tư vấn miến phí từ Hoàng Hà
+              PC
+            </b>
+            <p className="m-0">
+              Bạn hãy để lại email để không bỏ lỡ hàng ngàn
+              <br /> sản phẩm và các chương trình khuyến mãi khác
+            </p>
+          </div>
+          <div className="item-right d-flex align-items-center">
+            <input
+              type="text"
+              id="js-email-newsletter"
+              placeholder="Địa chỉ email của bạn..."
+            />
+            <a
+              href="javascript:;"
+              className="btn-send-newsletter"
+              onclick="subscribe_newsletter('#js-email-newsletter')"
+            >
+              Gửi ngay
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <System />
       <div>
         <div className="footer-info-group text-16">
           <div className="container">
