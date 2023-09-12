@@ -1,9 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import {
-  Link,
-  useSearchParams,
-} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import Layout from '../../components/Layout';
 
@@ -40,6 +37,7 @@ export default function LoginPage() {
     localStorage.setItem("refresh_token", refreshToken);
   }, [params]);
 
+
   return (
     <Layout>
       <div
@@ -70,7 +68,6 @@ export default function LoginPage() {
               <p>
 
                 <a>Đăng ký</a> nếu chưa có tài khoản.
-
                 <Link to={"/register"}>Đăng ký</Link> nếu chưa có tài khoản.
               </p>
             </div>
@@ -100,7 +97,7 @@ export default function LoginPage() {
               <div className="d-flex flex-wrap align-items-center justify-content-end">
                 <a className="btn-forgot-password">Quên mật khẩu ?</a>
 
-    
+
 
                 <a className="popup-btn btn-login" style={{ color: "white" }}>
                   Đăng nhập
@@ -124,6 +121,7 @@ export default function LoginPage() {
                     onclick="open_oauth('Facebook')"
                     className="icons icon-facebook"
                   />
+
                   <Link to={oauthURL} className="icons icon-google"></Link>
 
                   <Link to={"/login"} className="icons icon-facebook" />
