@@ -92,17 +92,7 @@ export default function LoginPage() {
                   - Hoặc đăng nhập bằng -
                 </p>
                 <div className="popup-icons-group">
-                  <a
-                    onclick="open_oauth('Google')"
-                    className="icons icon-google"
-                  />
-                  <a
-                    onclick="open_oauth('Facebook')"
-                    className="icons icon-facebook"
-                  />
-
                   <Link to={oauthURL} className="icons icon-google"></Link>
-
                   <Link to={"/login"} className="icons icon-facebook" />
                 </div>
                 <p className="m-0 mb-text-12-lh-16">
