@@ -1,13 +1,11 @@
-import React from 'react';
-
-import { Link } from 'react-router-dom';
-
-import Layout from '../../components/Layout';
+import React from "react";
+import { Link } from "react-router-dom";
+import Layout from "../../components/Layout";
 
 export default function ResetPasswordPage() {
   return (
-      <Layout>
-          <div
+    <Layout>
+      <div
         className="global-popup-content"
         style={{
           marginTop: "40px",
@@ -25,14 +23,16 @@ export default function ResetPasswordPage() {
           <div className="popup-content-group d-block" id="js-popup-login">
             <div class="popup-btn-direction">
               <Link to={"/login"} class="btn-back"></Link>
-              
             </div>
             <div className="box-title-auth">
               <p>Quên mật khẩu tài khoản</p>
-              <p>Nhập địa chỉ email của bạn dưới đây và hệ thống sẽ gửi cho bạn một liên kết để đặt lại mật khẩu</p>
+              <p>
+                Nhập địa chỉ email của bạn dưới đây và hệ thống sẽ gửi cho bạn
+                một liên kết để đặt lại mật khẩu
+              </p>
             </div>
 
-            <div className="input-holder-auth" style={{padding:"6px"}}>
+            <div className="input-holder-auth" style={{ padding: "6px" }}>
               <div className="input-box-auth">
                 <input
                   type="text"
@@ -40,14 +40,16 @@ export default function ResetPasswordPage() {
                   id="js-popup-login-email"
                 />
               </div>
-             
+
               <div className="d-flex flex-wrap align-items-center justify-content-end">
-                <a className="popup-btn btn-login" style={{ color: "white" }}>Lấy lại mật khẩu</a>
+                <a className="popup-btn btn-login" style={{ color: "white" }}>
+                  Lấy lại mật khẩu
+                </a>
               </div>
             </div>
           </div>
         </div>
       </div>
-      </Layout>
+    </Layout>
   );
 }
