@@ -186,7 +186,7 @@ export default function System() {
               className="icons icon-number-4"
               style={{
                 backgroundImage:
-                  'url("https://hoanghapc.vn/template/2022/images/footer-number-4.png")',
+                  'url("https://i.imgur.com/ASGTt3z.png")',
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "contain",
               }}
