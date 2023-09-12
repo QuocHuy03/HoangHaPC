@@ -23,9 +23,7 @@ export default function RegisterPage() {
           <div className="popup-content-group d-block" id="js-popup-login">
             <div class="popup-btn-direction">
               <Link to={"/login"} class="btn-back"></Link>
-              <a
-                class="fas fa-times close-popup mb-icons"
-              ></a>
+              
             </div>
             <div className="box-title-auth">
               <p>Tạo tài khoản</p>
