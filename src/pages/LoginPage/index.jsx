@@ -1,6 +1,11 @@
-import React from "react";
-import Layout from "../../components/Layout";
-import { Link } from "react-router-dom";
+import React, { useEffect } from 'react';
+
+import {
+  Link,
+  useSearchParams,
+} from 'react-router-dom';
+
+import Layout from '../../components/Layout';
 
 const getGoogleAuthUrl = () => {
   const url = `https://accounts.google.com/o/oauth2/v2/auth`;
@@ -21,6 +26,20 @@ const getGoogleAuthUrl = () => {
 
 export default function LoginPage() {
   const oauthURL = getGoogleAuthUrl();
+  const [params] = useSearchParams();
+  useEffect(() => {
+    const accessToken = params.get("accessToken");
+    const refreshToken = params.get("refreshToken");
+    const newUser = params.get("newUser");
+    if (newUser === "false") {
+      alert("Login");
+    } else {
+      alert("Đăng Ký");
+    }
+    localStorage.setItem("access_token", accessToken);
+    localStorage.setItem("refresh_token", refreshToken);
+  }, [params]);
+
   return (
     <Layout>
       <div
@@ -49,6 +68,9 @@ export default function LoginPage() {
             <div className="box-title-auth">
               <p>Đăng nhập bằng Email</p>
               <p>
+
+                <a>Đăng ký</a> nếu chưa có tài khoản.
+
                 <Link to={"/register"}>Đăng ký</Link> nếu chưa có tài khoản.
               </p>
             </div>
@@ -77,9 +99,13 @@ export default function LoginPage() {
               </p>
               <div className="d-flex flex-wrap align-items-center justify-content-end">
                 <a className="btn-forgot-password">Quên mật khẩu ?</a>
+
+    
+
                 <a className="popup-btn btn-login" style={{ color: "white" }}>
                   Đăng nhập
                 </a>
+
               </div>
               <div className="text-center">
                 <p
@@ -89,6 +115,15 @@ export default function LoginPage() {
                   - Hoặc đăng nhập bằng -
                 </p>
                 <div className="popup-icons-group">
+
+                  <a
+                    onclick="open_oauth('Google')"
+                    className="icons icon-google"
+                  />
+                  <a
+                    onclick="open_oauth('Facebook')"
+                    className="icons icon-facebook"
+                  />
                   <Link to={oauthURL} className="icons icon-google"></Link>
 
                   <Link to={"/login"} className="icons icon-facebook" />
