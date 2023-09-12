@@ -27,18 +27,6 @@ const getGoogleAuthUrl = () => {
 export default function LoginPage() {
   const oauthURL = getGoogleAuthUrl();
   const [params] = useSearchParams();
-  useEffect(() => {
-    const accessToken = params.get("accessToken");
-    const refreshToken = params.get("refreshToken");
-    const newUser = params.get("newUser");
-    if (newUser === "false") {
-      alert("Login");
-    } else {
-      alert("Đăng Ký");
-    }
-    localStorage.setItem("access_token", accessToken);
-    localStorage.setItem("refresh_token", refreshToken);
-  }, [params]);
 
   return (
     <Layout>
