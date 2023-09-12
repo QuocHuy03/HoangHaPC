@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export default function System() {
   return (
@@ -186,7 +186,7 @@ export default function System() {
               className="icons icon-number-4"
               style={{
                 backgroundImage:
-                  'url("/template/2022/images/footer-number-4.png")',
+                  'url("https://hoanghapc.vn/template/2022/images/footer-number-4.png")',
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "contain",
               }}
