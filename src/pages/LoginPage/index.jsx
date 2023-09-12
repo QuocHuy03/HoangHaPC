@@ -1,6 +1,8 @@
 import React from "react";
-import Layout from "../../components/Layout";
+
 import { Link } from "react-router-dom";
+
+import Layout from "../../components/Layout";
 
 const getGoogleAuthUrl = () => {
   const url = `https://accounts.google.com/o/oauth2/v2/auth`;
@@ -71,6 +73,7 @@ export default function LoginPage() {
               </p>
               <div className="d-flex flex-wrap align-items-center justify-content-end">
                 <a className="btn-forgot-password">Quên mật khẩu ?</a>
+
                 <a className="popup-btn btn-login" style={{ color: "white" }}>
                   Đăng nhập
                 </a>
@@ -83,6 +86,15 @@ export default function LoginPage() {
                   - Hoặc đăng nhập bằng -
                 </p>
                 <div className="popup-icons-group">
+                  <a
+                    onclick="open_oauth('Google')"
+                    className="icons icon-google"
+                  />
+                  <a
+                    onclick="open_oauth('Facebook')"
+                    className="icons icon-facebook"
+                  />
+
                   <Link to={oauthURL} className="icons icon-google"></Link>
 
                   <Link to={"/login"} className="icons icon-facebook" />

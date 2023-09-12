@@ -1,5 +1,6 @@
-import React from "react";
-import System from "../System";
+import React from 'react';
+
+import System from '../System';
 
 export default function Footer() {
   return (
@@ -106,12 +107,12 @@ export default function Footer() {
               rel="nofollow"
             >
               <img
-                data-src="/template/2022/images/bct.png"
+                data-src="https://hoanghapc.vn/template/2022/images/bct.png"
                 alt="Bct"
                 width={1}
                 height={1}
                 className="lazy d-block w-auto h-auto loaded"
-                src="/template/2022/images/bct.png"
+                src="https://hoanghapc.vn/template/2022/images/bct.png"
                 data-was-processed="true"
               />
             </a>
