@@ -1369,22 +1369,19 @@ export default function DetailProductPage() {
           >
             {/* slide sản phẩm  */}
             <Carousel
-              spaceBetween={10}
+              spaceBetween={12}
               delay={4000}
               navigation={false}
               pagination={false}
               breakpoints={{
                 640: {
                   slidesPerView: 2,
-                  spaceBetween: 20,
                 },
                 768: {
                   slidesPerView: 4,
-                  spaceBetween: 40,
                 },
                 1024: {
                   slidesPerView: 5,
-                  spaceBetween: 50,
                 },
               }}
             >

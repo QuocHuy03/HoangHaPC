@@ -184,7 +184,7 @@ export default function HomePage() {
           >
             <Carousel
               delay={4000}
-              spaceBetween={10}
+              spaceBetween={12}
               navigation={false}
               pagination={false}
               breakpoints={{
