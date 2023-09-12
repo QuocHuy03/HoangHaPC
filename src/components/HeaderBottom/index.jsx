@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
-import { useLocation } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 
 export default function HeaderBottom() {
   const location = useLocation();
@@ -223,7 +226,8 @@ export default function HeaderBottom() {
           className="autocomplete-suggestions"
           id="js-seach-result"
           style={{ display: "none" }}
-        ></div>
+        >
+        </div>
       </div>
       <a href="/buildpc" className="header-right-group header-buildpc">
         <i className="icons icon-buildpc" />
