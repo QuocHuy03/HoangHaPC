@@ -1,3 +1,7 @@
+import React from "react";
+import Layout from "../../components/Layout";
+import { Link } from "react-router-dom";
+
 export default function RegisterPage() {
   return (
     <Layout>
@@ -18,11 +22,9 @@ export default function RegisterPage() {
         <div className="item-right-auth" id="js-popup-holder">
           <div className="popup-content-group d-block" id="js-popup-login">
             <div class="popup-btn-direction">
-              <a class="btn-back" onclick="_showCustomerPopup('login')"></a>
+              <Link to={"/login"} class="btn-back"></Link>
               <a
                 class="fas fa-times close-popup mb-icons"
-                onclick="_closeCustomerPopup();"
-                aria-hidden="true"
               ></a>
             </div>
             <div className="box-title-auth">
@@ -93,5 +95,4 @@ export default function RegisterPage() {
       </div>
     </Layout>
   );
-
-      }
+}
