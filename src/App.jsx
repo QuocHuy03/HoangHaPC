@@ -5,6 +5,13 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import { URL_CONSTANTS } from "./constants/url.constants";
 import { useEffect } from "react";
+import FilterPage from "./pages/FilterPage";
+import ConditionsPolicyPage from "./pages/ConditionsPolicyPage";
+import PromotionPage from "./pages/PromotionPage";
+import DetailProductPage from "./pages/DetailProductPage";
+import BlogDetailPage from "./pages/BlogDetailPage";
+import BlogPage from "./pages/BlogPage";
+import PromotionDetailPage from "./pages/PromotionDetailPage";
 
 function App() {
   const [params] = useSearchParams();
@@ -27,7 +34,14 @@ function App() {
         <Route path={URL_CONSTANTS.HOME} element={<HomePage />} />
         <Route path={URL_CONSTANTS.LOGIN} element={<LoginPage />} />
         <Route path={URL_CONSTANTS.REGISTER} element={<RegisterPage />} />
+        <Route path={URL_CONSTANTS.DETAIL} element={<DetailProductPage />} />
         <Route path={URL_CONSTANTS.NOTFOUND} element={<NotFoundPage />} />
+        <Route path={URL_CONSTANTS.FILTER} element={<FilterPage />} />
+        <Route path={URL_CONSTANTS.CONDITIONS_POLICY} element={<ConditionsPolicyPage />} />
+        <Route path={URL_CONSTANTS.BLOG} element={<BlogPage />} />
+        <Route path={URL_CONSTANTS.PROMOTION} element={<PromotionPage />} />
+        <Route path={URL_CONSTANTS.BLOG_DETAIL} element={<BlogDetailPage />} />
+        <Route path={URL_CONSTANTS.PROMOTION_DETAIL} element={<PromotionDetailPage />} />
       </>
       {/* ) : ( */}
       <>
