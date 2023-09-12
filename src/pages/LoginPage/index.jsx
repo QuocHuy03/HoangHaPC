@@ -39,13 +39,7 @@ export default function LoginPage() {
         </div>
         <div className="item-right-auth" id="js-popup-holder">
           <div className="popup-content-group d-block" id="js-popup-login">
-            <div className="popup-btn-direction justify-content-end">
-              <a href="/" />
-              <a
-                className="fas fa-times close-popup mb-icons"
-                aria-hidden="true"
-              />
-            </div>
+            
             <div className="box-title-auth">
               <p>Đăng nhập bằng Email</p>
               <p>
