@@ -12,6 +12,7 @@ import DetailProductPage from "./pages/DetailProductPage";
 import BlogDetailPage from "./pages/BlogDetailPage";
 import BlogPage from "./pages/BlogPage";
 import PromotionDetailPage from "./pages/PromotionDetailPage";
+import CartPage from "./pages/CartPage";
 
 function App() {
   const [params] = useSearchParams();
@@ -42,6 +43,8 @@ function App() {
         <Route path={URL_CONSTANTS.PROMOTION} element={<PromotionPage />} />
         <Route path={URL_CONSTANTS.BLOG_DETAIL} element={<BlogDetailPage />} />
         <Route path={URL_CONSTANTS.PROMOTION_DETAIL} element={<PromotionDetailPage />} />
+        <Route path={URL_CONSTANTS.CART} element={<CartPage />} />
+
       </>
       {/* ) : ( */}
       <>
