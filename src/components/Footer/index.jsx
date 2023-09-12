@@ -144,12 +144,12 @@ export default function Footer() {
               rel="nofollow"
             >
               <img
-                data-src="https://hoanghapc.vn/template/2022/images/bct.png"
+                data-src="https://i.imgur.com/bMJYC5m.png"
                 alt="Bct"
                 width={1}
                 height={1}
                 className="lazy d-block w-auto h-auto loaded"
-                src="https://hoanghapc.vn/template/2022/images/bct.png"
+                src="https://i.imgur.com/bMJYC5m.png"
                 data-was-processed="true"
               />
             </a>
