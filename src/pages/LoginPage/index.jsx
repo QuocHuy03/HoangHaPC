@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-import Layout from '../../components/Layout';
+import Layout from "../../components/Layout";
 
 const getGoogleAuthUrl = () => {
   const url = `https://accounts.google.com/o/oauth2/v2/auth`;
@@ -51,8 +51,6 @@ export default function LoginPage() {
             <div className="box-title-auth">
               <p>Đăng nhập bằng Email</p>
               <p>
-
-             
                 <Link to={"/register"}>Đăng ký</Link> nếu chưa có tài khoản.
               </p>
             </div>
@@ -82,12 +80,9 @@ export default function LoginPage() {
               <div className="d-flex flex-wrap align-items-center justify-content-end">
                 <a className="btn-forgot-password">Quên mật khẩu ?</a>
 
-
-
                 <a className="popup-btn btn-login" style={{ color: "white" }}>
                   Đăng nhập
                 </a>
-
               </div>
               <div className="text-center">
                 <p
@@ -97,7 +92,6 @@ export default function LoginPage() {
                   - Hoặc đăng nhập bằng -
                 </p>
                 <div className="popup-icons-group">
-
                   <a
                     onclick="open_oauth('Google')"
                     className="icons icon-google"
