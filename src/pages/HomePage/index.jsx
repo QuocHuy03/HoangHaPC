@@ -134,7 +134,7 @@ export default function HomePage() {
           </a>
         </div>
       </div>
-      {/* Top Bán PC */} 
+      {/* Top Bán PC */}
       <div
         className="home-collection-group lazy"
         data-bg="url(https://i.imgur.com/QvdPH94.png)"
