@@ -1,7 +1,8 @@
 import React from 'react'
+import Layout from '../../components/Layout'
 
 export default function BlogDetailPage() {
   return (
-    <div>BlogDetailPage</div>
+    <Layout>BlogDetailPage</Layout>
   )
 }
