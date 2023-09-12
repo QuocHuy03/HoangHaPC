@@ -1,5 +1,5 @@
-import React from 'react'
-import Layout from '../../components/Layout'
+import React from "react";
+import Layout from "../../components/Layout";
 
 export default function ProfilePage() {
   return (
@@ -38,16 +38,20 @@ export default function ProfilePage() {
           </div>
           <div className="account-col-right">
             <h3>Thông tin cá nhân</h3>
-            <table cellPadding={5} border={1} bordercolor="#CCCCCC" style={{ borderCollapse: 'collapse', width: '100%' }}>
-              <tbody><tr>
-                <td width="120px">Họ tên</td>
-                <td>nguyễn trường thịnh</td>
-              </tr>
+            <table
+              cellPadding={5}
+              border={1}
+              bordercolor="#CCCCCC"
+              style={{ borderCollapse: "collapse", width: "100%" }}
+            >
+              <tbody>
+                <tr>
+                  <td width="120px">Họ tên</td>
+                  <td>nguyễn trường thịnh</td>
+                </tr>
                 <tr>
                   <td>Giới tính</td>
-                  <td>
-                    Nữ
-                  </td>
+                  <td>Nữ</td>
                 </tr>
                 <tr>
                   <td>Địa chỉ email</td>
@@ -69,8 +73,14 @@ export default function ProfilePage() {
                   <td>Số di động</td>
                   <td />
                 </tr>
-              </tbody></table>
-            <div style={{ paddingTop: 20, fontWeight: 'bold' }}> <a href="?view=account-change-info" className="btn btn-danger">Thay đổi thông tin</a></div>
+              </tbody>
+            </table>
+            <div style={{ paddingTop: 20, fontWeight: "bold" }}>
+              {" "}
+              <a href="?view=account-change-info" className="btn btn-danger">
+                Thay đổi thông tin
+              </a>
+            </div>
           </div>
           {/* thay đổi thông tin */}
           {/* <div className="account-col-right">
@@ -196,7 +206,7 @@ export default function ProfilePage() {
           {/* end */}
 
           {/* danh sách đơn hàng */}
-         {/* <div className="account-col-right">
+          {/* <div className="account-col-right">
   <h3>Danh sách đơn hàng</h3>
   <table width="100%" border={1} bordercolor="#CCCCCC" style={{borderCollapse: 'collapse'}} cellPadding={4} cellSpacing={0}>
     <tbody><tr align="center" style={{fontWeight: 'bold', background: '#0066c1', color: '#fff'}}>
@@ -222,8 +232,8 @@ export default function ProfilePage() {
 </div> */}
           {/* end */}
 
-        {/* thay đổi mật khẩu */} 
-       {/* <div className="account-col-right">
+          {/* thay đổi mật khẩu */}
+          {/* <div className="account-col-right">
   <h3>Thay đổi mật khẩu</h3>
   <form method="post" encType="multipart/form-data" name="account_form" className="col-right-tbl">
     <table cellPadding={5} border={0} bordercolor="#CCCCCC" style={{borderCollapse: 'collapse'}}>
@@ -255,13 +265,9 @@ export default function ProfilePage() {
     <input type="hidden" name="update" defaultValue="yes" />    
   </form>
 </div> */}
-        {/* end */}
-
-      
+          {/* end */}
         </div>
       </div>
-
-
     </Layout>
-  )
+  );
 }
