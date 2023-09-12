@@ -10,4 +10,6 @@ export const URL_CONSTANTS = {
   BLOG_DETAIL: "/tin-tuc/:slug",
   PROMOTION: "/tin-khuyen-mai",
   PROMOTION_DETAIL: "/tin-khuyen-mai/:slug",
+  CART: "/cart",
+  
 };

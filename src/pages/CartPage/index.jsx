@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from "../../components/Layout";
 
-const CartPage = () => {
+export default function CartPage() {
   return (
     <Layout>
       <div className="global-breadcrumb">
@@ -263,4 +263,4 @@ const CartPage = () => {
   );
 };
 
-export default CartPage;
+
