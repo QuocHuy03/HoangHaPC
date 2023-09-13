@@ -1,7 +1,20 @@
-import React from "react";
-import Layout from "../../components/Layout";
+import React from 'react';
+
+import { useQuery } from '@tanstack/react-query';
+
+import Layout from '../../components/Layout';
+import { blogService } from '../../services/blog.service';
 
 export default function BlogPage() {
+  const { data, isLoading } = useQuery(
+    ["blog"],
+    () => blogService.fetchAllBlogs(),
+    {
+      retry: 3,
+      retryDelay: 1000,
+    }
+  );
+
   return (
     <Layout>
       <div className="article-page article-home-page">
@@ -55,99 +68,40 @@ export default function BlogPage() {
                   <span>Tin nổi bật</span>
                 </p>
                 <div className="top-article-list">
-                  <div className="top-art-item">
-                    <a
-                      href="/cau-hinh-may-tinh-choi-game"
-                      className="top-art-img"
-                    >
-                      <img
-                        data-src="https://hoanghapccdn.com/media/news/107_9100f_1060__1_.jpg"
-                        alt="10 Cấu Hình Máy Tính Chơi Game Hot Nhất 2023"
-                        width={1}
-                        height={1}
-                        className="lazy w-auto h-auto loaded"
-                        src="https://hoanghapccdn.com/media/news/107_9100f_1060__1_.jpg"
-                        data-was-processed="true"
-                      />
-                      <span className="top-cat">Máy Khỏe - Máy Đẹp</span>
-                    </a>
-                    <div className="top-art-text">
+                  {/**list blog */}
+                  {data?.map((item) => (
+                    <div className="top-art-item">
                       <a
                         href="/cau-hinh-may-tinh-choi-game"
-                        className="top-art-title"
+                        className="top-art-img"
                       >
-                        10 Cấu Hình Máy Tính Chơi Game Hot Nhất 2023
+                        <img
+                          data-src={`${item.imageBlog}`}
+                          alt="10 Cấu Hình Máy Tính Chơi Game Hot Nhất 2023"
+                          width={1}
+                          height={1}
+                          className="lazy w-auto h-auto loaded"
+                          src={`${item.imageBlog}`}
+                          data-was-processed="true"
+                        />
+                        <span className="top-cat">Máy Khỏe - Máy Đẹp</span>
                       </a>
-                      <div className="top-art-time">
-                        <span>
-                          by <b>Mai Văn Học</b>
-                        </span>{" "}
-                        |<time>04-07-2023, 1:44 pm</time>
+                      <div className="top-art-text">
+                        <a
+                          href="/cau-hinh-may-tinh-choi-game"
+                          className="top-art-title"
+                        >
+                          {item.titleBlog}
+                        </a>
+                        <div className="top-art-time">
+                          <span>
+                            by <b>{item.userBlog}</b>
+                          </span>{" "}
+                          |<time>{item.createdAt}</time>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="top-art-item">
-                    <a
-                      href="/cau-hinh-may-tinh-chay-phan-mem-lumion-chuyen-dung"
-                      className="top-art-img"
-                    >
-                      <img
-                        data-src="https://hoanghapccdn.com/media/news/205_case_i9_h500p.JPG"
-                        alt="10 Cấu Hình Máy Tính Chạy Lumion✔️Chuyên Dụng"
-                        width={1}
-                        height={1}
-                        className="lazy w-auto h-auto loaded"
-                        src="https://hoanghapccdn.com/media/news/205_case_i9_h500p.JPG"
-                        data-was-processed="true"
-                      />
-                      <span className="top-cat">Máy Khỏe - Máy Đẹp</span>
-                    </a>
-                    <div className="top-art-text">
-                      <a
-                        href="/cau-hinh-may-tinh-chay-phan-mem-lumion-chuyen-dung"
-                        className="top-art-title"
-                      >
-                        10 Cấu Hình Máy Tính Chạy Lumion✔️Chuyên Dụng
-                      </a>
-                      <div className="top-art-time">
-                        <span>
-                          by <b>Mai Văn Học</b>
-                        </span>{" "}
-                        |<time>04-07-2023, 1:38 pm</time>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="top-art-item">
-                    <a
-                      href="/cau-hinh-may-tinh-render-farm"
-                      className="top-art-img"
-                    >
-                      <img
-                        data-src="https://hoanghapccdn.com/media/news/279____nh_deepcool.jpg"
-                        alt="10 Cấu Hình Máy Tính Chuyên Render Farm"
-                        width={1}
-                        height={1}
-                        className="lazy w-auto h-auto loaded"
-                        src="https://hoanghapccdn.com/media/news/279____nh_deepcool.jpg"
-                        data-was-processed="true"
-                      />
-                      <span className="top-cat">Máy Khỏe - Máy Đẹp</span>
-                    </a>
-                    <div className="top-art-text">
-                      <a
-                        href="/cau-hinh-may-tinh-render-farm"
-                        className="top-art-title"
-                      >
-                        10 Cấu Hình Máy Tính Chuyên Render Farm
-                      </a>
-                      <div className="top-art-time">
-                        <span>
-                          by <b>Mai Văn Học</b>
-                        </span>{" "}
-                        |<time>30-06-2023, 3:39 pm</time>
-                      </div>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -420,523 +374,85 @@ export default function BlogPage() {
               </div>
             </div>
             <div className="col-8 col-item-left">
-              <div className="art-other-item">
-                <a
-                  href="/intel-bo-ten-goi-core-i-tren-cac-dong-chip-moi"
-                  className="art-other-img"
-                >
-                  <img
-                    data-src="https://hoanghapccdn.com/media/news/1234_intel_bo_ten_goi_core_i_series_h2.jpg"
-                    alt="Intel bỏ tên gọi Core i5, i7 trên các dòng chip mới"
-                    width={1}
-                    height={1}
-                    className="lazy w-auto h-auto loaded"
-                    src="https://hoanghapccdn.com/media/news/1234_intel_bo_ten_goi_core_i_series_h2.jpg"
-                    data-was-processed="true"
-                  />
-                </a>
-                <div className="art-other-text">
-                  <div className="art-other-time-group">
-                    <div className="art-other-cat">#Tin Công Nghệ</div>
-                    <div className="art-time">
-                      <span>
-                        by <b>Mai Văn Học</b>
-                      </span>{" "}
-                      |<time>23-05-2023, 8:58 am</time>
-                    </div>
-                  </div>
+              {/**list blog */}
+              {data?.map((item) => (
+                <div className="art-other-item">
                   <a
                     href="/intel-bo-ten-goi-core-i-tren-cac-dong-chip-moi"
-                    className="art-other-title"
+                    className="art-other-img"
                   >
-                    Intel bỏ tên gọi Core i5, i7 trên các dòng chip mới
+                    <img
+                      data-src={`${item.imageBlog}`}
+                      alt="Intel bỏ tên gọi Core i5, i7 trên các dòng chip mới"
+                      width={1}
+                      height={1}
+                      className="lazy w-auto h-auto loaded"
+                      src={`${item.imageBlog}`}
+                      data-was-processed="true"
+                    />
                   </a>
-                  <div className="art-other-summary">
-                    Sau 15 năm sử dụng Core i series để đặt tên cho các bCPU,
-                    Intel quyết định thay đổi tên gọi cho các CPU thế hệ 14
-                    Meteor Lake với tên gọi mới Core Ultra.
-                  </div>
-                  <a
-                    href="/intel-bo-ten-goi-core-i-tren-cac-dong-chip-moi"
-                    className="art-other-btn"
-                  >
-                    Đọc chi tiết{" "}
-                    <i className="fas fa-arrow-right" aria-hidden="true" />
-                  </a>
-                </div>
-              </div>
-              <div className="art-other-item">
-                <a
-                  href="/huy-phien-ban-12gb-rtx-4080-cua-nvidia-se-chi-co-ban-16gb"
-                  className="art-other-img"
-                >
-                  <img
-                    data-src="https://hoanghapccdn.com/media/news/1177_rtx_4080_12gb_bi_huy_1.png"
-                    alt="Hủy phiên bản 12GB, RTX 4080 của NVIDIA sẽ chỉ có bản 16GB"
-                    width={1}
-                    height={1}
-                    className="lazy w-auto h-auto loaded"
-                    src="https://hoanghapccdn.com/media/news/1177_rtx_4080_12gb_bi_huy_1.png"
-                    data-was-processed="true"
-                  />
-                </a>
-                <div className="art-other-text">
-                  <div className="art-other-time-group">
-                    <div className="art-other-cat">#Tin Công Nghệ</div>
-                    <div className="art-time">
-                      <span>
-                        by <b>Mai Văn Học</b>
-                      </span>{" "}
-                      |<time>04-07-2023, 3:35 pm</time>
+                  <div className="art-other-text">
+                    <div className="art-other-time-group">
+                      <div className="art-other-cat">#Tin Công Nghệ</div>
+                      <div className="art-time">
+                        <span>
+                          by <b>{item.userBlog}</b>
+                        </span>{" "}
+                        |<time>{item.createdAt}</time>
+                      </div>
                     </div>
+                    <a
+                      href="/intel-bo-ten-goi-core-i-tren-cac-dong-chip-moi"
+                      className="art-other-title"
+                    >
+                      {item.titleBlog}
+                    </a>
+                    <div className="art-other-summary">{item.contentBlog}</div>
+                    <a
+                      href="/intel-bo-ten-goi-core-i-tren-cac-dong-chip-moi"
+                      className="art-other-btn"
+                    >
+                      Đọc chi tiết{" "}
+                      <i className="fas fa-arrow-right" aria-hidden="true" />
+                    </a>
                   </div>
-                  <a
-                    href="/huy-phien-ban-12gb-rtx-4080-cua-nvidia-se-chi-co-ban-16gb"
-                    className="art-other-title"
-                  >
-                    Hủy phiên bản 12GB, RTX 4080 của NVIDIA sẽ chỉ có bản 16GB
-                  </a>
-                  <div className="art-other-summary">
-                    NVIDIA đã gấp rút yêu cầu các đối tác của họ ngừng cung cấp
-                    sản phẩm 12GB và sẽ chỉ mở bán phiên bản 16GB. Hãy cùng
-                    Hoàng Hà PC tìm hiểu trong bài viết này nhé.
-                  </div>
-                  <a
-                    href="/huy-phien-ban-12gb-rtx-4080-cua-nvidia-se-chi-co-ban-16gb"
-                    className="art-other-btn"
-                  >
-                    Đọc chi tiết{" "}
-                    <i className="fas fa-arrow-right" aria-hidden="true" />
-                  </a>
                 </div>
-              </div>
-              <div className="art-other-item">
-                <a
-                  href="/gigabyte-gioi-thieu-card-do-hoa-geforce-rtx-4090-aorus-va-gaming"
-                  className="art-other-img"
-                >
-                  <img
-                    data-src="https://hoanghapccdn.com/media/news/1173_ava.jpg"
-                    alt="Gigabyte giới thiệu card đồ họa GeForce RTX 4090 AORUS và GAMING"
-                    width={1}
-                    height={1}
-                    className="lazy w-auto h-auto loaded"
-                    src="https://hoanghapccdn.com/media/news/1173_ava.jpg"
-                    data-was-processed="true"
-                  />
-                </a>
-                <div className="art-other-text">
-                  <div className="art-other-time-group">
-                    <div className="art-other-cat">#Tin Công Nghệ</div>
-                    <div className="art-time">
-                      <span>
-                        by <b>Mai Văn Học</b>
-                      </span>{" "}
-                      |<time>04-07-2023, 3:40 pm</time>
-                    </div>
-                  </div>
-                  <a
-                    href="/gigabyte-gioi-thieu-card-do-hoa-geforce-rtx-4090-aorus-va-gaming"
-                    className="art-other-title"
-                  >
-                    Gigabyte giới thiệu card đồ họa GeForce RTX 4090 AORUS và
-                    GAMING
-                  </a>
-                  <div className="art-other-summary">
-                    Gigabyte đã tung ra các card đồ họa AORUS với thiết kế nâng
-                    cấp và các tính năng được cải tiến, mang đến cho các game
-                    thủ chuyên nghiệp.
-                  </div>
-                  <a
-                    href="/gigabyte-gioi-thieu-card-do-hoa-geforce-rtx-4090-aorus-va-gaming"
-                    className="art-other-btn"
-                  >
-                    Đọc chi tiết{" "}
-                    <i className="fas fa-arrow-right" aria-hidden="true" />
-                  </a>
-                </div>
-              </div>
-              <div className="art-other-item">
-                <a
-                  href="/inno3d-cong-bo-lineup-gpu-geforce-rtx-4090-4080"
-                  className="art-other-img"
-                >
-                  <img
-                    data-src="https://hoanghapccdn.com/media/news/1172_ava.webp"
-                    alt="Inno3D công bố lineup GPU GeForce RTX 4090/4080"
-                    width={1}
-                    height={1}
-                    className="lazy w-auto h-auto loaded"
-                    src="https://hoanghapccdn.com/media/news/1172_ava.webp"
-                    data-was-processed="true"
-                  />
-                </a>
-                <div className="art-other-text">
-                  <div className="art-other-time-group">
-                    <div className="art-other-cat">#Tin Công Nghệ</div>
-                    <div className="art-time">
-                      <span>
-                        by <b>Mai Văn Học</b>
-                      </span>{" "}
-                      |<time>04-07-2023, 3:40 pm</time>
-                    </div>
-                  </div>
-                  <a
-                    href="/inno3d-cong-bo-lineup-gpu-geforce-rtx-4090-4080"
-                    className="art-other-title"
-                  >
-                    Inno3D công bố lineup GPU GeForce RTX 4090/4080
-                  </a>
-                  <div className="art-other-summary">
-                    INNO3D công bố dòng sản phẩm INNO3D GeForce RTX 40 series
-                    đang rất được mong đợi bao gồm RTX 4090, RTX 4080 16GB và
-                    RTX 4080 12GB.
-                  </div>
-                  <a
-                    href="/inno3d-cong-bo-lineup-gpu-geforce-rtx-4090-4080"
-                    className="art-other-btn"
-                  >
-                    Đọc chi tiết{" "}
-                    <i className="fas fa-arrow-right" aria-hidden="true" />
-                  </a>
-                </div>
-              </div>
-              <div className="art-other-item">
-                <a
-                  href="/amd-ryzen-5-7600x-duoc-thu-nghiem-trong-cinebench-r23-voi-amd-core-performance-boost-bi-tat"
-                  className="art-other-img"
-                >
-                  <img
-                    data-src="https://hoanghapccdn.com/media/news/1168_r576x.webp"
-                    alt="AMD Ryzen 5 7600X được thử nghiệm trong Cinebench R23 với AMD Core Performance Boost bị tắt"
-                    width={1}
-                    height={1}
-                    className="lazy w-auto h-auto loaded"
-                    src="https://hoanghapccdn.com/media/news/1168_r576x.webp"
-                    data-was-processed="true"
-                  />
-                </a>
-                <div className="art-other-text">
-                  <div className="art-other-time-group">
-                    <div className="art-other-cat">#Tin Công Nghệ</div>
-                    <div className="art-time">
-                      <span>
-                        by <b>Mai Văn Học</b>
-                      </span>{" "}
-                      |<time>18-05-2023, 9:42 am</time>
-                    </div>
-                  </div>
-                  <a
-                    href="/amd-ryzen-5-7600x-duoc-thu-nghiem-trong-cinebench-r23-voi-amd-core-performance-boost-bi-tat"
-                    className="art-other-title"
-                  >
-                    AMD Ryzen 5 7600X được thử nghiệm trong Cinebench R23 với
-                    AMD Core Performance Boost bị tắt
-                  </a>
-                  <div className="art-other-summary">
-                    AMD Ryzen 5 7600X được thử nghiệm trong Cinebench R23 với
-                    AMD Core Performance Boost bị tắt.
-                  </div>
-                  <a
-                    href="/amd-ryzen-5-7600x-duoc-thu-nghiem-trong-cinebench-r23-voi-amd-core-performance-boost-bi-tat"
-                    className="art-other-btn"
-                  >
-                    Đọc chi tiết{" "}
-                    <i className="fas fa-arrow-right" aria-hidden="true" />
-                  </a>
-                </div>
-              </div>
+              ))}
             </div>
             <div className="col-4 col-item-right">
               <div className="art-new-container">
                 <p className="box-title">Tin mới nhất</p>
                 <div className="box-scroll-group art-new-holder">
-                  <div className="item">
-                    <a href="/cau-hinh-may-tinh-do-hoa" className="item-img">
-                      <img
-                        data-src="https://hoanghapccdn.com/media/news/14_pc_do_hoa_hoanghapc_min.jpg"
-                        alt="10 Cấu Hình Máy Tính Đồ Họa Theo Ngân Sách✔️"
-                        width={1}
-                        height={1}
-                        className="lazy w-auto h-auto loaded"
-                        src="https://hoanghapccdn.com/media/news/14_pc_do_hoa_hoanghapc_min.jpg"
-                        data-was-processed="true"
-                      />
-                      <span className="item-cat">Máy Khỏe - Máy Đẹp</span>
-                    </a>
-                    <div className="item-text">
-                      <a
-                        href="/cau-hinh-may-tinh-do-hoa"
-                        className="item-title"
-                      >
-                        10 Cấu Hình Máy Tính Đồ Họa Theo Ngân Sách✔️
+                  {data?.map((item) => (
+                    <div className="item">
+                      <a href="/cau-hinh-may-tinh-do-hoa" className="item-img">
+                        <img
+                          data-src={`${item.imageBlog}`}
+                          alt="10 Cấu Hình Máy Tính Đồ Họa Theo Ngân Sách✔️"
+                          width={1}
+                          height={1}
+                          className="lazy w-auto h-auto loaded"
+                          src={`${item.imageBlog}`}
+                          data-was-processed="true"
+                        />
+                        <span className="item-cat">Máy Khỏe - Máy Đẹp</span>
                       </a>
-                      <div className="item-time art-time">
-                        <span>
-                          by <b>Mai Văn Học</b>
-                        </span>{" "}
-                        |<time>28-08-2023, 10:25 am</time>
+                      <div className="item-text">
+                        <a
+                          href="/cau-hinh-may-tinh-do-hoa"
+                          className="item-title"
+                        >
+                          {item.titleBlog}
+                        </a>
+                        <div className="item-time art-time">
+                          <span>
+                            by <b>{item.userBlog}</b>
+                          </span>{" "}
+                          |<time>{item.createdAt}</time>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="item">
-                    <a
-                      href="/cau-hinh-may-tinh-chay-gia-lap-nox-player"
-                      className="item-img"
-                    >
-                      <img
-                        data-src="https://hoanghapccdn.com/media/news/18_pc_gia_lap_1.jpg"
-                        alt="Cấu Hình Máy Tính Chạy Giả Lập Nox Player, LDPlayer"
-                        width={1}
-                        height={1}
-                        className="lazy w-auto h-auto loaded"
-                        src="https://hoanghapccdn.com/media/news/18_pc_gia_lap_1.jpg"
-                        data-was-processed="true"
-                      />
-                      <span className="item-cat">Máy Khỏe - Máy Đẹp</span>
-                    </a>
-                    <div className="item-text">
-                      <a
-                        href="/cau-hinh-may-tinh-chay-gia-lap-nox-player"
-                        className="item-title"
-                      >
-                        Cấu Hình Máy Tính Chạy Giả Lập Nox Player, LDPlayer
-                      </a>
-                      <div className="item-time art-time">
-                        <span>
-                          by <b>Mai Văn Học</b>
-                        </span>{" "}
-                        |<time>04-07-2023, 3:17 pm</time>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="item">
-                    <a href="/cau-hinh-may-tinh-dung-phim" className="item-img">
-                      <img
-                        data-src="https://hoanghapccdn.com/media/news/19_10_cau_hinh_6.jpg"
-                        alt="17 Cấu Hình Máy Tính Dựng Phim, Render Edit Video Theo Ngân Sách 2023"
-                        width={1}
-                        height={1}
-                        className="lazy w-auto h-auto loaded"
-                        src="https://hoanghapccdn.com/media/news/19_10_cau_hinh_6.jpg"
-                        data-was-processed="true"
-                      />
-                      <span className="item-cat">Máy Khỏe - Máy Đẹp</span>
-                    </a>
-                    <div className="item-text">
-                      <a
-                        href="/cau-hinh-may-tinh-dung-phim"
-                        className="item-title"
-                      >
-                        17 Cấu Hình Máy Tính Dựng Phim, Render Edit Video Theo
-                        Ngân Sách 2023
-                      </a>
-                      <div className="item-time art-time">
-                        <span>
-                          by <b>Mai Văn Học</b>
-                        </span>{" "}
-                        |<time>04-07-2023, 3:16 pm</time>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="item">
-                    <a href="/may-tinh-stream" className="item-img">
-                      <img
-                        data-src="https://hoanghapccdn.com/media/news/62_pc_streamer.jpg"
-                        alt="7 Cấu Hình Máy Tính Cho Streamer Livestream Chuyên Nghiệp 2023"
-                        width={1}
-                        height={1}
-                        className="lazy w-auto h-auto loaded"
-                        src="https://hoanghapccdn.com/media/news/62_pc_streamer.jpg"
-                        data-was-processed="true"
-                      />
-                      <span className="item-cat">Máy Khỏe - Máy Đẹp</span>
-                    </a>
-                    <div className="item-text">
-                      <a href="/may-tinh-stream" className="item-title">
-                        7 Cấu Hình Máy Tính Cho Streamer Livestream Chuyên
-                        Nghiệp 2023
-                      </a>
-                      <div className="item-time art-time">
-                        <span>
-                          by <b>Mai Văn Học</b>
-                        </span>{" "}
-                        |<time>04-07-2023, 1:57 pm</time>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="item">
-                    <a href="/cau-hinh-may-tinh-choi-game" className="item-img">
-                      <img
-                        data-src="https://hoanghapccdn.com/media/news/107_9100f_1060__1_.jpg"
-                        alt="10 Cấu Hình Máy Tính Chơi Game Hot Nhất 2023"
-                        width={1}
-                        height={1}
-                        className="lazy w-auto h-auto"
-                      />
-                      <span className="item-cat">Máy Khỏe - Máy Đẹp</span>
-                    </a>
-                    <div className="item-text">
-                      <a
-                        href="/cau-hinh-may-tinh-choi-game"
-                        className="item-title"
-                      >
-                        10 Cấu Hình Máy Tính Chơi Game Hot Nhất 2023
-                      </a>
-                      <div className="item-time art-time">
-                        <span>
-                          by <b>Mai Văn Học</b>
-                        </span>{" "}
-                        |<time>04-07-2023, 1:44 pm</time>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="item">
-                    <a
-                      href="/cau-hinh-may-tinh-chay-phan-mem-lumion-chuyen-dung"
-                      className="item-img"
-                    >
-                      <img
-                        data-src="https://hoanghapccdn.com/media/news/205_case_i9_h500p.JPG"
-                        alt="10 Cấu Hình Máy Tính Chạy Lumion✔️Chuyên Dụng"
-                        width={1}
-                        height={1}
-                        className="lazy w-auto h-auto"
-                      />
-                      <span className="item-cat">Máy Khỏe - Máy Đẹp</span>
-                    </a>
-                    <div className="item-text">
-                      <a
-                        href="/cau-hinh-may-tinh-chay-phan-mem-lumion-chuyen-dung"
-                        className="item-title"
-                      >
-                        10 Cấu Hình Máy Tính Chạy Lumion✔️Chuyên Dụng
-                      </a>
-                      <div className="item-time art-time">
-                        <span>
-                          by <b>Mai Văn Học</b>
-                        </span>{" "}
-                        |<time>04-07-2023, 1:38 pm</time>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="item">
-                    <a
-                      href="/cau-hinh-may-tinh-render-farm"
-                      className="item-img"
-                    >
-                      <img
-                        data-src="https://hoanghapccdn.com/media/news/279____nh_deepcool.jpg"
-                        alt="10 Cấu Hình Máy Tính Chuyên Render Farm"
-                        width={1}
-                        height={1}
-                        className="lazy w-auto h-auto"
-                      />
-                      <span className="item-cat">Máy Khỏe - Máy Đẹp</span>
-                    </a>
-                    <div className="item-text">
-                      <a
-                        href="/cau-hinh-may-tinh-render-farm"
-                        className="item-title"
-                      >
-                        10 Cấu Hình Máy Tính Chuyên Render Farm
-                      </a>
-                      <div className="item-time art-time">
-                        <span>
-                          by <b>Mai Văn Học</b>
-                        </span>{" "}
-                        |<time>30-06-2023, 3:39 pm</time>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="item">
-                    <a
-                      href="/huong-dan-chon-cpu-cho-pc-lam-do-hoa-chuyen-nghiep"
-                      className="item-img"
-                    >
-                      <img
-                        data-src="https://hoanghapccdn.com/media/news/271_truy___n_th__ng_i9_10900k_03.jpg"
-                        alt="Hướng Dẫn Chọn CPU Cho PC Làm Đồ Họa Chuyên Nghiệp"
-                        width={1}
-                        height={1}
-                        className="lazy w-auto h-auto"
-                      />
-                      <span className="item-cat">CPU - Vi Xử Lý</span>
-                    </a>
-                    <div className="item-text">
-                      <a
-                        href="/huong-dan-chon-cpu-cho-pc-lam-do-hoa-chuyen-nghiep"
-                        className="item-title"
-                      >
-                        Hướng Dẫn Chọn CPU Cho PC Làm Đồ Họa Chuyên Nghiệp
-                      </a>
-                      <div className="item-time art-time">
-                        <span>
-                          by <b>Mai Văn Học</b>
-                        </span>{" "}
-                        |<time>17-07-2023, 2:46 pm</time>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="item">
-                    <a
-                      href="/danh-gia-chi-tiet-man-hinh-viewsonic-va2409-h"
-                      className="item-img"
-                    >
-                      <img
-                        data-src="https://hoanghapccdn.com/media/news/1240_viewsonic_va2409_h_review_ha5.jpg"
-                        alt="Đánh giá chi tiết màn hình Viewsonic VA2409-H 24'' IPS 75Hz viền mỏng"
-                        width={1}
-                        height={1}
-                        className="lazy w-auto h-auto"
-                      />
-                      <span className="item-cat">Màn Hình Máy Tính</span>
-                    </a>
-                    <div className="item-text">
-                      <a
-                        href="/danh-gia-chi-tiet-man-hinh-viewsonic-va2409-h"
-                        className="item-title"
-                      >
-                        Đánh giá chi tiết màn hình Viewsonic VA2409-H 24'' IPS
-                        75Hz viền mỏng
-                      </a>
-                      <div className="item-time art-time">
-                        <span>
-                          by <b>Mai Văn Học</b>
-                        </span>{" "}
-                        |<time>15-07-2023, 10:22 pm</time>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="item">
-                    <a
-                      href="/intel-bo-ten-goi-core-i-tren-cac-dong-chip-moi"
-                      className="item-img"
-                    >
-                      <img
-                        data-src="https://hoanghapccdn.com/media/news/1234_intel_bo_ten_goi_core_i_series_h2.jpg"
-                        alt="Intel bỏ tên gọi Core i5, i7 trên các dòng chip mới"
-                        width={1}
-                        height={1}
-                        className="lazy w-auto h-auto"
-                      />
-                      <span className="item-cat">Tin Công Nghệ</span>
-                    </a>
-                    <div className="item-text">
-                      <a
-                        href="/intel-bo-ten-goi-core-i-tren-cac-dong-chip-moi"
-                        className="item-title"
-                      >
-                        Intel bỏ tên gọi Core i5, i7 trên các dòng chip mới
-                      </a>
-                      <div className="item-time art-time">
-                        <span>
-                          by <b>Mai Văn Học</b>
-                        </span>{" "}
-                        |<time>23-05-2023, 8:58 am</time>
-                      </div>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
