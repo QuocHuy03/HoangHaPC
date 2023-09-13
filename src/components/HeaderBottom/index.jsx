@@ -227,7 +227,19 @@ export default function HeaderBottom() {
                             </Link>
                           ))}
                         </>
-                      ) : (
+                      ) : category.nameCategory === "Thiết Bị Mạng" ? (
+                        <>
+                          <Link className="cat-2">Thiết Bị Mạng Wifi</Link>
+                          {getBrandsForCategoryID(category._id).map((brand) => (
+                            <Link
+                              href={`/mainboard-intel-z790/${brand._id}`}
+                              key={brand._id}
+                            >
+                              {brand.nameBrand}
+                            </Link>
+                          ))}
+                        </>
+                      ): (
                         ""
                       )}
                     </div>
