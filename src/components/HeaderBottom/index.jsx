@@ -1,12 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
-
 import { Link, useLocation } from "react-router-dom";
 import { categoryService } from "../../services/category.service";
+import Loading from "../Loading";
+import { brandService } from "../../services/brand.service";
 
 export default function HeaderBottom() {
   const location = useLocation();
   const [isDropdown, setIsDropdown] = useState(false);
+  const [activeCategoryID, setActiveCategoryID] = useState(null);
   useEffect(() => {
     if (location.pathname === "/") {
       setIsDropdown(true);
@@ -15,7 +17,7 @@ export default function HeaderBottom() {
     }
   }, [location.pathname]);
 
-  const { data, isLoading } = useQuery(
+  const { data: isCategories, isLoading: loadingCategories } = useQuery(
     ["categories"],
     () => categoryService.fetchAllCategories(),
     {
@@ -23,7 +25,39 @@ export default function HeaderBottom() {
       retryDelay: 1000,
     }
   );
-  console.log(data);
+  const { data: isBrands, isLoading: loadingBrands } = useQuery(
+    ["brands"],
+    () => brandService.fetchAllBrands(),
+    {
+      retry: 3,
+      retryDelay: 1000,
+    }
+  );
+
+  const handleCategoryHover = (categoryID) => {
+    setActiveCategoryID(categoryID);
+  };
+  const getBrandsForCategoryID = (categoryID) => {
+    if (!isCategories || !isBrands) {
+      return []; //
+    }
+
+    const selectedCategory = isCategories.find(
+      (category) => category._id === categoryID
+    );
+
+    if (!selectedCategory) {
+      return []; // Trả về một mảng rỗng nếu không tìm thấy danh mục
+    }
+
+    // Lấy tất cả các thương hiệu có categoryID trùng khớp với danh mục được chọn
+    const categoryBrands = isBrands.filter(
+      (brand) => brand.categoryID._id === selectedCategory._id
+    );
+    console.log(categoryBrands);
+    return categoryBrands;
+  };
+
   return (
     <div className="global-header-bottom-group container d-flex flex-wrap align-items-center position-relative">
       <a href="/" className="header-left-group header-logo">
@@ -131,38 +165,41 @@ export default function HeaderBottom() {
 
         <div className={isDropdown ? `menu-list menu-homepage` : `menu-list `}>
           {/* list category */}
-          {data?.map((item) => (
-            <div className="item">
-              <Link to={`/filter/${item.slugCategory}`} className="cat-1">
-                <i
-                  className="cat-thum lazy"
-                  data-bg={`url(${item.imageCategory})`}
-                  data-was-processed="true"
-                  style={{
-                    backgroundImage: `url(${item.imageCategory})`,
-                  }}
-                />
-                <span className="cat-title">{item.nameCategory}</span>
-              </Link>
-              <div className="sub-menu">
-                <div className="sub-item">
-                  <a href="/hhpc-3d-lumion" className="cat-2">
-                    HHPC 3D Lumion
-                  </a>
-                </div>
-                <div className="sub-item">
-                  <a href="/hhpc-3d" className="cat-2">
-                    HHPC 3D
-                  </a>
-                </div>
-                <div className="sub-item">
-                  <a href="/hhpc-3d-render" className="cat-2">
-                    HHPC 3D Render
-                  </a>
-                </div>
-              </div>
+
+          {loadingCategories ? (
+            <div className="loading-spinner">
+              <Loading />
             </div>
-          ))}
+          ) : (
+            isCategories?.map((category) => (
+              <div
+                className="item"
+                key={category._id}
+                onMouseEnter={() => handleCategoryHover(category._id)}
+              >
+                <Link to={`/filter/${category.slugCategory}`} className="cat-1">
+                  <i
+                    className="cat-thum lazy"
+                    data-bg={`url(${category.imageCategory})`}
+                    data-was-processed="true"
+                    style={{
+                      backgroundImage: `url(${category.imageCategory})`,
+                    }}
+                  />
+                  <span className="cat-title">{category.nameCategory}</span>
+                </Link>
+                {activeCategoryID === category._id && (
+                  <div className="sub-menu">
+                    {getBrandsForCategoryID(category._id).map((brand) => (
+                      <div class="sub-item" key={brand._id}>
+                        <Link to={`/${brand.slugBrand}`}>{brand.nameBrand}</Link>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))
+          )}
         </div>
       </div>
       <div className="header-middle-group header-search-group">
@@ -173,51 +210,11 @@ export default function HeaderBottom() {
               Danh mục <i className="icons icon-down" />
             </p>
             <div className="search-option-list" id="js-search-option-list">
-              <a href="javascript:void(0)" data-id={1}>
-                PC Thiết Kế Đồ Họa 3D
-              </a>
-              <a href="javascript:void(0)" data-id={91}>
-                PC Render, Edit Video
-              </a>
-              <a href="javascript:void(0)" data-id={238}>
-                PC Đẹp
-              </a>
-              <a href="javascript:void(0)" data-id={103}>
-                Server, Máy Ảo, Giả Lập
-              </a>
-              <a href="javascript:void(0)" data-id={27}>
-                PC Gaming
-              </a>
-              <a href="javascript:void(0)" data-id={93}>
-                PC Văn Phòng
-              </a>
-              <a href="javascript:void(0)" data-id={92}>
-                Machine Learning / AI
-              </a>
-              <a href="javascript:void(0)" data-id={9}>
-                Màn Hình Máy Tính
-              </a>
-              <a href="javascript:void(0)" data-id={166}>
-                Linh Kiện Máy Tính
-              </a>
-              <a href="javascript:void(0)" data-id={5}>
-                HDD - SSD - NAS
-              </a>
-              <a href="javascript:void(0)" data-id={24}>
-                Tản Nhiệt Cooling
-              </a>
-              <a href="javascript:void(0)" data-id={25}>
-                Gaming Gear
-              </a>
-              <a href="javascript:void(0)" data-id={121}>
-                Phụ Kiện Máy Tính
-              </a>
-              <a href="javascript:void(0)" data-id={23}>
-                Thiết Bị Mạng
-              </a>
-              <a href="javascript:void(0)" data-id={97}>
-                Phần Mềm Bản Quyền
-              </a>
+              {isCategories?.map((item) => (
+                <Link to={`/filter/${item.slugCategory}`} key={item._id}>
+                  {item.nameCategory}
+                </Link>
+              ))}
             </div>
           </div>
           <input
