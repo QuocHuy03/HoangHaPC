@@ -4,7 +4,7 @@ export const URL_CONSTANTS = {
   REGISTER: "/register",
   NOTFOUND: "*",
   DETAIL: "/:slug",
-  FILTER: "/filter",
+  FILTER: "/filter/:slug",
   CONDITIONS_POLICY: "/chinh-sach-kinh-doanh",
   BLOG: "/tin-tuc",
   BLOG_DETAIL: "/tin-tuc/:slug",
