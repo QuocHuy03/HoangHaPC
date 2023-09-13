@@ -191,10 +191,8 @@ export default function HeaderBottom() {
                 {activeCategoryID === category._id && (
                   <div className="sub-menu">
                     {getBrandsForCategoryID(category._id).map((brand) => (
-                      <div className="sub-item" key={brand._id}>
-                        <a href={`/${brand.slugBrand}`} className="cat-2">
-                          {brand.nameBrand}
-                        </a>
+                      <div class="sub-item" key={brand._id}>
+                        <Link to={`/${brand.slugBrand}`}>{brand.nameBrand}</Link>
                       </div>
                     ))}
                   </div>
