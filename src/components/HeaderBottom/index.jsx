@@ -1,9 +1,8 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
+import { useQuery } from "@tanstack/react-query";
+import React, { useEffect, useState } from "react";
 
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from "react-router-dom";
+import { categoryService } from "../../services/category.service";
 
 export default function HeaderBottom() {
   const location = useLocation();
@@ -15,6 +14,16 @@ export default function HeaderBottom() {
       setIsDropdown(false);
     }
   }, [location.pathname]);
+
+  const { data, isLoading } = useQuery(
+    ["categories"],
+    () => categoryService.fetchAllCategories(),
+    {
+      retry: 3,
+      retryDelay: 1000,
+    }
+  );
+  console.log(data);
   return (
     <div className="global-header-bottom-group container d-flex flex-wrap align-items-center position-relative">
       <a href="/" className="header-left-group header-logo">
@@ -121,37 +130,39 @@ export default function HeaderBottom() {
         </p>
 
         <div className={isDropdown ? `menu-list menu-homepage` : `menu-list `}>
-          <div className="item">
-            <a href="/pc-workstation" className="cat-1">
-              <i
-                className="cat-thum lazy"
-                data-bg="url(https://hoanghapccdn.com/media/category/cat_4d485476e07e02638e8e2133cdf8f56d.png)"
-                data-was-processed="true"
-                style={{
-                  backgroundImage:
-                    'url("https://hoanghapccdn.com/media/category/cat_4d485476e07e02638e8e2133cdf8f56d.png")',
-                }}
-              />
-              <span className="cat-title">PC Thiết Kế Đồ Họa 3D</span>
-            </a>
-            <div className="sub-menu">
-              <div className="sub-item">
-                <a href="/hhpc-3d-lumion" className="cat-2">
-                  HHPC 3D Lumion
-                </a>
-              </div>
-              <div className="sub-item">
-                <a href="/hhpc-3d" className="cat-2">
-                  HHPC 3D
-                </a>
-              </div>
-              <div className="sub-item">
-                <a href="/hhpc-3d-render" className="cat-2">
-                  HHPC 3D Render
-                </a>
+          {/* list category */}
+          {data?.map((item) => (
+            <div className="item">
+              <Link to={`/filter/${item.slugCategory}`} className="cat-1">
+                <i
+                  className="cat-thum lazy"
+                  data-bg={`url(${item.imageCategory})`}
+                  data-was-processed="true"
+                  style={{
+                    backgroundImage: `url(${item.imageCategory})`,
+                  }}
+                />
+                <span className="cat-title">{item.nameCategory}</span>
+              </Link>
+              <div className="sub-menu">
+                <div className="sub-item">
+                  <a href="/hhpc-3d-lumion" className="cat-2">
+                    HHPC 3D Lumion
+                  </a>
+                </div>
+                <div className="sub-item">
+                  <a href="/hhpc-3d" className="cat-2">
+                    HHPC 3D
+                  </a>
+                </div>
+                <div className="sub-item">
+                  <a href="/hhpc-3d-render" className="cat-2">
+                    HHPC 3D Render
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
       <div className="header-middle-group header-search-group">
@@ -226,8 +237,7 @@ export default function HeaderBottom() {
           className="autocomplete-suggestions"
           id="js-seach-result"
           style={{ display: "none" }}
-        >
-        </div>
+        ></div>
       </div>
       <a href="/buildpc" className="header-right-group header-buildpc">
         <i className="icons icon-buildpc" />

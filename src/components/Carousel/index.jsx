@@ -10,11 +10,12 @@ export default function Carousel({
   navigation,
   pagination,
   children,
+  spaceBetween,
   breakpoints,
 }) {
   return (
     <Swiper
-      spaceBetween={20}
+      spaceBetween={spaceBetween}
       centeredSlides={true}
       breakpoints={breakpoints}
       autoplay={{
