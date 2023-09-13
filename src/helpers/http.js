@@ -6,7 +6,7 @@ import { history } from "./history";
 class Http {
   constructor() {
     this.huydev = axios.create({
-      baseURL: `${import.meta.env.VITE_GOOGLE_CLIENT_ID}/api/admin`,
+      baseURL: `http://localhost:8080`,
       timeout: 10000,
       headers: {
         "Content-Type": "application/json",
