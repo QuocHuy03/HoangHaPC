@@ -203,7 +203,7 @@ export default function HeaderBottom() {
                             </Link>
                           ))}
                         </>
-                      ) : category.nameCategory === "PC" ? (
+                      ) : category.nameCategory === "PC Đẹp" ? (
                         <>
                           <Link className="cat-2">PC Chính Hãng</Link>
                           {getBrandsForCategoryID(category._id).map((brand) => (
@@ -215,9 +215,9 @@ export default function HeaderBottom() {
                             </Link>
                           ))}
                         </>
-                      ) : category.nameCategory === "CPU" ? (
+                      ) : category.nameCategory === "Màn Hình Máy Tính" ? (
                         <>
-                          <Link className="cat-2">CPU Chính Hãng</Link>
+                          <Link className="cat-2">Màn Hình Theo Hãng</Link>
                           {getBrandsForCategoryID(category._id).map((brand) => (
                             <Link
                               href={`/mainboard-intel-z790/${brand._id}`}
