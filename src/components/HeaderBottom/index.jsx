@@ -215,7 +215,7 @@ export default function HeaderBottom() {
                             </Link>
                           ))}
                         </>
-                      ) : category.nameCategory === "Màn Hình Máy Tính" ? (
+                      ) : category.nameCategory === "Màn Hình" ? (
                         <>
                           <Link className="cat-2">Màn Hình Theo Hãng</Link>
                           {getBrandsForCategoryID(category._id).map((brand) => (
