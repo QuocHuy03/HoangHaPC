@@ -190,11 +190,47 @@ export default function HeaderBottom() {
                 </Link>
                 {activeCategoryID === category._id && (
                   <div className="sub-menu">
-                    {getBrandsForCategoryID(category._id).map((brand) => (
-                      <div class="sub-item" key={brand._id}>
-                        <Link to={`/${brand.slugBrand}`}>{brand.nameBrand}</Link>
-                      </div>
-                    ))}
+                    <div className="sub-item">
+                      {category.nameCategory === "Laptop" ? (
+                        <>
+                          <Link className="cat-2">Laptop Chính Hãng</Link>
+                          {getBrandsForCategoryID(category._id).map((brand) => (
+                            <Link
+                              href={`/mainboard-intel-z790/${brand._id}`}
+                              key={brand._id}
+                            >
+                              {brand.nameBrand}
+                            </Link>
+                          ))}
+                        </>
+                      ) : category.nameCategory === "PC" ? (
+                        <>
+                          <Link className="cat-2">PC Chính Hãng</Link>
+                          {getBrandsForCategoryID(category._id).map((brand) => (
+                            <Link
+                              href={`/mainboard-intel-z790/${brand._id}`}
+                              key={brand._id}
+                            >
+                              {brand.nameBrand}
+                            </Link>
+                          ))}
+                        </>
+                      ) : category.nameCategory === "CPU" ? (
+                        <>
+                          <Link className="cat-2">CPU Chính Hãng</Link>
+                          {getBrandsForCategoryID(category._id).map((brand) => (
+                            <Link
+                              href={`/mainboard-intel-z790/${brand._id}`}
+                              key={brand._id}
+                            >
+                              {brand.nameBrand}
+                            </Link>
+                          ))}
+                        </>
+                      ) : (
+                        ""
+                      )}
+                    </div>
                   </div>
                 )}
               </div>
