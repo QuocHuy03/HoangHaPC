@@ -67,9 +67,10 @@ export default function ProfilePage() {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     handleTabClick(3)
-    dispatch(logout(refreshToken));
+    const responve = dispatch(logout(refreshToken));
+    console.log(responve)
     navigate(URL_CONSTANTS.HOME)
   };
 
