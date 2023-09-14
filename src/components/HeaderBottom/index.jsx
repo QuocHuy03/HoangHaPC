@@ -215,9 +215,21 @@ export default function HeaderBottom() {
                             </Link>
                           ))}
                         </>
-                      ) : category.nameCategory === "Màn Hình Máy Tính" ? (
+                      ) : category.nameCategory === "Màn Hình" ? (
                         <>
                           <Link className="cat-2">Màn Hình Theo Hãng</Link>
+                          {getBrandsForCategoryID(category._id).map((brand) => (
+                            <Link
+                              href={`/mainboard-intel-z790/${brand._id}`}
+                              key={brand._id}
+                            >
+                              {brand.nameBrand}
+                            </Link>
+                          ))}
+                        </>
+                      ) : category.nameCategory === "Thiết Bị Mạng" ? (
+                        <>
+                          <Link className="cat-2">Thiết Bị Mạng Wifi</Link>
                           {getBrandsForCategoryID(category._id).map((brand) => (
                             <Link
                               href={`/mainboard-intel-z790/${brand._id}`}
