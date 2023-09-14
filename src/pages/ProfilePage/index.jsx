@@ -24,10 +24,6 @@ export default function ProfilePage() {
                 <i className="far fa-list-alt" aria-hidden="true" />
                 <span>Danh sách đơn hàng</span>
               </a>
-              <a href="/san-pham-da-xem">
-                <i className="far fa-eye" aria-hidden="true" />
-                <span>Sản phẩm đã xem</span>
-              </a>
               <a href="?view=account-change-pass">
                 <i className="fas fa-lock" aria-hidden="true" />
                 <span>Thay đổi mật khẩu</span>
@@ -49,36 +45,31 @@ export default function ProfilePage() {
               <tbody>
                 <tr>
                   <td width="120px">Họ tên</td>
-                  <td>nguyễn trường thịnh</td>
-                </tr>
-                <tr>
-                  <td>Giới tính</td>
-                  <td>Nữ</td>
+                  <td>{user.fullname === null ? "Đang cập nhật ..." : user.fullname}</td>
                 </tr>
                 <tr>
                   <td>Địa chỉ email</td>
-                  <td>thinhnguyen012003@gmail.com</td>
+                  <td>{user.email === null ? "Đang cập nhật ..." : user.email}</td>
                 </tr>
                 <tr>
                   <td>Địa chỉ nhà</td>
-                  <td />
+                  <td>{user.address === null ? "Đang cập nhật ..." : user.address}</td>
+                </tr>
+                <tr>
+                  <td>Xã/Huyện</td>
+                  <td>{user.district || user.commune === null ? "Đang cập nhật ..." : user.commune + " / " +user.district}</td>
                 </tr>
                 <tr>
                   <td>Tỉnh/TP</td>
-                  <td />
+                  <td>{user.city === null ? "Đang cập nhật ..." : user.city}</td>
                 </tr>
                 <tr>
                   <td>Số điện thoại</td>
-                  <td />
-                </tr>
-                <tr>
-                  <td>Số di động</td>
-                  <td />
+                  <td>{user.phone === null ? "Đang cập nhật ..." : user.phone}</td>
                 </tr>
               </tbody>
             </table>
             <div style={{ paddingTop: 20, fontWeight: "bold" }}>
-              {" "}
               <a href="?view=account-change-info" className="btn btn-danger">
                 Thay đổi thông tin
               </a>
