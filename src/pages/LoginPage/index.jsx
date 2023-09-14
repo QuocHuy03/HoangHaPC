@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
 
-import Layout from '../../components/Layout';
+import Layout from "../../components/Layout";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../stores/authentication/actions";
+import Loading from "../../components/Loading";
+import { URL_CONSTANTS } from "../../constants/url.constants";
+import { history } from "../../helpers/history";
+import { message } from "antd";
 
 const getGoogleAuthUrl = () => {
   const url = `https://accounts.google.com/o/oauth2/v2/auth`;
@@ -23,6 +29,53 @@ const getGoogleAuthUrl = () => {
 
 export default function LoginPage() {
   const oauthURL = getGoogleAuthUrl();
+  const navigate = useNavigate();
+  const [validationErrors, setValidationErrors] = useState([]);
+  const [submitted, setSubmitted] = useState(false);
+  const dispatch = useDispatch();
+  const [inputs, setInputs] = useState({
+    email: "",
+    password: "",
+  });
+  const loading = useSelector((state) => state.auth.loading);
+  const accessToken = useSelector((state) => state.auth.accessToken);
+
+  const { email, password } = inputs;
+
+  useEffect(() => {
+    if (accessToken) {
+      history.push(URL_CONSTANTS.HOME);
+    }
+  }, [dispatch, accessToken]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInputs((inputs) => ({ ...inputs, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitted(true);
+    let data = {
+      email,
+      password,
+    };
+
+    try {
+      const response = await dispatch(login(data));
+      if (response.status === true) {
+        setValidationErrors([]);
+        message.success(response.message);
+        navigate(URL_CONSTANTS.HOME)
+      } else {
+        setValidationErrors(
+          Object.values(response.response.errors).map((error) => error.msg)
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <Layout>
       <div
@@ -41,42 +94,52 @@ export default function LoginPage() {
         </div>
         <div className="item-right-auth" id="js-popup-holder">
           <div className="popup-content-group d-block" id="js-popup-login">
-            
             <div className="box-title-auth">
               <p>Đăng nhập bằng Email</p>
               <p>
                 <Link to={"/register"}>Đăng ký</Link> nếu chưa có tài khoản.
               </p>
             </div>
-            <div className="input-holder-auth">
+            <form className="input-holder-auth" onSubmit={handleSubmit}>
               <div className="input-box-auth">
                 <input
                   type="text"
                   placeholder="Email"
-                  id="js-popup-login-email"
+                  onChange={handleChange}
+                  name="email"
                 />
               </div>
               <div className="input-box-auth input-password">
                 <input
                   type="password"
                   placeholder="Mật khẩu"
-                  id="js-popup-login-password"
+                  onChange={handleChange}
+                  name="password"
                 />
-                <a className="icons icon-eye" onclick="show_hide_pass(this)" />
+                <a className="icons icon-eye" />
               </div>
-              <p
-                className="mt-1 red"
-                id="js-popup-login-note"
-                style={{ whiteSpace: "pre-line" }}
-              >
-                {/* // note */}
-              </p>
+              {submitted && validationErrors && (
+                <p
+                  className="mt-1 red"
+                  id="js-popup-login-note"
+                  style={{ whiteSpace: "pre-line" }}
+                >
+                  {validationErrors.map((error, index) => (
+                    <li key={index}>{error}</li>
+                  ))}
+                </p>
+              )}
               <div className="d-flex flex-wrap align-items-center justify-content-end">
-                <a className="btn-forgot-password"  href='/reset-password'>Quên mật khẩu ?</a>
-
-                <a className="popup-btn btn-login" style={{ color: "white" }}>
-                  Đăng nhập
+                <a className="btn-forgot-password" href="/reset-password">
+                  Quên mật khẩu ?
                 </a>
+
+                <button
+                  className="popup-btn btn-login"
+                  style={{ color: "white", border: "none" }}
+                >
+                  {loading && <Loading />} Đăng nhập
+                </button>
               </div>
               <div className="text-center">
                 <p
@@ -100,7 +163,7 @@ export default function LoginPage() {
                   </a>
                 </p>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
