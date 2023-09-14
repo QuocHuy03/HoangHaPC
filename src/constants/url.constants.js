@@ -12,5 +12,5 @@ export const URL_CONSTANTS = {
   PROMOTION_DETAIL: "/tin-khuyen-mai/:slug",
   CART: "/cart",
   RESET_PASSWORD: "/reset-password",
-  PROFILE: "/profile"
+  PROFILE: "/profile",
 };

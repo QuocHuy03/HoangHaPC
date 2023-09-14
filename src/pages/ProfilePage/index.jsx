@@ -1,12 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import Layout from "../../components/Layout";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import address from "../../json/address.json";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { Link } from "react-router-dom";
+import { logout } from "../../stores/authentication/actions";
+import { URL_CONSTANTS } from "../../constants/url.constants";
 
 export default function ProfilePage() {
-  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user, refreshToken } = useSelector((state) => state.auth);
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabClick = (index) => {
@@ -61,6 +65,12 @@ export default function ProfilePage() {
     if (selectedCommune) {
       values.commune = selectedCommune.name;
     }
+  };
+
+  const handleLogout = () => {
+    handleTabClick(3)
+    dispatch(logout(refreshToken));
+    navigate(URL_CONSTANTS.HOME)
   };
 
   const UpdateProfile = ({ user }) => {
@@ -238,7 +248,7 @@ export default function ProfilePage() {
                 <span>Thay đổi mật khẩu</span>
               </Link>
               <Link
-                onClick={() => handleTabClick(3)}
+                onClick={() => handleLogout()}
                 className={activeTab === 3 ? "current" : ""}
               >
                 <i className="fas fa-sign-out-alt" aria-hidden="true" />
