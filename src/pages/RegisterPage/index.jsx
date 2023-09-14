@@ -1,26 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../../components/Loading";
 import { URL_CONSTANTS } from "../../constants/url.constants";
+import { history } from "../../helpers/history";
+import { message } from "antd";
+import { register } from "../../stores/authentication/actions";
 
 export default function RegisterPage() {
+  const navigate = useNavigate();
+  const [validationErrors, setValidationErrors] = useState([]);
   const [inputs, setInputs] = useState({
+    fullname: "",
+    username: "",
     email: "",
     password: "",
+    confirm_password: "",
   });
   const [submitted, setSubmitted] = useState(false);
 
   const loading = useSelector((state) => state.auth.loading);
   const accessToken = useSelector((state) => state.auth.accessToken);
 
-  const { email, password } = inputs;
+  const { fullname, username, email, password, confirm_password } = inputs;
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (accessToken) {
-      history.push(URL_CONSTANTS.HOME);
+      history.push(URL_CONSTANTS.LOGIN);
     }
   }, [dispatch, accessToken]);
 
@@ -29,11 +37,30 @@ export default function RegisterPage() {
     setInputs((inputs) => ({ ...inputs, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitted(true);
-    if (email && password) {
-      dispatch(login(email, password));
+    let data = {
+      fullname,
+      username,
+      email,
+      password,
+      confirm_password,
+    };
+
+    try {
+      const response = await dispatch(register(data));
+      if (response.status === true) {
+        setValidationErrors([]);
+        message.success(response.message);
+        navigate(URL_CONSTANTS.LOGIN);
+      } else {
+        setValidationErrors(
+          Object.values(response.response.errors).map((error) => error.msg)
+        );
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -81,6 +108,7 @@ export default function RegisterPage() {
                   type="text"
                   onChange={handleChange}
                   placeholder="Username"
+                  name="username"
                 />
               </div>
               <div className="input-box-auth">
@@ -118,22 +146,24 @@ export default function RegisterPage() {
                   <a className="icons icon-eye" />
                 </div>
               </div>
-              {submitted && !email && (
+              {submitted && validationErrors && (
                 <p
                   className="mt-1 red"
                   id="js-popup-login-note"
                   style={{ whiteSpace: "pre-line" }}
                 >
-                  {/* // note */}
+                  {validationErrors.map((error, index) => (
+                    <li key={index}>{error}</li>
+                  ))}
                 </p>
               )}
+
               <div className="d-flex flex-wrap align-items-center justify-content-end">
-                {loading && <Loading />}
                 <button
                   className="popup-btn btn-login"
                   style={{ color: "white", border: "none" }}
                 >
-                  Tạo tài khoản
+                  {loading && <Loading />} Tạo tài khoản
                 </button>
               </div>
             </form>
