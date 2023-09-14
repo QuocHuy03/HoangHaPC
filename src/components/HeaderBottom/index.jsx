@@ -239,7 +239,7 @@ export default function HeaderBottom() {
                             </Link>
                           ))}
                         </>
-                      ): (
+                      ) : (
                         ""
                       )}
                     </div>

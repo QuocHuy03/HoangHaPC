@@ -33,7 +33,7 @@ export default function LoginPage() {
       >
         <div className="item-left-auth">
           <img
-            src="https://hoanghapc.vn/template/2022/images/popup-customer-bg.png"
+            src="https://i.imgur.com/1xOiHz7.png"
             alt="popup"
             className="lazy loading"
             data-was-processed="true"
