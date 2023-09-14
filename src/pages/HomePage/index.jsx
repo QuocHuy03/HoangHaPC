@@ -381,6 +381,569 @@ export default function HomePage() {
             </Carousel>
           </div>
         </div>
+        <div classname="container">
+          <div
+            className="home-box-group js-product-container loaded"
+            data-id={1}
+          >
+            <div className="box-title-group">
+              <h2 className="box-title">PC Thiết Kế Đồ Họa 3D</h2>
+              <div className="box-cat-list">
+                <a href="/hhpc-3d-lumion" title="HHPC 3D Lumion">
+                  <h3>HHPC 3D Lumion</h3>
+                </a>
+                <a href="/hhpc-3d" title="HHPC 3D">
+                  <h3>HHPC 3D</h3>
+                </a>
+                <a href="/pc-workstation" className="font-600">
+                  Xem tất cả
+                </a>
+              </div>
+            </div>
+            <div className="p-container" id="js-product-1">
+              <div className="owl-carousel owl-theme custom-nav owl-loaded owl-drag">
+                <div className="owl-stage-outer">
+                  <div className="owl-stage" style={{}}>
+                    <div
+                      className="owl-item cloned"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                    <div
+                      className="owl-item cloned"
+                      style={{ width: 224, marginRight: 10 }}
+                    >
+                      <div className="p-item">
+                        <a
+                          href="/hh-workstation-core-i7-12700k-b760-nvidia-rtx-3050-8gb"
+                          className="p-img"
+                        >
+                          <img
+                            src="https://hoanghapccdn.com/media/product/250_3261_hhpc_montech_tan_140_ha4a.jpg"
+                            alt="HHPC CORE i7 12700K | B760 | NVIDIA RTX 3050 8GB"
+                            width={250}
+                            height={250}
+                          />
+                        </a>
+                        <div className="p-text">
+                          <a
+                            href="/hh-workstation-core-i7-12700k-b760-nvidia-rtx-3050-8gb"
+                            className="p-name"
+                          >
+                            <h3 className="inherit">
+                              HHPC CORE i7 12700K | B760 | NVIDIA RTX 3050 8GB
+                            </h3>
+                          </a>
+                          <div className="p-price-group">
+                            <span className="p-price">20.700.000 đ</span>
+                            <del className="p-old-price">23.000.000 đ</del>
+                            <span className="p-discount">(Tiết kiệm: 10%)</span>
+                          </div>
+                          <div className="p-btn-group">
+                            <p>
+                              <span style={{ color: "#0DB866" }}>
+                                <i className="icons icon-check" /> Còn hàng
+                              </span>
+                              <span style={{ color: "#A3A3A3" }}>
+                                <i className="icons icon-gift" /> Quà tặng
+                              </span>
+                            </p>
+                            <a
+                              href="javascript:void(0)"
+                              className="p-add-cart"
+                              onclick="addProductToCart(3261, 1,'')"
+                            />
+                          </div>
+                        </div>
+                        <div className="p-tooltip">
+                          <p className="tooltip-title">
+                            HHPC CORE i7 12700K | B760 | NVIDIA RTX 3050 8GB
+                          </p>
+                          <div className="tooltip-content">
+                            <table>
+                              <tbody>
+                                <tr>
+                                  <td>Giá bán</td>
+                                  <td>
+                                    <span className="tooltip-price">
+                                      20.700.000 đ
+                                    </span>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Bảo hành</td>
+                                  <td>36 tháng</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                            <div className="tooltip-content-item">
+                              <b className="title">
+                                <i className="tooltip-icon icon-doc" /> Thông số
+                                sản phẩm
+                              </b>
+                              <div className="tooltip-content-list">
+                                <div className="item">
+                                  CPU : INTEL CORE i7 12700K 3.8 up 5.0GHz | 12
+                                  CORE | 20 THREAD
+                                </div>
+                                <div className="item">
+                                  RAM : 32GB DDR4 3600 MHz (2x16G)
+                                </div>
+                                <div className="item">
+                                  VGA : PALIT RTX 3050 DUAL 8GB GDDR6
+                                </div>
+                              </div>
+                            </div>
+                            <div className="tooltip-content-item">
+                              <b className="title">
+                                <i className="tooltip-icon icon-gift" /> Chương
+                                trình khuyến mãi
+                              </b>
+                              <div className="tooltip-content-list">
+                                <div className="item">
+                                  <p>
+                                    <span
+                                      style={{
+                                        color: "#ff0000",
+                                        fontSize: "12pt",
+                                      }}
+                                    >
+                                      <strong>
+                                        ƯU ĐÃI KHI MUA KÈM PC TẠI HOÀNG HÀ PC
+                                      </strong>
+                                    </span>
+                                  </p>
+                                </div>
+                                <div className="item">
+                                  <p>
+                                    <span style={{ fontSize: "12pt" }}>
+                                      ⭐ Tặng ngay{" "}
+                                      <span
+                                        style={{
+                                          fontSize: "13pt",
+                                          color: "#ff0000",
+                                        }}
+                                      >
+                                        <strong>
+                                          bộ phím chuột và bàn di chuột + 5 mét
+                                          dây mạng
+                                        </strong>
+                                      </span>{" "}
+                                      khi mua cấu hình PC trên{" "}
+                                    </span>
+                                  </p>
+                                </div>
+                                <div className="item">
+                                  <p>
+                                    <span style={{ fontSize: "12pt" }}>
+                                      ⭐ Giảm ngay{" "}
+                                      <strong>
+                                        <span style={{ color: "#ff0000" }}>
+                                          100.000đ
+                                        </span>
+                                      </strong>{" "}
+                                      khi mua thêm{" "}
+                                      <span style={{ color: "#ff0000" }}>
+                                        <strong>
+                                          <a
+                                            style={{ color: "#ff0000" }}
+                                            href="/man-hinh-may-tinh"
+                                          >
+                                            Màn Hình Máy Tính
+                                          </a>
+                                        </strong>
+                                      </span>
+                                      .
+                                    </span>
+                                  </p>
+                                </div>
+                                <div className="item">
+                                  <p>
+                                    <span style={{ fontSize: "12pt" }}>
+                                      ⭐ Giảm ngay{" "}
+                                      <strong>
+                                        <span style={{ color: "#ff0000" }}>
+                                          200.000đ
+                                        </span>
+                                      </strong>{" "}
+                                      khi mua thêm{" "}
+                                      <strong>
+                                        <span style={{ color: "#ff0000" }}>
+                                          <a
+                                            style={{ color: "#ff0000" }}
+                                            href="/ram-bo-nho-trong"
+                                          >
+                                            RAM
+                                          </a>
+                                        </span>
+                                      </strong>
+                                    </span>
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="owl-item cloned"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                    <div
+                      className="owl-item cloned"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                    <div
+                      className="owl-item cloned"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                    <div
+                      className="owl-item"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                    <div
+                      className="owl-item active"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                    <div
+                      className="owl-item active"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                    <div
+                      className="owl-item active"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                    <div
+                      className="owl-item active"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                    <div
+                      className="owl-item active"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                    <div
+                      className="owl-item"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                    <div
+                      className="owl-item cloned"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                    <div
+                      className="owl-item cloned"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                    <div
+                      className="owl-item cloned"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                    <div
+                      className="owl-item cloned"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                    <div
+                      className="owl-item cloned"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                  </div>
+                </div>
+
+                <div className="owl-dots disabled" />
+                <div className="owl-thumbs" />
+              </div>
+            </div>
+          </div>
+          <div
+            className="home-box-group js-product-container loaded"
+            data-id={91}
+          >
+            <div className="box-title-group">
+              <h2 className="box-title">PC Render, Edit Video</h2>
+              <div className="box-cat-list">
+                <a href="/hhpc-adobe" title="HHPC Adobe">
+                  <h3>HHPC Adobe</h3>
+                </a>
+                <a
+                  href="/hhpc-workstation-render-edit-video"
+                  className="font-600"
+                >
+                  Xem tất cả
+                </a>
+              </div>
+            </div>
+            <div className="p-container" id="js-product-91">
+              <div className="owl-carousel owl-theme custom-nav owl-loaded owl-drag">
+                <div className="owl-stage-outer">
+                  <div className="owl-stage">
+                    <div
+                      className="owl-item cloned"
+                      style={{ width: 224, marginRight: 10 }}
+                    >
+        
+                    </div>
+                    <div
+                      className="owl-item cloned"
+                      style={{ width: 224, marginRight: 10 }}
+                    >
+                      
+                    </div>
+                    <div
+                      className="owl-item cloned"
+                      style={{ width: 224, marginRight: 10 }}
+                    >
+                      
+                    </div>
+                    <div
+                      className="owl-item cloned"
+                      style={{ width: 224, marginRight: 10 }}
+                    >
+                      
+                    </div>
+                    <div
+                      className="owl-item cloned"
+                      style={{ width: 224, marginRight: 10 }}
+                    >
+                      <div className="p-item">
+                        <a
+                          href="/hhpc-adobe-i7-13700k-32g-ddr5-nvidia-rtx-3070-ti-8g"
+                          className="p-img"
+                        >
+                          <img
+                            src="https://hoanghapccdn.com/media/product/250_4126_"
+                            alt="HHPC ADOBE i7 13700K  | 32G DDR5 | NVIDIA RTX 3070 Ti 8G"
+                            width={250}
+                            height={250}
+                          />
+                        </a>
+                        <div className="p-text">
+                          <a
+                            href="/hhpc-adobe-i7-13700k-32g-ddr5-nvidia-rtx-3070-ti-8g"
+                            className="p-name"
+                          >
+                            <h3 className="inherit">
+                              HHPC ADOBE i7 13700K | 32G DDR5 | NVIDIA RTX 3070
+                              Ti 8G
+                            </h3>
+                          </a>
+                          <div className="p-price-group">
+                            <span className="p-price">35.490.000 đ</span>
+                            <del className="p-old-price">39.000.000 đ</del>
+                            <span className="p-discount">(Tiết kiệm: 9%)</span>
+                          </div>
+                          <div className="p-btn-group">
+                            <p>
+                              <span style={{ color: "#0DB866" }}>
+                                <i className="icons icon-check" /> Còn hàng
+                              </span>
+                              <span style={{ color: "#A3A3A3" }}>
+                                <i className="icons icon-gift" /> Quà tặng
+                              </span>
+                            </p>
+                            <a
+                              href="javascript:void(0)"
+                              className="p-add-cart"
+                              onclick="addProductToCart(4126, 1,'')"
+                            />
+                          </div>
+                        </div>
+                        <div className="p-tooltip">
+                          <p className="tooltip-title">
+                            HHPC ADOBE i7 13700K | 32G DDR5 | NVIDIA RTX 3070 Ti
+                            8G
+                          </p>
+                          <div className="tooltip-content">
+                            <table>
+                              <tbody>
+                                <tr>
+                                  <td>Giá bán</td>
+                                  <td>
+                                    <span className="tooltip-price">
+                                      35.490.000 đ
+                                    </span>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>Bảo hành</td>
+                                  <td>36 tháng</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                            <div className="tooltip-content-item">
+                              <b className="title">
+                                <i className="tooltip-icon icon-doc" /> Thông số
+                                sản phẩm
+                              </b>
+                              <div className="tooltip-content-list">
+                                <div className="item">
+                                  CPU : INTEL CORE i7 13700K up 5.4GHz | 16 CORE
+                                  | 24 THREAD
+                                </div>
+                                <div className="item">
+                                  RAM : 32GB DDR5 5200 MHz (2x16G)
+                                </div>
+                                <div className="item">
+                                  VGA : NVIDIA RTX 3070 Ti 8GB GDDR6X
+                                </div>
+                              </div>
+                            </div>
+                            <div className="tooltip-content-item">
+                              <b className="title">
+                                <i className="tooltip-icon icon-gift" /> Chương
+                                trình khuyến mãi
+                              </b>
+                              <div className="tooltip-content-list">
+                                <div className="item">
+                                  <p>
+                                    <span
+                                      style={{
+                                        color: "#ff0000",
+                                        fontSize: "12pt",
+                                      }}
+                                    >
+                                      <strong>
+                                        ƯU ĐÃI KHI MUA KÈM PC TẠI HOÀNG HÀ PC
+                                      </strong>
+                                    </span>
+                                  </p>
+                                </div>
+                                <div className="item">
+                                  <p>
+                                    <span style={{ fontSize: "12pt" }}>
+                                      ⭐ Tặng ngay{" "}
+                                      <span
+                                        style={{
+                                          fontSize: "13pt",
+                                          color: "#ff0000",
+                                        }}
+                                      >
+                                        <strong>
+                                          bộ phím chuột và bàn di chuột + 5 mét
+                                          dây mạng
+                                        </strong>
+                                      </span>{" "}
+                                      khi mua cấu hình PC trên{" "}
+                                    </span>
+                                  </p>
+                                </div>
+                                <div className="item">
+                                  <p>
+                                    <span style={{ fontSize: "12pt" }}>
+                                      ⭐ Giảm ngay{" "}
+                                      <strong>
+                                        <span style={{ color: "#ff0000" }}>
+                                          100.000đ
+                                        </span>
+                                      </strong>{" "}
+                                      khi mua thêm{" "}
+                                      <span style={{ color: "#ff0000" }}>
+                                        <strong>
+                                          <a
+                                            style={{ color: "#ff0000" }}
+                                            href="/man-hinh-may-tinh"
+                                          >
+                                            Màn Hình Máy Tính
+                                          </a>
+                                        </strong>
+                                      </span>
+                                      .
+                                    </span>
+                                  </p>
+                                </div>
+                                <div className="item">
+                                  <p>
+                                    <span style={{ fontSize: "12pt" }}>
+                                      ⭐ Giảm ngay{" "}
+                                      <strong>
+                                        <span style={{ color: "#ff0000" }}>
+                                          200.000đ
+                                        </span>
+                                      </strong>{" "}
+                                      khi mua thêm{" "}
+                                      <strong>
+                                        <span style={{ color: "#ff0000" }}>
+                                          <a
+                                            style={{ color: "#ff0000" }}
+                                            href="/ram-bo-nho-trong"
+                                          >
+                                            RAM
+                                          </a>
+                                        </span>
+                                      </strong>
+                                    </span>
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      className="owl-item"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                    <div
+                      className="owl-item"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                    <div
+                      className="owl-item active"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                    <div
+                      className="owl-item active"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                    <div
+                      className="owl-item active"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                    <div
+                      className="owl-item active"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                    <div
+                      className="owl-item active"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                    <div
+                      className="owl-item cloned"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                    <div
+                      className="owl-item cloned"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                    <div
+                      className="owl-item cloned"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                    <div
+                      className="owl-item cloned"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                    <div
+                      className="owl-item cloned"
+                      style={{ width: 224, marginRight: 10 }}
+                    ></div>
+                  </div>
+                </div>
+                <div className="owl-nav">
+                  
+                  <button
+                    type="button"
+                    role="presentation"
+                    className="owl-next"
+                  >
+                    <i className="arrow arrow-right" />
+                  </button>
+                </div>
+                <div className="owl-dots disabled" />
+                <div className="owl-thumbs" />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </Layout>
   );
