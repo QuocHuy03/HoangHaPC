@@ -471,9 +471,7 @@ export default function ProfilePage() {
             <div className="account-col-right">
               <h3>Thay đổi mật khẩu</h3>
               <form
-                method="post"
-                encType="multipart/form-data"
-                name="account_form"
+              
                 className="col-right-tbl"
               >
                 <table
@@ -489,7 +487,6 @@ export default function ProfilePage() {
                         <input
                           type="password"
                           name="currentpassword"
-                          id="currentpassword"
                           className="form-control"
                         />
                       </td>
