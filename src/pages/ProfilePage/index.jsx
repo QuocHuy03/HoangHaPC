@@ -223,7 +223,7 @@ export default function ProfilePage() {
             <div className="box-info">
               <i className="fas fa-user-circle" aria-hidden="true" />
               <p>
-                Tài khoản của, <b>{user.fullname}</b>
+                Tài khoản của, <b>{user && user.fullname !== null ? user.fullname : "Đang cập nhật"}</b>
               </p>
             </div>
             <div className="box-direction">
@@ -270,51 +270,43 @@ export default function ProfilePage() {
                   <tr>
                     <td width="120px">Họ tên</td>
                     <td>
-                      {user.fullname === null
-                        ? "Đang cập nhật ..."
-                        : user.fullname}
+                      {user && user.fullname !== null ? user.fullname : "Đang cập nhật"}
                     </td>
                   </tr>
                   <tr>
                     <td>Địa chỉ email</td>
                     <td>
-                      {user.email === null ? "Đang cập nhật ..." : user.email}
+                      {user && user.email !== null ? user.email : "Đang cập nhật"}
                     </td>
                   </tr>
                   <tr>
                     <td>Địa chỉ nhà</td>
                     <td>
-                      {user.address === null
-                        ? "Đang cập nhật ..."
-                        : user.address}
+                      {user && user.address !== null ? user.address : "Đang cập nhật"}
                     </td>
                   </tr>
                   <tr>
                     <td>Quận/Huyện</td>
                     <td>
-                      {user.district === null
-                        ? "Đang cập nhật ..."
-                        : user.district}
+                      {user && user.district !== null ? user.district : "Đang cập nhật"}
                     </td>
                   </tr>
                   <tr>
                     <td>Xã/Phường</td>
                     <td>
-                      {user.commune === null
-                        ? "Đang cập nhật ..."
-                        : user.commune}
+                      {user && user.commune !== null ? user.commune : "Đang cập nhật"}
                     </td>
                   </tr>
                   <tr>
                     <td>Tỉnh/TP</td>
                     <td>
-                      {user.city === null ? "Đang cập nhật ..." : user.city}
+                      {user && user.city !== null ? user.city : "Đang cập nhật"}
                     </td>
                   </tr>
                   <tr>
                     <td>Số điện thoại</td>
                     <td>
-                      {user.phone === null ? "Đang cập nhật ..." : user.phone}
+                      {user && user.phone !== null ? user.phone : "Đang cập nhật"}
                     </td>
                   </tr>
                 </tbody>
