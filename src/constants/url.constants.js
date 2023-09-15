@@ -3,7 +3,7 @@ export const URL_CONSTANTS = {
   LOGIN: "/login",
   REGISTER: "/register",
   NOTFOUND: "*",
-  DETAIL: "/:slug",
+  DETAIL: "/product/:slug",
   FILTER: "/filter/:slug",
   CONDITIONS_POLICY: "/chinh-sach-kinh-doanh",
   BLOG: "/tin-tuc",

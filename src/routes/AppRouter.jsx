@@ -35,10 +35,7 @@ export default function AppRouter() {
       />
       <Route path={URL_CONSTANTS.CART} element={<CartPage />} />
       <Route path={URL_CONSTANTS.PROFILE} element={<ProfilePage />} />
-      <Route
-        path={URL_CONSTANTS.RESET_PASSWORD}
-        element={<ResetPasswordPage />}
-      />
+      
     </Routes>
   );
 }

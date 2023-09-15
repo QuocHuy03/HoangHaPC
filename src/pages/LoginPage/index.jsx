@@ -39,7 +39,6 @@ export default function LoginPage() {
   });
   const loading = useSelector((state) => state.auth.loading);
   const { redirectTo } = useSelector((state) => state.redirect);
-  console.log(redirectTo);
 
   const { email, password } = inputs;
 
