@@ -326,11 +326,13 @@ export default function ProfilePage() {
               >
                 <i className="fas fa-lock" aria-hidden="true" />
                 <span>Thay đổi mật khẩu</span>
+
               </Link>
               <Link
                 onClick={() => handleLogout()}
                 className={activeTab === 3 ? "current" : ""}
               >
+
                 <i className="fas fa-sign-out-alt" aria-hidden="true" />
                 <span>Đăng xuất</span>
               </Link>
