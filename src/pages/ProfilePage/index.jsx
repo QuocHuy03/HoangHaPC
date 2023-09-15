@@ -25,6 +25,12 @@ export default function ProfilePage() {
 
   const UpdateProfile = ({ user }) => {
     const isUserAvailable = user !== null;
+    const [provinces, setProvinces] = useState([]);
+    const [selectedProvince, setSelectedProvince] = useState("");
+    const [districts, setDistricts] = useState([]);
+    const [selectedDistrict, setSelectedDistrict] = useState("");
+    const [selectedCommune, setSelectedCommune] = useState("");
+    const [wards, setWards] = useState([]);
 
     const initialInputValues = {
       fullname: isUserAvailable ? user.fullname : "",
@@ -46,21 +52,20 @@ export default function ProfilePage() {
       }));
     };
 
-    const [provinces, setProvinces] = useState([]);
-    const [selectedProvince, setSelectedProvince] = useState("");
-    const [districts, setDistricts] = useState([]);
-    const [selectedDistrict, setSelectedDistrict] = useState("");
-    const [wards, setWards] = useState([]);
-
     useEffect(() => {
       setProvinces(huydev.provinces);
       setDistricts(huydev.districts);
       setWards(huydev.wards);
-    }, []);
+      if (isUserAvailable) {
+        setSelectedProvince(user.city);
+        setSelectedDistrict(user.district);
+        setSelectedCommune(user.commune);
+      }
+    }, [isUserAvailable]);
 
     const handleSelectProvince = (e) => {
       setSelectedProvince(e.target.value);
-      setSelectedDistrict("");
+
       setInputs((prevInputs) => ({
         ...prevInputs,
         city: e.target.value,
@@ -76,6 +81,7 @@ export default function ProfilePage() {
     };
 
     const handleSelectCommune = (e) => {
+      setSelectedCommune(e.target.value);
       setInputs((prevInputs) => ({
         ...prevInputs,
         commune: e.target.value,
@@ -89,39 +95,40 @@ export default function ProfilePage() {
     const filteredWards = wards?.filter(
       (ward) => ward.district_id === Number(selectedDistrict)
     );
-
+    console.log(selectedProvince + " && " + selectedDistrict);
     const handleSubmit = async (e) => {
       let data = {
         fullname: inputs.fullname,
         address: inputs.address,
-        city: inputs.city,
-        district: inputs.district,
-        commune: inputs.commune,
+        city: Number(inputs.city),
+        district: Number(inputs.district),
+        commune: Number(inputs.commune),
         phone: inputs.phone,
       };
       // console.log(data)
       e.preventDefault();
-      const selectedCity = provinces.find(
-        (province) => province.id === Number(data.city)
-      );
-      if (selectedCity) {
-        data.city = selectedCity.name;
-      }
+      // const selectedCity = provinces.find(
+      //   (province) => province.id === Number(data.city)
+      // );
+      // if (selectedCity) {
+      //   data.city = selectedCity.name;
+      // }
 
-      const selectedDistrict = districts.find(
-        (district) => district.id === Number(data.district)
-      );
-      if (selectedDistrict) {
-        data.district = selectedDistrict.name;
-      }
+      // const selectedDistrict = districts.find(
+      //   (district) => district.id === Number(data.district)
+      // );
+      // if (selectedDistrict) {
+      //   data.district = selectedDistrict.name;
+      // }
+      // console.log(selectedProvince);
 
-      const selectedCommune = wards.find(
-        (ward) => ward.id === Number(data.commune)
-      );
+      // const selectedCommune = wards.find(
+      //   (ward) => ward.id === Number(data.commune)
+      // );
 
-      if (selectedCommune) {
-        data.commune = selectedCommune.name;
-      }
+      // if (selectedCommune) {
+      //   data.commune = selectedCommune.name;
+      // }
 
       try {
         const response = await userService.updateMe(data);
@@ -203,7 +210,7 @@ export default function ProfilePage() {
                     name="city"
                     onChange={handleSelectProvince}
                     value={selectedProvince}
-                    placeholder="Vui Lòng Chọn Tỉnh / TP"
+                    placeholder={`Vui lòng chọn Tỉnh / TP`}
                   >
                     <option value="">Vui lòng chọn Tỉnh / TP</option>
                     {provinces?.map((province) => (
@@ -222,8 +229,8 @@ export default function ProfilePage() {
                     name="district"
                     value={selectedDistrict}
                     onChange={handleSelectDistrict}
-                    placeholder="Vui Lòng Chọn Quận / Huyện"
                     disabled={!selectedProvince}
+                    placeholder={`Vui Lòng Chọn Quận / Huyện ${selectedDistrict}`}
                   >
                     <option value="">Vui lòng chọn Quận / Huyện</option>
                     {filteredDistricts?.map((district) => (
@@ -240,6 +247,7 @@ export default function ProfilePage() {
                   <select
                     className="form-control"
                     name="commune"
+                    value={selectedCommune}
                     onChange={handleSelectCommune}
                     disabled={!selectedDistrict}
                     placeholder="Vui Lòng Chọn Phường / Xã"
