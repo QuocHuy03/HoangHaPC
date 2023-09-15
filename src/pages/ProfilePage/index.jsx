@@ -95,7 +95,6 @@ export default function ProfilePage() {
     const filteredWards = wards?.filter(
       (ward) => ward.district_id === Number(selectedDistrict)
     );
-    console.log(selectedProvince + " && " + selectedDistrict);
     const handleSubmit = async (e) => {
       let data = {
         fullname: inputs.fullname,
@@ -377,7 +376,9 @@ export default function ProfilePage() {
                     <td>Quận/Huyện</td>
                     <td>
                       {user && user.district !== null
-                        ? user.district
+                        ? huydev?.districts.find(
+                            (district) => district.id === Number(user.district)
+                          )?.name || "Đang cập nhật"
                         : "Đang cập nhật"}
                     </td>
                   </tr>
@@ -385,14 +386,20 @@ export default function ProfilePage() {
                     <td>Xã/Phường</td>
                     <td>
                       {user && user.commune !== null
-                        ? user.commune
+                        ? huydev?.wards.find(
+                            (commune) => commune.id === Number(user.commune)
+                          )?.name || "Đang cập nhật"
                         : "Đang cập nhật"}
                     </td>
                   </tr>
                   <tr>
                     <td>Tỉnh/TP</td>
                     <td>
-                      {user && user.city !== null ? user.city : "Đang cập nhật"}
+                      {user && user.city !== null
+                        ? huydev?.provinces.find(
+                            (city) => city.id === Number(user.city)
+                          )?.name || "Đang cập nhật"
+                        : "Đang cập nhật"}
                     </td>
                   </tr>
                   <tr>
