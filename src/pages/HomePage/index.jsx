@@ -381,13 +381,13 @@ export default function HomePage() {
             </Carousel>
           </div>
         </div>
-        <div classname="container">
+        <div classname="container" style={{backgroundColor: "#eee"}}>
           <div
             className="home-box-group js-product-container loaded"
             data-id={1} style={{
             padding: "0 20px 24px",
-            marginRight: "54px",
-            marginLeft: "54px",
+            marginRight: "38px",
+            marginLeft: "38px"
         }}
           >
             <div className="box-title-group">
@@ -614,8 +614,8 @@ export default function HomePage() {
             className="home-box-group js-product-container loaded"
             data-id={91} style={{
               padding: "0 20px 24px",
-              marginRight: "54px",
-              marginLeft: "54px",
+            marginRight: "38px",
+            marginLeft: "38px"
           }}
           >
             <div className="box-title-group">
