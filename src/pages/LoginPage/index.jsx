@@ -63,9 +63,13 @@ export default function LoginPage() {
         if (redirectTo) {
           navigate(redirectTo);
         } else {
-          navigate("/dashboard");
+          navigate("/");
         }
       } else {
+        if (response.response?.status === false) {
+          setValidationErrors([]);
+          message.error(response.response.message);
+        }
         setValidationErrors(
           Object.values(response.response.errors).map((error) => error.msg)
         );

@@ -21,6 +21,12 @@ const register = async (
   });
 };
 
+const updateMe = async (data) => {
+  return await http.patch("/auth/me", data).then((response) => {
+    return response;
+  });
+};
+
 const fetchUserByID = async () => {
   try {
     const response = await http.get(`/auth/me`);
@@ -39,6 +45,7 @@ const logout = async (refreshToken) => {
 export const userService = {
   login,
   register,
+  updateMe,
   fetchUserByID,
   logout,
 };

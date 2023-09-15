@@ -1,69 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
 import Layout from "../../components/Layout";
 import { useDispatch, useSelector } from "react-redux";
-import address from "../../json/address.json";
+import huydev from "../../json/address.json";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { logout } from "../../stores/authentication/actions";
+import { userService } from "../../services/user.service";
+import { message } from "antd";
 
 export default function ProfilePage() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { user, refreshToken } = useSelector((state) => state.auth);
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabClick = (index) => {
     setActiveTab(index);
-  };
-  const [provinces, setProvinces] = useState([]);
-  const [selectedProvince, setSelectedProvince] = useState("");
-  const [districts, setDistricts] = useState([]);
-  const [selectedDistrict, setSelectedDistrict] = useState("");
-  const [wards, setWards] = useState([]);
-  const formRef = useRef(null);
-
-  useEffect(() => {
-    setProvinces(address.provinces);
-    setDistricts(address.districts);
-    setWards(address.wards);
-  }, []);
-
-  const handleSelectProvince = (e) => {
-    setSelectedProvince(e.target.value);
-    setSelectedDistrict("");
-  };
-
-  const handleSelectDistrict = (e) => {
-    setSelectedDistrict(e.target.value);
-  };
-
-  const filteredDistricts = districts.filter(
-    (district) => district.province_id == selectedProvince
-  );
-
-  const filteredWards = wards.filter(
-    (ward) => ward.district_id == selectedDistrict
-  );
-
-  const handleSubmit = () => {
-    const selectedCity = provinces.find(
-      (province) => province.id === values.city
-    );
-    if (selectedCity) {
-      values.city = selectedCity.name;
-    }
-
-    const selectedDistrict = districts.find(
-      (district) => district.id === values.district
-    );
-    if (selectedDistrict) {
-      values.district = selectedDistrict.name;
-    }
-
-    const selectedCommune = wards.find((ward) => ward.id === values.commune);
-    if (selectedCommune) {
-      values.commune = selectedCommune.name;
-    }
   };
 
   const handleLogout = async () => {
@@ -72,16 +23,124 @@ export default function ProfilePage() {
   };
 
   const UpdateProfile = ({ user }) => {
-    const isUserAvailable = user != null;
+    const isUserAvailable = user !== null;
+
+    const initialInputValues = {
+      fullname: isUserAvailable ? user.fullname : "",
+      email: isUserAvailable ? user.email : "",
+      address: isUserAvailable ? user.address : "",
+      city: isUserAvailable ? user.city : "",
+      district: isUserAvailable ? user.district : "",
+      commune: isUserAvailable ? user.commune : "",
+      phone: isUserAvailable ? user.phone : "",
+    };
+
+    const [inputs, setInputs] = useState(initialInputValues);
+
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setInputs((prevInputs) => ({
+        ...prevInputs,
+        [name]: value,
+      }));
+    };
+
+    const [provinces, setProvinces] = useState([]);
+    const [selectedProvince, setSelectedProvince] = useState("");
+    const [districts, setDistricts] = useState([]);
+    const [selectedDistrict, setSelectedDistrict] = useState("");
+    const [wards, setWards] = useState([]);
+
+    useEffect(() => {
+      setProvinces(huydev.provinces);
+      setDistricts(huydev.districts);
+      setWards(huydev.wards);
+    }, []);
+
+    const handleSelectProvince = (e) => {
+      setSelectedProvince(e.target.value);
+      setSelectedDistrict("");
+      setInputs((prevInputs) => ({
+        ...prevInputs,
+        city: e.target.value,
+      }));
+    };
+
+    const handleSelectDistrict = (e) => {
+      setSelectedDistrict(e.target.value);
+      setInputs((prevInputs) => ({
+        ...prevInputs,
+        district: e.target.value,
+      }));
+    };
+
+    const handleSelectCommune = (e) => {
+      setInputs((prevInputs) => ({
+        ...prevInputs,
+        commune: e.target.value,
+      }));
+    };
+
+    const filteredDistricts = districts?.filter(
+      (district) => district.province_id === Number(selectedProvince)
+    );
+
+    const filteredWards = wards?.filter(
+      (ward) => ward.district_id === Number(selectedDistrict)
+    );
+
+    const handleSubmit = async (e) => {
+      let data = {
+        fullname: inputs.fullname,
+        address: inputs.address,
+        city: inputs.city,
+        district: inputs.district,
+        commune: inputs.commune,
+        phone: inputs.phone,
+      };
+      // console.log(data)
+      e.preventDefault();
+      const selectedCity = provinces.find(
+        (province) => province.id === Number(data.city)
+      );
+      if (selectedCity) {
+        data.city = selectedCity.name;
+      }
+
+      const selectedDistrict = districts.find(
+        (district) => district.id === Number(data.district)
+      );
+      if (selectedDistrict) {
+        data.district = selectedDistrict.name;
+      }
+
+      const selectedCommune = wards.find(
+        (ward) => ward.id === Number(data.commune)
+      );
+
+      if (selectedCommune) {
+        data.commune = selectedCommune.name;
+      }
+
+      try {
+        const response = await userService.updateMe(data);
+        dispatch({
+          type: LOAD_CURRENT_LOGIN_USER_SUCCESS,
+          payload: response.user,
+        });
+        if (response.status === true) {
+          message.success(response.message);
+        } else {
+          message.error(response.message);
+        }
+      } catch (error) {
+        console.error("An error occurred:", error);
+      }
+    };
     return (
       <div className="account-col-right">
         <h3>Cập nhật thông tin cá nhân</h3>
-        <form
-          method="post"
-          encType="multipart/form-data"
-          name="account_form"
-          className="col-right-tbl"
-        >
+        <form onSubmit={handleSubmit} className="col-right-tbl">
           <table
             cellPadding={5}
             border={0}
@@ -92,72 +151,46 @@ export default function ProfilePage() {
               <tr>
                 <td>Họ tên</td>
                 <td>
-                  {isUserAvailable ? (
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="fullname"
-                      id="fullname"
-                      size={40}
-                      defaultValue={user.fullname}
-                    />
-                  ) : (
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="fullname"
-                      id="fullname"
-                      size={40}
-                    />
-                  )}
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="fullname"
+                    onChange={handleChange}
+                    value={inputs.fullname}
+                    id="fullname"
+                    size={40}
+                  />
                 </td>
               </tr>
 
               <tr>
                 <td>Địa chỉ email</td>
                 <td>
-                  {isUserAvailable ? (
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="email"
-                      id="email"
-                      size={40}
-                      defaultValue={user.email}
-                    />
-                  ) : (
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="email"
-                      id="email"
-                      size={40}
-                    />
-                  )}
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="email"
+                    onChange={handleChange}
+                    value={inputs.email}
+                    disabled
+                    id="email"
+                    size={40}
+                  />
                 </td>
               </tr>
 
               <tr>
                 <td>Địa chỉ nhà</td>
                 <td>
-                  {isUserAvailable ? (
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="address"
-                      id="address"
-                      size={40}
-                      defaultValue={user.address}
-                    />
-                  ) : (
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="address"
-                      id="address"
-                      size={40}
-                    />
-                  )}
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="address"
+                    onChange={handleChange}
+                    value={inputs.address}
+                    id="address"
+                    size={40}
+                  />
                 </td>
               </tr>
 
@@ -169,9 +202,10 @@ export default function ProfilePage() {
                     name="city"
                     onChange={handleSelectProvince}
                     value={selectedProvince}
-                    placeholder="Vui Lòng Nhập Tỉnh / TP"
+                    placeholder="Vui Lòng Chọn Tỉnh / TP"
                   >
-                    {provinces.map((province) => (
+                    <option value="">Vui lòng chọn Tỉnh / TP</option>
+                    {provinces?.map((province) => (
                       <option key={province.id} value={province.id}>
                         {province.name}
                       </option>
@@ -187,10 +221,11 @@ export default function ProfilePage() {
                     name="district"
                     value={selectedDistrict}
                     onChange={handleSelectDistrict}
-                    placeholder="Vui Lòng Nhập Quận / Huyện"
+                    placeholder="Vui Lòng Chọn Quận / Huyện"
                     disabled={!selectedProvince}
                   >
-                    {filteredDistricts.map((district) => (
+                    <option value="">Vui lòng chọn Quận / Huyện</option>
+                    {filteredDistricts?.map((district) => (
                       <option key={district.id} value={district.id}>
                         {district.name}
                       </option>
@@ -204,9 +239,12 @@ export default function ProfilePage() {
                   <select
                     className="form-control"
                     name="commune"
+                    onChange={handleSelectCommune}
                     disabled={!selectedDistrict}
+                    placeholder="Vui Lòng Chọn Phường / Xã"
                   >
-                    {filteredWards.map((ward) => (
+                    <option value="">Vui lòng chọn Phường / Xã</option>
+                    {filteredWards?.map((ward) => (
                       <option key={ward.id} value={ward.id}>
                         {ward.name}
                       </option>
@@ -217,40 +255,27 @@ export default function ProfilePage() {
               <tr>
                 <td>Điện thoại di động</td>
                 <td>
-                  {isUserAvailable ? (
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="phone"
-                      id="phone"
-                      size={40}
-                      defaultValue={user.phone}
-                    />
-                  ) : (
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="phone"
-                      id="phone"
-                      size={40}
-                    />
-                  )}
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="phone"
+                    onChange={handleChange}
+                    value={inputs.phone}
+                    id="phone"
+                    size={40}
+                  />
                 </td>
               </tr>
               <tr>
                 <td />
                 <td>
-                  <input
-                    type="submit"
-                    disabled={!isUserAvailable}
-                    defaultValue="Thay đổi"
-                    className="btn btn-danger"
-                  />
+                  <button type="submit" className="btn btn-danger">
+                    Thay đổi
+                  </button>
                 </td>
               </tr>
             </tbody>
           </table>
-          <input type="hidden" name="update" defaultValue="yes" />
         </form>
       </div>
     );
