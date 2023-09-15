@@ -1,8 +1,9 @@
-import React from 'react';
-
-import { Link } from 'react-router-dom';
+import React from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 export default function HeaderTop() {
+  const user = useSelector((state) => state.auth.user);
   return (
     <div className="global-header-top text-12">
       <div className="container position-relative d-flex align-items-center justify-content-between">
@@ -537,13 +538,19 @@ export default function HeaderTop() {
           </a>
         </div>
         <div className="item-right text-white text-14 font-600">
-          <Link to={"/register"}>
-            Đăng ký
-          </Link>
-          <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-          <Link to={"/login"}>
-            Đăng nhập
-          </Link>
+          {user ? (
+            <div class="item-right text-white text-14 font-600">
+              <Link to="/profile">
+                Xin chào: <b> {user.fullname}</b>
+              </Link>
+            </div>
+          ) : (
+            <>
+              <Link to={"/register"}>Đăng ký</Link>
+              <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+              <Link to={"/login"}>Đăng nhập</Link>
+            </>
+          )}
         </div>
       </div>
     </div>
