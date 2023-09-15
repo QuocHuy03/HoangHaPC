@@ -12,7 +12,7 @@ const redirectReducer = (state = initialState, action) => {
         redirectTo: action.payload,
       };
     default:
-      return state;
+      return initialState;
   }
 };
 

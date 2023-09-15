@@ -10,7 +10,7 @@ export const PrivateRoute = ({ children }) => {
     "/auth/reset-password",
     "/login",
     "register",
-    "/reset-password"
+    "/reset-password",
   ];
   const navigate = useNavigate();
   const { accessToken } = useSelector((state) => state.auth);
