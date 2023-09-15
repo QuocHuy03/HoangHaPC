@@ -1,7 +1,9 @@
 import React from "react";
 import Layout from "../../components/Layout";
+import { useSelector } from "react-redux";
 
 export default function ProfilePage() {
+  const user = useSelector((state) => state.auth.user);
   return (
     <Layout>
       <div className="account-page">
@@ -10,7 +12,7 @@ export default function ProfilePage() {
             <div className="box-info">
               <i className="fas fa-user-circle" aria-hidden="true" />
               <p>
-                Tài khoản của, <b>nguyễn trường thịnh</b>
+                Tài khoản của, <b>{user.fullname}</b>
               </p>
             </div>
             <div className="box-direction">
@@ -32,7 +34,7 @@ export default function ProfilePage() {
               </a>
               <a href="/logout.php">
                 <i className="fas fa-sign-out-alt" aria-hidden="true" />
-                <span>Log-out</span>
+                <span>Đăng xuất</span>
               </a>
             </div>
           </div>
