@@ -22,16 +22,23 @@ const register = async (
 };
 
 const fetchUserByID = async () => {
-    try {
-      const response = await http.get(`/auth/me`);
-      return response;
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  try {
+    const response = await http.get(`/auth/me`);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
 
+const logout = async (refreshToken) => {
+  const body = { refreshToken };
+  return await http.post("/auth/logout", body).then((response) => {
+    return response;
+  });
+};
 export const userService = {
   login,
   register,
-  fetchUserByID
+  fetchUserByID,
+  logout,
 };
