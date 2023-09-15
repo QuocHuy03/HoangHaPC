@@ -38,15 +38,9 @@ export default function LoginPage() {
     password: "",
   });
   const loading = useSelector((state) => state.auth.loading);
-  const accessToken = useSelector((state) => state.auth.accessToken);
+  const { redirectTo } = useSelector((state) => state.redirect);
 
   const { email, password } = inputs;
-
-  useEffect(() => {
-    if (accessToken) {
-      history.push(URL_CONSTANTS.HOME);
-    }
-  }, [dispatch, accessToken]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -66,7 +60,11 @@ export default function LoginPage() {
       if (response.status === true) {
         setValidationErrors([]);
         message.success(response.message);
-        navigate(URL_CONSTANTS.HOME)
+        if (redirectTo) {
+          navigate(redirectTo);
+        } else {
+          navigate("/dashboard");
+        }
       } else {
         setValidationErrors(
           Object.values(response.response.errors).map((error) => error.msg)
