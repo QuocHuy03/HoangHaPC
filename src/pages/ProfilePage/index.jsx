@@ -28,21 +28,21 @@ export default function ProfilePage() {
     setWards(address.wards);
   }, []);
 
-  const handleSelectProvince = (provinceId) => {
-    setSelectedProvince(provinceId);
+  const handleSelectProvince = (e) => {
+    setSelectedProvince(e.target.value);
     setSelectedDistrict("");
   };
 
-  const handleSelectDistrict = (districtId) => {
-    setSelectedDistrict(districtId);
+  const handleSelectDistrict = (e) => {
+    setSelectedDistrict(e.target.value);
   };
 
   const filteredDistricts = districts.filter(
-    (district) => district.province_id === selectedProvince
+    (district) => district.province_id == selectedProvince
   );
 
   const filteredWards = wards.filter(
-    (ward) => ward.district_id === selectedDistrict
+    (ward) => ward.district_id == selectedDistrict
   );
 
   const handleSubmit = () => {
@@ -67,7 +67,7 @@ export default function ProfilePage() {
   };
 
   const handleLogout = async () => {
-    handleTabClick(3);
+    // handleTabClick(3);
     await dispatch(logout(refreshToken));
   };
 
@@ -136,6 +136,7 @@ export default function ProfilePage() {
                   )}
                 </td>
               </tr>
+
               <tr>
                 <td>Địa chỉ nhà</td>
                 <td>
@@ -159,38 +160,81 @@ export default function ProfilePage() {
                   )}
                 </td>
               </tr>
+
               <tr>
                 <td>Tỉnh / TP</td>
                 <td>
-                  <select className="form-control" name="province">
-                    <option value={1}>Hà Nội</option>
+                  <select
+                    className="form-control"
+                    name="city"
+                    onChange={handleSelectProvince}
+                    value={selectedProvince}
+                    placeholder="Vui Lòng Nhập Tỉnh / TP"
+                  >
+                    {provinces.map((province) => (
+                      <option key={province.id} value={province.id}>
+                        {province.name}
+                      </option>
+                    ))}
                   </select>
                 </td>
               </tr>
               <tr>
-                <td>Điện thoại cố định</td>
+                <td>Quận / Huyện</td>
                 <td>
-                  <input
-                    type="text"
+                  <select
                     className="form-control"
-                    name="telephone"
-                    id="telephone"
-                    size={40}
-                    defaultValue
-                  />
+                    name="district"
+                    value={selectedDistrict}
+                    onChange={handleSelectDistrict}
+                    placeholder="Vui Lòng Nhập Quận / Huyện"
+                    disabled={!selectedProvince}
+                  >
+                    {filteredDistricts.map((district) => (
+                      <option key={district.id} value={district.id}>
+                        {district.name}
+                      </option>
+                    ))}
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>Phường / Xã</td>
+                <td>
+                  <select
+                    className="form-control"
+                    name="commune"
+                    disabled={!selectedDistrict}
+                  >
+                    {filteredWards.map((ward) => (
+                      <option key={ward.id} value={ward.id}>
+                        {ward.name}
+                      </option>
+                    ))}
+                  </select>
                 </td>
               </tr>
               <tr>
                 <td>Điện thoại di động</td>
                 <td>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="mobile"
-                    id="mobile"
-                    size={40}
-                    defaultValue
-                  />
+                  {isUserAvailable ? (
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="phone"
+                      id="phone"
+                      size={40}
+                      defaultValue={user.phone}
+                    />
+                  ) : (
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="phone"
+                      id="phone"
+                      size={40}
+                    />
+                  )}
                 </td>
               </tr>
               <tr>
