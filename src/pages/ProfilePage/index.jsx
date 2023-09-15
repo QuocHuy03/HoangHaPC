@@ -95,7 +95,6 @@ export default function ProfilePage() {
     const filteredWards = wards?.filter(
       (ward) => ward.district_id === Number(selectedDistrict)
     );
-    console.log(selectedProvince + " && " + selectedDistrict);
     const handleSubmit = async (e) => {
       let data = {
         fullname: inputs.fullname,
@@ -327,11 +326,13 @@ export default function ProfilePage() {
               >
                 <i className="fas fa-lock" aria-hidden="true" />
                 <span>Thay đổi mật khẩu</span>
+
               </Link>
               <Link
                 onClick={() => handleLogout()}
                 className={activeTab === 3 ? "current" : ""}
               >
+
                 <i className="fas fa-sign-out-alt" aria-hidden="true" />
                 <span>Đăng xuất</span>
               </Link>
@@ -375,7 +376,9 @@ export default function ProfilePage() {
                     <td>Quận/Huyện</td>
                     <td>
                       {user && user.district !== null
-                        ? user.district
+                        ? huydev?.districts.find(
+                            (district) => district.id === Number(user.district)
+                          )?.name || "Đang cập nhật"
                         : "Đang cập nhật"}
                     </td>
                   </tr>
@@ -383,14 +386,20 @@ export default function ProfilePage() {
                     <td>Xã/Phường</td>
                     <td>
                       {user && user.commune !== null
-                        ? user.commune
+                        ? huydev?.wards.find(
+                            (commune) => commune.id === Number(user.commune)
+                          )?.name || "Đang cập nhật"
                         : "Đang cập nhật"}
                     </td>
                   </tr>
                   <tr>
                     <td>Tỉnh/TP</td>
                     <td>
-                      {user && user.city !== null ? user.city : "Đang cập nhật"}
+                      {user && user.city !== null
+                        ? huydev?.provinces.find(
+                            (city) => city.id === Number(user.city)
+                          )?.name || "Đang cập nhật"
+                        : "Đang cập nhật"}
                     </td>
                   </tr>
                   <tr>
@@ -462,9 +471,7 @@ export default function ProfilePage() {
             <div className="account-col-right">
               <h3>Thay đổi mật khẩu</h3>
               <form
-                method="post"
-                encType="multipart/form-data"
-                name="account_form"
+              
                 className="col-right-tbl"
               >
                 <table
@@ -480,7 +487,6 @@ export default function ProfilePage() {
                         <input
                           type="password"
                           name="currentpassword"
-                          id="currentpassword"
                           className="form-control"
                         />
                       </td>
