@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { logout } from "../../stores/authentication/actions";
 import { userService } from "../../services/user.service";
 import { message } from "antd";
+import { LOAD_CURRENT_LOGIN_USER_SUCCESS } from "../../stores/authentication/types";
 
 export default function ProfilePage() {
   const dispatch = useDispatch();
