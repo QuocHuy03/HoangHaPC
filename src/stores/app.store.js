@@ -3,16 +3,17 @@ import storage from "redux-persist/lib/storage";
 import { combineReducers, createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import authenticationReducer from "./authentication/reducers";
+import redirectReducer from "./redirect/reducers";
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth"],
+  // whitelist: ["auth"],
 };
 
 const rootReducer = combineReducers({
   auth: authenticationReducer,
-  // notification: notificationReducer,
+  redirect: redirectReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

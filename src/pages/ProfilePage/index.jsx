@@ -2,10 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import Layout from "../../components/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import address from "../../json/address.json";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { logout } from "../../stores/authentication/actions";
-import { URL_CONSTANTS } from "../../constants/url.constants";
 
 export default function ProfilePage() {
   const dispatch = useDispatch();
@@ -68,10 +67,8 @@ export default function ProfilePage() {
   };
 
   const handleLogout = async () => {
-    handleTabClick(3)
-    const responve = dispatch(logout(refreshToken));
-    console.log(responve)
-    navigate(URL_CONSTANTS.HOME)
+    handleTabClick(3);
+    await dispatch(logout(refreshToken));
   };
 
   const UpdateProfile = ({ user }) => {
@@ -223,7 +220,12 @@ export default function ProfilePage() {
             <div className="box-info">
               <i className="fas fa-user-circle" aria-hidden="true" />
               <p>
-                Tài khoản của, <b>{user && user.fullname !== null ? user.fullname : "Đang cập nhật"}</b>
+                Tài khoản của,{" "}
+                <b>
+                  {user && user.fullname !== null
+                    ? user.fullname
+                    : "Đang cập nhật"}
+                </b>
               </p>
             </div>
             <div className="box-direction">
@@ -270,31 +272,41 @@ export default function ProfilePage() {
                   <tr>
                     <td width="120px">Họ tên</td>
                     <td>
-                      {user && user.fullname !== null ? user.fullname : "Đang cập nhật"}
+                      {user && user.fullname !== null
+                        ? user.fullname
+                        : "Đang cập nhật"}
                     </td>
                   </tr>
                   <tr>
                     <td>Địa chỉ email</td>
                     <td>
-                      {user && user.email !== null ? user.email : "Đang cập nhật"}
+                      {user && user.email !== null
+                        ? user.email
+                        : "Đang cập nhật"}
                     </td>
                   </tr>
                   <tr>
                     <td>Địa chỉ nhà</td>
                     <td>
-                      {user && user.address !== null ? user.address : "Đang cập nhật"}
+                      {user && user.address !== null
+                        ? user.address
+                        : "Đang cập nhật"}
                     </td>
                   </tr>
                   <tr>
                     <td>Quận/Huyện</td>
                     <td>
-                      {user && user.district !== null ? user.district : "Đang cập nhật"}
+                      {user && user.district !== null
+                        ? user.district
+                        : "Đang cập nhật"}
                     </td>
                   </tr>
                   <tr>
                     <td>Xã/Phường</td>
                     <td>
-                      {user && user.commune !== null ? user.commune : "Đang cập nhật"}
+                      {user && user.commune !== null
+                        ? user.commune
+                        : "Đang cập nhật"}
                     </td>
                   </tr>
                   <tr>
@@ -306,7 +318,9 @@ export default function ProfilePage() {
                   <tr>
                     <td>Số điện thoại</td>
                     <td>
-                      {user && user.phone !== null ? user.phone : "Đang cập nhật"}
+                      {user && user.phone !== null
+                        ? user.phone
+                        : "Đang cập nhật"}
                     </td>
                   </tr>
                 </tbody>
