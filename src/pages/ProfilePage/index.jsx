@@ -32,7 +32,7 @@ export default function ProfilePage() {
                 <i className="fas fa-lock" aria-hidden="true" />
                 <span>Thay đổi mật khẩu</span>
               </a>
-              <a href="/logout.php">
+              <a href="/">
                 <i className="fas fa-sign-out-alt" aria-hidden="true" />
                 <span>Đăng xuất</span>
               </a>
