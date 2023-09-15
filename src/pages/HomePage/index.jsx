@@ -1,10 +1,25 @@
-import React from "react";
-import Layout from "../../components/Layout";
-import "./style.css";
-import Carousel from "../../components/Carousel";
-import { bannerImages } from "../../constants/image";
-import { SwiperSlide } from "swiper/react";
+import './style.css';
+
+import React from 'react';
+
+import { SwiperSlide } from 'swiper/react';
+
+import { useQuery } from '@tanstack/react-query';
+
+import Carousel from '../../components/Carousel';
+import Layout from '../../components/Layout';
+import { bannerImages } from '../../constants/image';
+import { productService } from '../../services/product.service';
+
 export default function HomePage() {
+  const { data, isloading } = useQuery(
+    ["product"],
+    () => productService.fetchAllProducts(),
+    {
+      retry: 3,
+      retryDelay: 1000,
+    }
+  )
   return (
     <Layout>
       {/* Banner */}
@@ -202,15 +217,15 @@ export default function HomePage() {
                 },
               }}
             >
-              {bannerImages?.map((item) => (
+              {data?.map((item) => (
                 <SwiperSlide key={item.id}>
                   <div className="p-item">
                     <a
-                      href="/hhpc-3d-lumion-i5-13600k-32g-nvidia-rtx-3060-12g"
+                      href={`${item.slugProduct}`}
                       className="p-img"
                     >
                       <img
-                        src="https://hoanghapccdn.com/media/product/250_3792_hhpc_sama_tan_120_ha5.jpg"
+                        src={`${item.images[0].imagePath}`}
                         alt="HHPC 3D i5 13600K | 32G | NVIDIA RTX 3060 12G"
                         width={250}
                         height={250}
@@ -222,12 +237,12 @@ export default function HomePage() {
                         className="p-name"
                       >
                         <h3 className="inherit">
-                          HHPC 3D i5 13600K | 32G | NVIDIA RTX 3060 12G
+                        {item.nameProduct}
                         </h3>
                       </a>
                       <div className="p-price-group">
-                        <span className="p-price">23.950.000 đ</span>
-                        <del className="p-old-price">26.500.000 đ</del>
+                        <span className="p-price">{item.initial_price}</span>
+                        <del className="p-old-price">{item.price_has_dropped} đ</del>
                         <span className="p-discount">(Tiết kiệm: 10%)</span>
                       </div>
                       <div className="p-btn-group">
