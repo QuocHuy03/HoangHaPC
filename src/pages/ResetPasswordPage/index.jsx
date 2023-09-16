@@ -1,8 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Layout from "../../components/Layout";
+import Loading from "../../components/Loading";
+import { userService } from "../../services/user.service";
 
 export default function ResetPasswordPage() {
+  const [validationErrors, setValidationErrors] = useState([]);
+  const [submitted, setSubmitted] = useState(false);
+  const [inputs, setInputs] = useState({
+    email: "",
+  });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInputs((inputs) => ({ ...inputs, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitted(true);
+    let data = {
+      email: inputs.email,
+    };
+
+    try {
+      const response = await userService.forgotPassword(data);
+      if (response.status === true) {
+        setValidationErrors([]);
+        message.success(response.message);
+      } else {
+        if (response?.status === false) {
+          setValidationErrors([]);
+          message.error(response.message);
+        }
+        setValidationErrors(
+          Object.values(response.errors).map((error) => error.msg)
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <Layout>
       <div
@@ -32,21 +69,41 @@ export default function ResetPasswordPage() {
               </p>
             </div>
 
-            <div className="input-holder-auth" style={{ padding: "6px" }}>
+            <form
+              onSubmit={handleSubmit}
+              className="input-holder-auth"
+              style={{ padding: "6px" }}
+            >
               <div className="input-box-auth">
                 <input
-                  type="text"
+                  type="email"
                   placeholder="Nhập email của bạn..."
-                  id="js-popup-login-email"
+                  name="email"
+                  onChange={handleChange}
                 />
               </div>
+              {submitted && validationErrors && (
+                <p
+                  className="mt-1 red"
+                  id="js-popup-login-note"
+                  style={{ whiteSpace: "pre-line" }}
+                >
+                  {validationErrors.map((error, index) => (
+                    <li key={index}>{error}</li>
+                  ))}
+                </p>
+              )}
 
               <div className="d-flex flex-wrap align-items-center justify-content-end">
-                <a className="popup-btn btn-login" style={{ color: "white" }}>
-                  Lấy lại mật khẩu
-                </a>
+                <button
+                  type="submit"
+                  className="popup-btn btn-login"
+                  style={{ color: "white", border: "none" }}
+                >
+                  {submitted && <Loading />} Lấy lại mật khẩu
+                </button>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
