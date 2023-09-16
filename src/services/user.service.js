@@ -27,6 +27,12 @@ const updateMe = async (data) => {
   });
 };
 
+const changePassword = async (data) => {
+  return await http.update("/auth/change-password", data).then((response) => {
+    return response;
+  });
+};
+
 const fetchUserByID = async () => {
   try {
     const response = await http.get(`/auth/me`);
@@ -47,5 +53,6 @@ export const userService = {
   register,
   updateMe,
   fetchUserByID,
+  changePassword,
   logout,
 };

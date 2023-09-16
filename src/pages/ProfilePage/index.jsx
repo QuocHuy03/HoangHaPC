@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import Layout from "../../components/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import huydev from "../../json/address.json";
-import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { logout } from "../../stores/authentication/actions";
 import { userService } from "../../services/user.service";
@@ -13,6 +12,7 @@ export default function ProfilePage() {
   const dispatch = useDispatch();
   const { user, refreshToken } = useSelector((state) => state.auth);
   const [activeTab, setActiveTab] = useState(0);
+  const [validationErrors, setValidationErrors] = useState([]);
 
   const handleTabClick = (index) => {
     setActiveTab(index);
@@ -22,6 +22,52 @@ export default function ProfilePage() {
     // handleTabClick(3);
     await dispatch(logout(refreshToken));
   };
+
+  // change-password
+
+  const [inputChangePass, setInputChangePass] = useState({
+    old_password: "",
+    password: "",
+    confirm_password: "",
+  });
+
+  const handleChangePasswordInput = (e) => {
+    const { name, value } = e.target;
+    setInputChangePass((prevInputs) => ({
+      ...prevInputs,
+      [name]: value,
+    }));
+  };
+
+  const handleChangePassword = async (e) => {
+    let data = {
+      old_password: inputChangePass.old_password,
+      password: inputChangePass.password,
+      confirm_password: inputChangePass.confirm_password,
+    };
+    e.preventDefault();
+    try {
+      const response = await userService.changePassword(data);
+      console.log(response);
+      if (response.status === true) {
+        setValidationErrors([]);
+        message.success(response.message);
+        await dispatch(logout(refreshToken));
+      } else {
+        if (response.status === false) {
+          setValidationErrors([]);
+          message.error(response.message);
+        }
+        setValidationErrors(
+          Object.values(response.errors).map((error) => error.msg)
+        );
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  };
+
+  // update me
 
   const UpdateProfile = ({ user }) => {
     const isUserAvailable = user !== null;
@@ -326,13 +372,11 @@ export default function ProfilePage() {
               >
                 <i className="fas fa-lock" aria-hidden="true" />
                 <span>Thay đổi mật khẩu</span>
-
               </Link>
               <Link
                 onClick={() => handleLogout()}
                 className={activeTab === 3 ? "current" : ""}
               >
-
                 <i className="fas fa-sign-out-alt" aria-hidden="true" />
                 <span>Đăng xuất</span>
               </Link>
@@ -470,10 +514,7 @@ export default function ProfilePage() {
           {activeTab === 2 && (
             <div className="account-col-right">
               <h3>Thay đổi mật khẩu</h3>
-              <form
-              
-                className="col-right-tbl"
-              >
+              <form onSubmit={handleChangePassword} className="col-right-tbl">
                 <table
                   cellPadding={5}
                   border={0}
@@ -486,7 +527,8 @@ export default function ProfilePage() {
                       <td>
                         <input
                           type="password"
-                          name="currentpassword"
+                          onChange={handleChangePasswordInput}
+                          name="old_password"
                           className="form-control"
                         />
                       </td>
@@ -496,8 +538,8 @@ export default function ProfilePage() {
                       <td>
                         <input
                           type="password"
-                          name="newpassword"
-                          id="newpassword"
+                          name="password"
+                          onChange={handleChangePasswordInput}
                           className="form-control"
                         />
                       </td>
@@ -507,8 +549,8 @@ export default function ProfilePage() {
                       <td>
                         <input
                           type="password"
-                          name="renewpassword"
-                          id="renewpassword"
+                          name="confirm_password"
+                          onChange={handleChangePasswordInput}
                           className="form-control"
                         />
                       </td>
@@ -516,17 +558,25 @@ export default function ProfilePage() {
                     <tr>
                       <td />
                       <td>
-                        <input
-                          type="submit"
-                          defaultValue="Thay đổi"
-                          className="btn btn-danger"
-                        />
+                        <button type="submit" className="btn btn-danger">
+                          Thay đổi
+                        </button>
                       </td>
                     </tr>
                   </tbody>
                 </table>
-                <input type="hidden" name="update" defaultValue="yes" />
               </form>
+              {validationErrors && (
+                <p
+                  className="mt-1 red"
+                  id="js-popup-login-note"
+                  style={{ whiteSpace: "pre-line" }}
+                >
+                  {validationErrors.map((error, index) => (
+                    <li key={index}>{error}</li>
+                  ))}
+                </p>
+              )}
             </div>
           )}
 
