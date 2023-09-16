@@ -52,6 +52,7 @@ export default function ProfilePage() {
       if (response.status === true) {
         setValidationErrors([]);
         message.success(response.message);
+        await dispatch(logout(refreshToken));
       } else {
         if (response.status === false) {
           setValidationErrors([]);
