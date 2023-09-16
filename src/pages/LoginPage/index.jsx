@@ -1,13 +1,9 @@
-import React, { useEffect, useState } from "react";
-
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import Layout from "../../components/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../stores/authentication/actions";
 import Loading from "../../components/Loading";
-import { URL_CONSTANTS } from "../../constants/url.constants";
-import { history } from "../../helpers/history";
 import { message } from "antd";
 
 const getGoogleAuthUrl = () => {
