@@ -1,15 +1,17 @@
-import './style.css';
+import "./style.css";
 
-import React from 'react';
+import React from "react";
 
-import { SwiperSlide } from 'swiper/react';
+import { SwiperSlide } from "swiper/react";
 
-import { useQuery } from '@tanstack/react-query';
+import { useQuery } from "@tanstack/react-query";
 
-import Carousel from '../../components/Carousel';
-import Layout from '../../components/Layout';
-import { bannerImages } from '../../constants/image';
-import { productService } from '../../services/product.service';
+import Carousel from "../../components/Carousel";
+import Layout from "../../components/Layout";
+import { bannerImages } from "../../constants/image";
+import { productService } from "../../services/product.service";
+import { Link } from "react-router-dom";
+import { calculateDiscountPercentage, formatPrice } from "../../utils/fomatPrice";
 
 export default function HomePage() {
   const { data, isloading } = useQuery(
@@ -19,7 +21,7 @@ export default function HomePage() {
       retry: 3,
       retryDelay: 1000,
     }
-  )
+  );
   return (
     <Layout>
       {/* Banner */}
@@ -220,30 +222,34 @@ export default function HomePage() {
               {data?.map((item) => (
                 <SwiperSlide key={item.id}>
                   <div className="p-item">
-                    <a
-                      href={`${item.slugProduct}`}
-                      className="p-img"
-                    >
+                    <Link to={`/product/${item.slugProduct}`} className="p-img">
                       <img
                         src={`${item.images[0].imagePath}`}
                         alt="HHPC 3D i5 13600K | 32G | NVIDIA RTX 3060 12G"
                         width={250}
                         height={250}
                       />
-                    </a>
+                    </Link>
                     <div className="p-text">
-                      <a
-                        href="/hhpc-3d-lumion-i5-13600k-32g-nvidia-rtx-3060-12g"
+                      <Link
+                        to={`/product/${item.slugProduct}`}
                         className="p-name"
                       >
-                        <h3 className="inherit">
-                        {item.nameProduct}
-                        </h3>
-                      </a>
+                        <h3 className="inherit">{item.nameProduct}</h3>
+                      </Link>
                       <div className="p-price-group">
-                        <span className="p-price">{item.initial_price}</span>
-                        <del className="p-old-price">{item.price_has_dropped} đ</del>
-                        <span className="p-discount">(Tiết kiệm: 10%)</span>
+                        <span className="p-price">{formatPrice(item.initial_price)}đ</span>
+                        <del className="p-old-price">
+                          {formatPrice(item.price_has_dropped)} đ
+                        </del>
+                        <span className="p-discount">
+                          (Tiết kiệm:{" "}
+                          {calculateDiscountPercentage(
+                            item?.initial_price,
+                            item?.price_has_dropped
+                          )}
+                          )
+                        </span>
                       </div>
                       <div className="p-btn-group">
                         <p>
@@ -396,14 +402,15 @@ export default function HomePage() {
             </Carousel>
           </div>
         </div>
-        <div classname="container" style={{backgroundColor: "#eee"}}>
+        <div classname="container" style={{ backgroundColor: "#eee" }}>
           <div
             className="home-box-group js-product-container loaded"
-            data-id={1} style={{
-            padding: "0 20px 24px",
-            marginRight: "38px",
-            marginLeft: "38px"
-        }}
+            data-id={1}
+            style={{
+              padding: "0 20px 24px",
+              marginRight: "38px",
+              marginLeft: "38px",
+            }}
           >
             <div className="box-title-group">
               <h2 className="box-title">PC Thiết Kế Đồ Họa 3D</h2>
@@ -449,17 +456,17 @@ export default function HomePage() {
                 {data?.map((item) => (
                   <SwiperSlide key={item.id}>
                     <div className="p-item">
-                      <a
-                        href={`${item.slugProduct}`}
+                      <Link
+                        to={`/product/${item.slugProduct}`}
                         className="p-img"
                       >
                         <img
-                        src={`${item.images[0].imagePath}`}
+                          src={`${item.images[0].imagePath}`}
                           alt="HHPC 3D i5 13600K | 32G | NVIDIA RTX 3060 12G"
                           width={250}
                           height={250}
                         />
-                      </a>
+                      </Link>
                       <div className="p-text">
                         <a
                           href="/hhpc-3d-lumion-i5-13600k-32g-nvidia-rtx-3060-12g"
@@ -625,7 +632,6 @@ export default function HomePage() {
               </Carousel>
             </div>
           </div>
-          
         </div>
       </div>
     </Layout>

@@ -13,6 +13,7 @@ export default function SliderImages({ loop, images, navigation }) {
   const handleImageClick = (index) => {
     setIsActive(index);
   };
+  console.log(images)
   return (
     <>
       <Swiper
@@ -29,7 +30,7 @@ export default function SliderImages({ loop, images, navigation }) {
       >
         {images?.map((item) => (
           <SwiperSlide>
-            <img src={item.image} alt={item.name} />
+            <img src={item.imagePath} alt="trinh123" />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -51,7 +52,7 @@ export default function SliderImages({ loop, images, navigation }) {
                   isActive === index ? "huydevimage active" : "huydevimage"
                 }
               >
-                <img src={item.image} alt={item.name} />
+                <img src={item.imagePath} alt="trinh123" />
               </a>
             </SwiperSlide>
           ))}
