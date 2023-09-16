@@ -1881,6 +1881,28 @@ iframe {
     display: none;
 }
 
+.fa-eye-slash:before {
+    content: "\f070";
+    width: 26px;
+    height: 12px;
+    position: absolute;
+    right: 0;
+    top: 9px;
+    font-size: 10px;
+    background-position: -213px -52px;
+}
+
+.fa-eye:before {
+    content: "\f06e";
+    width: 26px;
+    height: 12px;
+    position: absolute;
+    right: 0;
+    top: 9px;
+    font-size: 10px;
+    background-position: -213px -52px;
+}
+
 .global-popup-content {
     max-width: 800px;
     width: 100%;
