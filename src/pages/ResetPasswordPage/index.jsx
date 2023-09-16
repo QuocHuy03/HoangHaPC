@@ -36,6 +36,7 @@ export default function ResetPasswordPage() {
           Object.values(response.errors).map((error) => error.msg)
         );
       }
+      // setSubmitted(false);
     } catch (error) {
       console.log(error);
     }
