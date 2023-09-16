@@ -33,6 +33,12 @@ const changePassword = async (data) => {
   });
 };
 
+const forgotPassword = async (data) => {
+  return await http.post("/auth/forgot-password", data).then((response) => {
+    return response;
+  });
+};
+
 const fetchUserByID = async () => {
   try {
     const response = await http.get(`/auth/me`);
@@ -54,5 +60,6 @@ export const userService = {
   updateMe,
   fetchUserByID,
   changePassword,
+  forgotPassword,
   logout,
 };
