@@ -407,7 +407,7 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-      <div classname="container" style={{
+      <div className="container" style={{
             padding: "0 12px",
       }}>
         <div className="home-box-group js-product-container loaded">
