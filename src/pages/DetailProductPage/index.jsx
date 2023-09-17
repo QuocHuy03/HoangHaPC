@@ -604,12 +604,17 @@ export default function DetailProductPage() {
             </div>
           </div>
           <div className="col-4">
-            <div
-              className="pd-box-group"
-              dangerouslySetInnerHTML={{
-                __html: data?.specificationsProduct,
-              }}
-            ></div>
+            <div className="pd-box-group">
+            <h2 class="box-title">Thông số kỹ thuật</h2>
+              <div className="pd-spec-holder">
+                <div
+                  className="tlqcontent"
+                  dangerouslySetInnerHTML={{
+                    __html: data?.specificationsProduct,
+                  }}
+                ></div>
+              </div>
+            </div>
 
             <div className="pd-box-group">
               <p className="box-title mb-0">Tin tức mới nhất</p>
