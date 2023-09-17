@@ -30,13 +30,12 @@ export default function LoginPage() {
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
-  const [isPassword, setIsPassword] = useState('');
+  const [isPassword, setIsPassword] = useState("");
   // Hàm xử lý sự kiện cho nút tắt hiển thị mật khẩu
   const handlePasswordChange = (e) => {
     // Thay đổi tên biến từ passwordd thành password
     setIsPassword(e.target.value);
   };
-  
 
   const oauthURL = getGoogleAuthUrl();
   const navigate = useNavigate();
@@ -62,7 +61,7 @@ export default function LoginPage() {
     setSubmitted(true);
     let data = {
       email,
-      password : isPassword,
+      password: isPassword,
     };
 
     try {
@@ -122,21 +121,23 @@ export default function LoginPage() {
                 />
               </div>
               <div className="input-box-auth input-password">
-            <input
-              type={passwordVisible ? "text" : "password"}
-              placeholder="Mật khẩu"
-              onChange={handlePasswordChange}
-              value={isPassword}
-              name="password"
-            />
-            {/* Nút hiện mật khẩu */}
-            <a
-              className={`icons ${passwordVisible ? "fa fa-eye-slash" : " fa fa-eye"}`}
-              onClick={togglePasswordVisibility}
-            ></a>
-            {/* Nút tắt hiển thị mật khẩu */}
-            
-          </div>
+                <input
+                  type={passwordVisible ? "text" : "password"}
+                  placeholder="Mật khẩu"
+                  onChange={handlePasswordChange}
+                  value={isPassword}
+                  name="password"
+                />
+               
+                {/* Nút hiện mật khẩu */}
+                <a
+                  className={`icons ${
+                    passwordVisible ? "fa fa-eye-slash" : " fa fa-eye"
+                  }`}
+                  onClick={togglePasswordVisibility}
+                ></a>
+                {/* Nút tắt hiển thị mật khẩu */}
+              </div>
               {submitted && validationErrors && (
                 <p
                   className="mt-1 red"
@@ -149,7 +150,10 @@ export default function LoginPage() {
                 </p>
               )}
               <div className="d-flex flex-wrap align-items-center justify-content-end">
-                <Link className="btn-forgot-password" to={`/auth${URL_CONSTANTS.FORGOT_PASSWORD}`}>
+                <Link
+                  className="btn-forgot-password"
+                  to={`/auth${URL_CONSTANTS.FORGOT_PASSWORD}`}
+                >
                   Quên mật khẩu ?
                 </Link>
 

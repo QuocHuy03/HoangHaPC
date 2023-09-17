@@ -285,7 +285,7 @@ export default function DetailProductPage() {
         </div>
         {/* Detail Product Page */}
         <div className="row product-detail-row">
-          <div className="col-8">
+          <div className="col-7">
             <div className="pd-box-group js-static-container">
               <h2 className="box-title">Đánh giá {data?.nameProduct}</h2>
               <div
@@ -603,7 +603,7 @@ export default function DetailProductPage() {
               </div>
             </div>
           </div>
-          <div className="col-4">
+          <div className="col-5">
             <div className="pd-box-group">
             <h2 class="box-title">Thông số kỹ thuật</h2>
               <div className="pd-spec-holder">
