@@ -1,9 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { userService } from "../../services/user.service";
 import Layout from "../../components/Layout";
-import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import Loading from "../../components/Loading";
+import { message } from "antd";
 
 export default function ResetPasswordPage() {
+  const location = useLocation();
+  const [isForgotPasswordToken, setIsForgotPasswordToken] = useState(null);
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const forgotPasswordToken = searchParams.get("forgot_password_token");
+    setIsForgotPasswordToken(forgotPasswordToken);
+  }, [location.search]);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(false);
   const togglePasswordVisibility = () => {
@@ -15,21 +24,20 @@ export default function ResetPasswordPage() {
   const [isPassword, setIsPassword] = useState("");
   const [isPasswordConfirm, setIsPasswordConfirm] = useState("");
 
-  // Hàm xử lý sự kiện cho nút tắt hiển thị mật khẩu
-  const handlePasswordChange = (e) => {
-    setIsPassword(e.target.value);
-  };
-  const handlePasswordconfirmChange = (e) => {
-    setIsPasswordConfirm(e.target.value);
-  };
-
   const [validationErrors, setValidationErrors] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const [inputs, setInputs] = useState({
-    email: "",
+    password: "",
+    confirm_password: "",
   });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === "password") {
+      setIsPassword(value);
+    } else if (name === "confirm_password") {
+      setIsPasswordConfirm(value);
+    }
     setInputs((inputs) => ({ ...inputs, [name]: value }));
   };
 
@@ -37,24 +45,24 @@ export default function ResetPasswordPage() {
     e.preventDefault();
     setSubmitted(true);
     let data = {
-      email: inputs.email,
+      forgot_password_token: isForgotPasswordToken,
+      password: inputs.password,
+      confirm_password: inputs.confirm_password,
     };
-
     try {
-      // const response = await userService.forgotPassword(data);
-      // if (response.status === true) {
-      //   setValidationErrors([]);
-      //   message.success(response.message);
-      // } else {
-      //   if (response?.status === false) {
-      //     setValidationErrors([]);
-      //     message.error(response.message);
-      //   }
-      //   setValidationErrors(
-      //     Object.values(response.errors).map((error) => error.msg)
-      //   );
-      // }
-      // setSubmitted(false);
+      const response = await userService.resetPassword(data);
+      if (response.status === true) {
+        setValidationErrors([]);
+        message.success(response.message);
+      } else {
+        if (response?.status === false) {
+          setValidationErrors([]);
+          message.error(response.message);
+        }
+        setValidationErrors(
+          Object.values(response.errors).map((error) => error.msg)
+        );
+      }
     } catch (error) {
       console.log(error);
     }
@@ -91,7 +99,7 @@ export default function ResetPasswordPage() {
                 <input
                   type={passwordVisible ? "text" : "password"}
                   placeholder="Mật khẩu"
-                  onChange={handlePasswordChange}
+                  onChange={handleChange}
                   value={isPassword}
                   name="password"
                 />
@@ -106,7 +114,7 @@ export default function ResetPasswordPage() {
               <div className="input-box-auth input-password">
                 <input
                   type={passwordConfirmVisible ? "text" : "password"}
-                  onChange={handlePasswordconfirmChange}
+                  onChange={handleChange}
                   placeholder="Confirm Password"
                   value={isPasswordConfirm}
                   name="confirm_password"
