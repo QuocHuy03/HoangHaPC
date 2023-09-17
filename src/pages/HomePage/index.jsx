@@ -11,7 +11,10 @@ import Layout from "../../components/Layout";
 import { bannerImages } from "../../constants/image";
 import { productService } from "../../services/product.service";
 import { Link } from "react-router-dom";
-import { calculateDiscountPercentage, formatPrice } from "../../utils/fomatPrice";
+import {
+  calculateDiscountPercentage,
+  formatPrice,
+} from "../../utils/fomatPrice";
 
 export default function HomePage() {
   const { data, isloading } = useQuery(
@@ -194,16 +197,15 @@ export default function HomePage() {
           {/* san pham */}
           <div
             className="p-container"
-            id="js-collection-holder"
             style={{
               marginTop: "25px",
             }}
           >
             <Carousel
               delay={4000}
-              spaceBetween={12}
               navigation={false}
               pagination={false}
+              slidesPerView={5}
               breakpoints={{
                 640: {
                   slidesPerView: 2,
@@ -211,11 +213,11 @@ export default function HomePage() {
                 },
                 768: {
                   slidesPerView: 4,
-                  spaceBetween: 40,
+                  spaceBetween: 20,
                 },
                 1024: {
                   slidesPerView: 5,
-                  spaceBetween: 50,
+                  spaceBetween: 20,
                 },
               }}
             >
@@ -225,7 +227,7 @@ export default function HomePage() {
                     <Link to={`/product/${item.slugProduct}`} className="p-img">
                       <img
                         src={`${item.images[0].imagePath}`}
-                        alt="HHPC 3D i5 13600K | 32G | NVIDIA RTX 3060 12G"
+                        alt={item.nameProduct}
                         width={250}
                         height={250}
                       />
@@ -238,7 +240,9 @@ export default function HomePage() {
                         <h3 className="inherit">{item.nameProduct}</h3>
                       </Link>
                       <div className="p-price-group">
-                        <span className="p-price">{formatPrice(item.initial_price)}đ</span>
+                        <span className="p-price">
+                          {formatPrice(item.initial_price)}đ
+                        </span>
                         <del className="p-old-price">
                           {formatPrice(item.price_has_dropped)} đ
                         </del>
@@ -435,7 +439,6 @@ export default function HomePage() {
             >
               <Carousel
                 delay={4000}
-                spaceBetween={12}
                 navigation={false}
                 pagination={false}
                 breakpoints={{
