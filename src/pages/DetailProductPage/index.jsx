@@ -6,7 +6,7 @@ import { Rating } from "react-simple-star-rating";
 import Carousel from "../../components/Carousel";
 import { bannerImages } from "../../constants/image";
 import { SwiperSlide } from "swiper/react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { productService } from "../../services/product.service";
 import { formatPrice } from "./../../utils/fomatPrice";
@@ -40,7 +40,15 @@ export default function DetailProductPage() {
     staleTime: 500,
     enabled: !!isSlug,
   });
-  // console.log("detail : ", data.nameProduct);s
+  
+  const { data: isProduct, isloading: loadingProduct } = useQuery(
+    ["product"],
+    () => productService.fetchAllProducts(),
+    {
+      retry: 3,
+      retryDelay: 1000,
+    }
+  );
   return (
     <Layout>
       <div className="global-breadcrumb">
@@ -707,32 +715,29 @@ export default function DetailProductPage() {
                 },
               }}
             >
-              {bannerImages?.map((item) => (
+              {isProduct?.map((item) => (
                 <SwiperSlide key={item.id}>
                   <div className="p-item">
-                    <a
-                      href="/hhpc-3d-lumion-i5-13600k-32g-nvidia-rtx-3060-12g"
-                      className="p-img"
-                    >
+                    <Link to={`/product/${item.slugProduct}`} className="p-img">
                       <img
-                        src="https://hoanghapccdn.com/media/product/250_3792_hhpc_sama_tan_120_ha5.jpg"
+                       src={`${item.images[0].imagePath}`}
                         alt="HHPC 3D i5 13600K | 32G | NVIDIA RTX 3060 12G"
                         width={250}
                         height={250}
                       />
-                    </a>
+                    </Link>
                     <div className="p-text">
-                      <a
-                        href="/hhpc-3d-lumion-i5-13600k-32g-nvidia-rtx-3060-12g"
+                    <Link
+                        to={`/product/${item.slugProduct}`}
                         className="p-name"
                       >
-                        <h3 className="inherit">
-                          HHPC 3D i5 13600K | 32G | NVIDIA RTX 3060 12G
-                        </h3>
-                      </a>
+                        <h3 className="inherit">{item.nameProduct}</h3>
+                      </Link>
                       <div className="p-price-group">
-                        <span className="p-price">23.950.000 đ</span>
-                        <del className="p-old-price">26.500.000 đ</del>
+                      <span className="p-price">{formatPrice(item.initial_price)}đ</span>
+                        <del className="p-old-price">
+                          {formatPrice(item.price_has_dropped)} đ
+                        </del>
                         <span className="p-discount">(Tiết kiệm: 10%)</span>
                       </div>
                       <div className="p-btn-group">
