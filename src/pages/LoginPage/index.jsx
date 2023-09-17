@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../stores/authentication/actions";
 import Loading from "../../components/Loading";
 import { message } from "antd";
+import { URL_CONSTANTS } from "../../constants/url.constants";
 
 const getGoogleAuthUrl = () => {
   const url = `https://accounts.google.com/o/oauth2/v2/auth`;
@@ -148,9 +149,9 @@ export default function LoginPage() {
                 </p>
               )}
               <div className="d-flex flex-wrap align-items-center justify-content-end">
-                <a className="btn-forgot-password" href="/reset-password">
+                <Link className="btn-forgot-password" to={`/auth${URL_CONSTANTS.FORGOT_PASSWORD}`}>
                   Quên mật khẩu ?
-                </a>
+                </Link>
 
                 <button
                   className="popup-btn btn-login"
