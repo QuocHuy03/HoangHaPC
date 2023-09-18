@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Layout from "../../components/Layout";
 import Loading from "../../components/Loading";
 import { userService } from "../../services/user.service";
+import { message } from "antd";
 
 export default function ForgotPasswordPage() {
   const [validationErrors, setValidationErrors] = useState([]);

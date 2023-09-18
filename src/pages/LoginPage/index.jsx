@@ -26,14 +26,11 @@ const getGoogleAuthUrl = () => {
 
 export default function LoginPage() {
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [showPasswordToggle, setShowPasswordToggle] = useState(false);
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
   const [isPassword, setIsPassword] = useState("");
-  // Hàm xử lý sự kiện cho nút tắt hiển thị mật khẩu
   const handlePasswordChange = (e) => {
-    // Thay đổi tên biến từ passwordd thành password
     setIsPassword(e.target.value);
   };
 
@@ -108,7 +105,7 @@ export default function LoginPage() {
             <div className="box-title-auth">
               <p>Đăng nhập bằng Email</p>
               <p>
-                <Link to={"/register"}>Đăng ký</Link> nếu chưa có tài khoản.
+                <Link to={"/auth/register"}>Đăng ký</Link> nếu chưa có tài khoản.
               </p>
             </div>
             <form className="input-holder-auth" onSubmit={handleSubmit}>
