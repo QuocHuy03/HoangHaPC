@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Layout from "../../components/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -11,11 +11,12 @@ import {
 } from "../../stores/cart/actions";
 import { formatPrice } from "../../utils/fomatPrice";
 import { message } from "antd";
+import { AppContext } from "../../contexts/AppContextProvider";
 
 export default function CartPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { carts } = useSelector((state) => state.cart);
+  const { carts } = useContext(AppContext);
 
   const totalAmountAll = carts.reduce(
     (total, item) => total + item.product.price_has_dropped * item.quantity,
