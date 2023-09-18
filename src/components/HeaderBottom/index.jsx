@@ -1,14 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { categoryService } from "../../services/category.service";
 import Loading from "../Loading";
 import { brandService } from "../../services/brand.service";
+import { URL_CONSTANTS } from "../../constants/url.constants";
+import { useSelector } from "react-redux";
+import { AppContext } from "../../contexts/AppContextProvider";
 
 export default function HeaderBottom() {
   const location = useLocation();
   const [isDropdown, setIsDropdown] = useState(false);
   const [activeCategoryID, setActiveCategoryID] = useState(null);
+  const { carts } = useContext(AppContext);
   useEffect(() => {
     if (location.pathname === "/") {
       setIsDropdown(true);
@@ -54,7 +58,6 @@ export default function HeaderBottom() {
     const categoryBrands = isBrands.filter(
       (brand) => brand.categoryID._id === selectedCategory._id
     );
-    console.log(categoryBrands);
     return categoryBrands;
   };
 
@@ -152,9 +155,9 @@ export default function HeaderBottom() {
             </div>
           </div>
         </div>
-        <a href="/cart" className="icon-cart">
-          <span className="js-cart-count cart-count">0</span>
-        </a>
+        <Link to={URL_CONSTANTS.CART} className="icon-cart">
+          <span className="js-cart-count cart-count">{carts?.length}</span>
+        </Link>
       </div>
       <div className="header-left-group header-menu-group">
         <p className="title">
