@@ -17,9 +17,9 @@ export default function CartPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { carts } = useContext(AppContext);
-
+  console.log(carts);
   const totalAmountAll = carts.reduce(
-    (total, item) => total + item.product.price_has_dropped * item.quantity,
+    (total, item) => total + item?.product.price_has_dropped * item.quantity,
     0
   );
 
@@ -198,33 +198,30 @@ export default function CartPage() {
                       type="text"
                       placeholder="Họ tên người nhận hàng"
                       className="form-input"
-                      name="user_info[name]"
-                      id="buyer_name"
-                      defaultValue
+                      
+                     
+                     
                     />
                     <input
                       type="text"
                       placeholder="Số điện thoại người nhận"
                       className="form-input"
                       name="user_info[tel]"
-                      id="buyer_tel"
-                      defaultValue
+                     
                     />
                     <input
                       type="text"
                       placeholder="Email"
                       className="form-input"
                       name="user_info[email]"
-                      id="buyer_email"
-                      defaultValue
+                     
                     />
                     <input
                       type="text"
                       placeholder="Địa chỉ nhận hàng"
                       className="form-input"
                       name="user_info[address]"
-                      id="buyer_address"
-                      defaultValue
+                      
                     />
                     <textarea
                       className="form-input"
