@@ -115,7 +115,7 @@ export default function BlogPage() {
               </div>
             </div>
           </div>
-          <div className="art-box-group">
+          {/* <div className="art-box-group">
             <div className="box-title-group">
               <a href="/may-khoe-may-dep" className="box-title">
                 <h2>Máy Khỏe - Máy Đẹp</h2>
@@ -372,7 +372,7 @@ export default function BlogPage() {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
           {/* Tin công nghệ */}
           <div className="art-other-box-group">
             <div className="col-8 col-item-left">
@@ -387,7 +387,7 @@ export default function BlogPage() {
               {data?.map((item) => (
                 <div className="art-other-item">
                   <a
-                    href="/intel-bo-ten-goi-core-i-tren-cac-dong-chip-moi"
+                    href={`/tin-tuc/${item.slugBlog}`}
                     className="art-other-img"
                   >
                     <img
@@ -411,14 +411,23 @@ export default function BlogPage() {
                       </div>
                     </div>
                     <a
-                      href="/intel-bo-ten-goi-core-i-tren-cac-dong-chip-moi"
+                      href={`/tin-tuc/${item.slugBlog}`}
                       className="art-other-title"
                     >
                       {item.titleBlog}
                     </a>
-                    <div className="art-other-summary">{item.contentBlog}</div>
+                    <div className="art-other-summary"
+                      dangerouslySetInnerHTML={{
+                          __html: item.descriptionBlog,
+                        }} id="js-find_toc">
+
+                        {/* {data?.result.descriptionBlog} */}
+                    </div>
+                    {/* <div className="art-other-summary">
+                      {item.descriptionBlog}
+                    </div> */}
                     <a
-                      href="/intel-bo-ten-goi-core-i-tren-cac-dong-chip-moi"
+                      href={`/tin-tuc/${item.slugBlog}`}
                       className="art-other-btn"
                     >
                       Đọc chi tiết{" "}
@@ -434,7 +443,7 @@ export default function BlogPage() {
                 <div className="box-scroll-group art-new-holder">
                   {data?.map((item) => (
                     <div className="item">
-                      <a href="/cau-hinh-may-tinh-do-hoa" className="item-img">
+                      <a href={`/tin-tuc/${item.slugBlog}`} className="item-img">
                         <img
                           data-src={`${item.imageBlog}`}
                           alt="10 Cấu Hình Máy Tính Đồ Họa Theo Ngân Sách✔️"
@@ -448,7 +457,7 @@ export default function BlogPage() {
                       </a>
                       <div className="item-text">
                         <a
-                          href="/cau-hinh-may-tinh-do-hoa"
+                          href={`/tin-tuc/${item.slugBlog}`}
                           className="item-title"
                         >
                           {item.titleBlog}

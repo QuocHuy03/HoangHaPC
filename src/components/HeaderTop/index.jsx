@@ -1,6 +1,7 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import React from 'react';
+
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 export default function HeaderTop() {
   const user = useSelector((state) => state.auth.user);
@@ -546,9 +547,9 @@ export default function HeaderTop() {
             </div>
           ) : (
             <>
-              <Link to={"/register"}>Đăng ký</Link>
+              <Link to={"/auth/register"}>Đăng ký</Link>
               <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-              <Link to={"/login"}>Đăng nhập</Link>
+              <Link to={"/auth/login"}>Đăng nhập</Link>
             </>
           )}
         </div>

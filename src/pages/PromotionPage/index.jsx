@@ -66,8 +66,9 @@ export default function PromotionPage() {
                    </h3>
                  </a>
                  <div className="art-hover">
-                   <div className="art-summary">
-                     {item.contentPromotion}
+                   <div className="art-summary" dangerouslySetInnerHTML={{
+                  __html: item.descriptionPromotion,
+                    }}>
                    </div>
                    <a href={`/tin-khuyen-mai/${item.slugPromotion}`} className="art-btn">
                      Đọc chi tiết{" "}

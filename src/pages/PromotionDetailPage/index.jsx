@@ -1,8 +1,40 @@
-import React from 'react';
+import React, {
+  useEffect,
+  useState,
+} from 'react';
+
+import { useParams } from 'react-router-dom';
+
+import { useQuery } from '@tanstack/react-query';
 
 import Layout from '../../components/Layout';
+import { blogService } from '../../services/blog.service';
+import { promotionService } from '../../services/promotion.service';
 
 export default function PromotionDetailPage() {
+  const { slug } = useParams();
+  const [isSlug, setSlug] = useState(null);
+  useEffect(() =>{
+    if(slug) {
+      setSlug(slug)
+    }
+  }, [slug]);
+
+  const { data: blogData, isLoading: blogIsLoading } = useQuery(
+    ["blog"],
+    () => blogService.fetchAllBlogs(),
+    {
+      retry: 3,
+      retryDelay: 1000,
+    }
+  );
+  const { data, isLoading} = useQuery({
+    queryKey: ['edit-promotion', isSlug],
+    queryFn: () => promotionService.fetchPromotionBySlug(isSlug),
+    staleTime: 500,
+    enabled: !!isSlug,
+  }) 
+
   return (
     <Layout>
     <div className="article-page">
@@ -15,9 +47,14 @@ export default function PromotionDetailPage() {
         <div className="container">
           <div className="row">
             <div className="col-8 art-detail-col-left">
-              <h1 className="art-detail-title">Build PC Full TUF - Nhận quà cực chất</h1>
-              <p className="art-detail-author">Đăng trong <b>Tin Khuyến Mãi</b></p>
-              <div className="art-detail-content" id="js-find_toc"><p><strong>Xây dựng bộ máy siêu chất tại&nbsp;<span style={{color: '#ff0000'}}><a style={{color: '#ff0000'}} title="Hoàng Hà PC" href="https://hoanghapc.vn/">Hoàng Hà PC</a></span> từ các linh kiện TUF của Asus và nhận ngay quà khủng với tổng trị giá lên tới 15 triệu đồng.</strong></p>
+              <h1 className="art-detail-title">{data?.result.titlePromotion}</h1>
+              <p className="art-detail-author">Đăng bởi <b>{data?.result.userPromotion}</b></p>
+              <div className="art-detail-content"
+              dangerouslySetInnerHTML={{
+                  __html: data?.result.contentPromotion,
+                }} id="js-find_toc">
+              </div>
+              {/* <div className="art-detail-content" id="js-find_toc"><p><strong>Xây dựng bộ máy siêu chất tại&nbsp;<span style={{color: '#ff0000'}}><a style={{color: '#ff0000'}} title="Hoàng Hà PC" href="https://hoanghapc.vn/">Hoàng Hà PC</a></span> từ các linh kiện TUF của Asus và nhận ngay quà khủng với tổng trị giá lên tới 15 triệu đồng.</strong></p>
                 <h2 style={{textAlign: 'center'}} id="khuyen-mai"><span style={{color: '#ff0000'}} id="khuyen-mai"><strong id="khuyen-mai">KHUYẾN MẠI</strong></span></h2>
                 <h2 style={{textAlign: 'center'}} id="build-pc-full-tuf-nhan-qua-cuc-chat"><span style={{color: '#ff0000'}} id="build-pc-full-tuf-nhan-qua-cuc-chat"><strong id="build-pc-full-tuf-nhan-qua-cuc-chat">BUILD PC FULL TUF - NHẬN QUÀ CỰC CHẤT</strong></span></h2>
                 <p><span style={{color: '#ff0000'}}><strong><img style={{display: 'block', marginLeft: 'auto', marginRight: 'auto'}} src="https://i.imgur.com/TSeq0Pq.jpg" alt="BUILD PC FULL TUF - NHẬN QUÀ CỰC CHẤT" width={660} height={392} /></strong></span></p>
@@ -51,7 +88,7 @@ export default function PromotionDetailPage() {
                 <p>- Hóa đơn/ phiếu thu/ phiếu xuất kho phải có con dấu của cửa hàng bán lẻ.</p>
                 <p>- Dung lượng hình ảnh hóa đơn tải lên hệ thống &lt;1Mb.</p>
                 <p>- Trong trường hợp cần thiết nhằm bảo đảm quyền lợi khách hàng, phía ASUS sẽ cần thêm những thông tin khác để xác định khách mua hàng là chính xác như: hóa đơn đỏ, giấy tờ tùy thân có ảnh đại diện...</p>
-                <p>- Mọi góp ý hay thắc mắc khác về chương trình, xin vui lòng post tại <strong>Hội linh kiện PC ASUS ROG Việt Nam.</strong></p></div>
+                <p>- Mọi góp ý hay thắc mắc khác về chương trình, xin vui lòng post tại <strong>Hội linh kiện PC ASUS ROG Việt Nam.</strong></p></div> */}
               <div className="art-detail-info">
                 <div className="art-info-title">
                   <span className="info-img">
@@ -72,57 +109,34 @@ export default function PromotionDetailPage() {
               <div className="art-right-box">
                 <p className="box-title"><span>Bài viết mới nhất</span></p>
                 <div className="art-holder">
-                  <div className="art-item">
-                    <a href="/cau-hinh-may-tinh-do-hoa" className="art-img">
-                      <img data-src="https://hoanghapccdn.com/media/news/14_pc_do_hoa_hoanghapc_min.jpg" alt="10 Cấu Hình Máy Tính Đồ Họa Theo Ngân Sách✔️" width={1} height={1} className="lazy loaded" src="https://hoanghapccdn.com/media/news/14_pc_do_hoa_hoanghapc_min.jpg" data-was-processed="true" />
-                      <span className="art-cat">Máy Khỏe - Máy Đẹp</span>
-                    </a>
-                    <div className="art-text">
-                      <p className="art-time">
-                        <span>by <b>Mai Văn Học</b></span> | 
-                        <time>28-08-2023, 10:25 am</time>
-                      </p>
-                      <a href="/cau-hinh-may-tinh-do-hoa" className="art-title"><h3 className="inherit">10 Cấu Hình Máy Tính Đồ Họa Theo Ngân Sách✔️</h3></a>
-                      <div className="art-hover">
-                        <div className="art-summary">Cấu hình máy tính đồ họa chuyên dụng cho công việc thiết kế đồ họa, làm phim, Render và xử lý các thuật toán AI trí tuệ nhân tạo phù hợp nhất mọi công việc.</div>
-                        <a href="/cau-hinh-may-tinh-do-hoa" className="art-btn">Đọc chi tiết <i className="fas fa-arrow-right" aria-hidden="true" /></a>
+                  {blogData?.map((item) =>(
+                      <div className="art-item">
+                      <a href={`/tin-tuc/${item.slugBlog}`} className="art-img">
+                      <img
+                        data-src={`${item.imageBlog}`}
+                        alt="10 Cấu Hình Máy Tính Đồ Họa Theo Ngân Sách✔️"
+                        width={1}
+                        height={1}
+                        className="lazy loaded"
+                        src={`${item.imageBlog}`}
+                        data-was-processed="true"
+                      />
+                        <span className="art-cat">{item.titleBlog}</span>
+                      </a>
+                      <div className="art-text">
+                        <p className="art-time">
+                          <span>by <b>{item.userBlog}</b></span> | 
+                          <time>{item.createdAt}</time>
+                        </p>
+                        <a href={`/tin-tuc/${item.slugBlog}`} className="art-title"><h3 className="inherit">{item.titleBlog}</h3></a>
+                        <div className="art-hover">
+                          <div className="art-summary">Cấu hình máy tính đồ họa chuyên dụng cho công việc thiết kế đồ họa, làm phim, Render và xử lý các thuật toán AI trí tuệ nhân tạo phù hợp nhất mọi công việc.</div>
+                          <a href={`/tin-tuc/${item.slugBlog}`} className="art-btn">Đọc chi tiết <i className="fas fa-arrow-right" aria-hidden="true" /></a>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="art-item">
-                    <a href="/cau-hinh-may-tinh-chay-gia-lap-nox-player" className="art-img">
-                      <img data-src="https://hoanghapccdn.com/media/news/18_pc_gia_lap_1.jpg" alt="Cấu Hình Máy Tính Chạy Giả Lập Nox Player, LDPlayer" width={1} height={1} className="lazy loaded" src="https://hoanghapccdn.com/media/news/18_pc_gia_lap_1.jpg" data-was-processed="true" />
-                      <span className="art-cat">Máy Khỏe - Máy Đẹp</span>
-                    </a>
-                    <div className="art-text">
-                      <p className="art-time">
-                        <span>by <b>Mai Văn Học</b></span> | 
-                        <time>04-07-2023, 3:17 pm</time>
-                      </p>
-                      <a href="/cau-hinh-may-tinh-chay-gia-lap-nox-player" className="art-title"><h3 className="inherit">Cấu Hình Máy Tính Chạy Giả Lập Nox Player, LDPlayer</h3></a>
-                      <div className="art-hover">
-                        <div className="art-summary">Cấu hình máy tính chạy giả lập trên Noxplayer, LD Player, chạy 10 tab, 20 tab, 30 tab giả lập mượt, chơi mọi game mobile giá cực rẻ tại Hoàng Hà PC.</div>
-                        <a href="/cau-hinh-may-tinh-chay-gia-lap-nox-player" className="art-btn">Đọc chi tiết <i className="fas fa-arrow-right" aria-hidden="true" /></a>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="art-item">
-                    <a href="/cau-hinh-may-tinh-dung-phim" className="art-img">
-                      <img data-src="https://hoanghapccdn.com/media/news/19_10_cau_hinh_6.jpg" alt="17 Cấu Hình Máy Tính Dựng Phim, Render Edit Video Theo Ngân Sách 2023" width={1} height={1} className="lazy loaded" src="https://hoanghapccdn.com/media/news/19_10_cau_hinh_6.jpg" data-was-processed="true" />
-                      <span className="art-cat">Máy Khỏe - Máy Đẹp</span>
-                    </a>
-                    <div className="art-text">
-                      <p className="art-time">
-                        <span>by <b>Mai Văn Học</b></span> | 
-                        <time>04-07-2023, 3:16 pm</time>
-                      </p>
-                      <a href="/cau-hinh-may-tinh-dung-phim" className="art-title"><h3 className="inherit">17 Cấu Hình Máy Tính Dựng Phim, Render Edit Video Theo Ngân Sách 2023</h3></a>
-                      <div className="art-hover">
-                        <div className="art-summary">Sức mạnh của bộ máy tính chuyên dụng dành cho làm phim, Render Edit Video sẽ giúp các nhà sản xuất tối ưu hơn về thời gian và nâng cao chất lượng sản phẩm.</div>
-                        <a href="/cau-hinh-may-tinh-dung-phim" className="art-btn">Đọc chi tiết <i className="fas fa-arrow-right" aria-hidden="true" /></a>
-                      </div>
-                    </div>
-                  </div>
+                  ))}
+                  
                 </div>
               </div>
               <div className="art-right-box">
