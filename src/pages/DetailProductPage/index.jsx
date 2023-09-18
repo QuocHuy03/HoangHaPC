@@ -150,11 +150,10 @@ export default function DetailProductPage() {
                   className="circle"
                   style={{
                     backgroundColor: `${item.nameColor}`,
-                    border: ` ${
-                      selectedColor === item.nameColor
+                    border: ` ${selectedColor === item.nameColor
                         ? "2px solid rgb(159 149 149)"
                         : ""
-                    }`,
+                      }`,
                   }}
                 ></div>
               ))}
