@@ -28,8 +28,8 @@ export default function SliderImages({ loop, images, navigation }) {
         className="mySwiper2"
       >
         {images?.map((item) => (
-          <SwiperSlide>
-            <img src={item.image} alt={item.name} />
+          <SwiperSlide key={item._id}>
+            <img src={item.imagePath} alt="trinh123" />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -45,13 +45,13 @@ export default function SliderImages({ loop, images, navigation }) {
           className="mySwiper"
         >
           {images?.map((item, index) => (
-            <SwiperSlide onClick={() => handleImageClick(index)}>
+            <SwiperSlide key={item._id} onClick={() => handleImageClick(index)}>
               <a
                 className={
                   isActive === index ? "huydevimage active" : "huydevimage"
                 }
               >
-                <img src={item.image} alt={item.name} />
+                <img src={item.imagePath} alt="trinh123" />
               </a>
             </SwiperSlide>
           ))}

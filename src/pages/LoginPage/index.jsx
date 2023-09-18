@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from "react";
-
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import Layout from "../../components/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../stores/authentication/actions";
 import Loading from "../../components/Loading";
-import { URL_CONSTANTS } from "../../constants/url.constants";
-import { history } from "../../helpers/history";
 import { message } from "antd";
+import { URL_CONSTANTS } from "../../constants/url.constants";
 
 const getGoogleAuthUrl = () => {
   const url = `https://accounts.google.com/o/oauth2/v2/auth`;
@@ -28,6 +25,15 @@ const getGoogleAuthUrl = () => {
 };
 
 export default function LoginPage() {
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+  const [isPassword, setIsPassword] = useState("");
+  const handlePasswordChange = (e) => {
+    setIsPassword(e.target.value);
+  };
+
   const oauthURL = getGoogleAuthUrl();
   const navigate = useNavigate();
   const [validationErrors, setValidationErrors] = useState([]);
@@ -38,15 +44,9 @@ export default function LoginPage() {
     password: "",
   });
   const loading = useSelector((state) => state.auth.loading);
-  const accessToken = useSelector((state) => state.auth.accessToken);
+  const { redirectTo } = useSelector((state) => state.redirect);
 
   const { email, password } = inputs;
-
-  useEffect(() => {
-    if (accessToken) {
-      history.push(URL_CONSTANTS.HOME);
-    }
-  }, [dispatch, accessToken]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -58,7 +58,7 @@ export default function LoginPage() {
     setSubmitted(true);
     let data = {
       email,
-      password,
+      password: isPassword,
     };
 
     try {
@@ -66,8 +66,16 @@ export default function LoginPage() {
       if (response.status === true) {
         setValidationErrors([]);
         message.success(response.message);
-        navigate(URL_CONSTANTS.HOME)
+        if (redirectTo) {
+          navigate(redirectTo);
+        } else {
+          navigate("/");
+        }
       } else {
+        if (response.response?.status === false) {
+          setValidationErrors([]);
+          message.error(response.response.message);
+        }
         setValidationErrors(
           Object.values(response.response.errors).map((error) => error.msg)
         );
@@ -97,7 +105,7 @@ export default function LoginPage() {
             <div className="box-title-auth">
               <p>Đăng nhập bằng Email</p>
               <p>
-                <Link to={"/register"}>Đăng ký</Link> nếu chưa có tài khoản.
+                <Link to={"/auth/register"}>Đăng ký</Link> nếu chưa có tài khoản.
               </p>
             </div>
             <form className="input-holder-auth" onSubmit={handleSubmit}>
@@ -111,12 +119,21 @@ export default function LoginPage() {
               </div>
               <div className="input-box-auth input-password">
                 <input
-                  type="password"
+                  type={passwordVisible ? "text" : "password"}
                   placeholder="Mật khẩu"
-                  onChange={handleChange}
+                  onChange={handlePasswordChange}
+                  value={isPassword}
                   name="password"
                 />
-                <a className="icons icon-eye" />
+               
+                {/* Nút hiện mật khẩu */}
+                <a
+                  className={`icons ${
+                    passwordVisible ? "fa fa-eye-slash" : " fa fa-eye"
+                  }`}
+                  onClick={togglePasswordVisibility}
+                ></a>
+                {/* Nút tắt hiển thị mật khẩu */}
               </div>
               {submitted && validationErrors && (
                 <p
@@ -130,9 +147,12 @@ export default function LoginPage() {
                 </p>
               )}
               <div className="d-flex flex-wrap align-items-center justify-content-end">
-                <a className="btn-forgot-password" href="/reset-password">
+                <Link
+                  className="btn-forgot-password"
+                  to={`/auth${URL_CONSTANTS.FORGOT_PASSWORD}`}
+                >
                   Quên mật khẩu ?
-                </a>
+                </Link>
 
                 <button
                   className="popup-btn btn-login"
