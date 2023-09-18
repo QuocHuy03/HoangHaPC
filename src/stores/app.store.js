@@ -4,6 +4,7 @@ import { combineReducers, createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import authenticationReducer from "./authentication/reducers";
 import redirectReducer from "./redirect/reducers";
+import cartReducer from "./cart/reducers";
 
 const persistConfig = {
   key: "root",
@@ -14,6 +15,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   auth: authenticationReducer,
   redirect: redirectReducer,
+  cart: cartReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
