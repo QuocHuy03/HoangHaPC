@@ -3,7 +3,7 @@ import Layout from "../../components/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { URL_CONSTANTS } from "../../constants/url.constants";
-import { decreaseQuantity, increaseQuantity } from "../../stores/cart/actions";
+import { decreaseQuantity, increaseQuantity, removeCartItem } from "../../stores/cart/actions";
 import { formatPrice } from "../../utils/fomatPrice";
 import { message } from "antd";
 
@@ -28,7 +28,7 @@ export default function CartPage() {
   };
 
   const handleDeleteItem = (item) => {
-    dispatch(removeFromCart(item));
+    dispatch(removeCartItem(item));
     message.error("Xóa Sản Phẩm Thành Công");
   };
   return (
@@ -128,7 +128,7 @@ export default function CartPage() {
                             aria-hidden="true"
                           />
                         </div>
-                        <a className="js-delete-item icon-delete" />
+                        <a className="js-delete-item icon-delete" onClick={() => handleDeleteItem(item)} />
                         <div className="item-price-holder">
                           <p className="item-price">
                             {formatPrice(item.product.price_has_dropped)} VNĐ
