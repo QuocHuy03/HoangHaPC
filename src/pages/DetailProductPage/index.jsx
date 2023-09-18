@@ -4,9 +4,9 @@ import SliderImages from "../../components/SliderImages";
 import { imageProduct } from "../../constants/imageProduct";
 import { Rating } from "react-simple-star-rating";
 import Carousel from "../../components/Carousel";
-import { bannerImages } from "../../constants/image";
+
 import { SwiperSlide } from "swiper/react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { productService } from "../../services/product.service";
 import { formatPrice } from "./../../utils/fomatPrice";
@@ -21,6 +21,7 @@ export default function DetailProductPage() {
   const [selectedColor, setSelectedColor] = useState(null);
   const [showColorError, setShowColorError] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const toggleSeeMore = () => {
     setIsSeeMore(!isSeeMore);
   };
@@ -72,12 +73,27 @@ export default function DetailProductPage() {
     }
     dispatch(
       addToCart({
-        productID: product._id,
+        product: product,
         color: selectedColor,
         quantity: 1,
       })
     );
     message.success(`Thêm Sản Phẩm Vào Giỏ Hàng Success`);
+  };
+
+  const addCart = (product) => {
+    if (!selectedColor) {
+      setShowColorError(true);
+      return;
+    }
+    dispatch(
+      addToCart({
+        product: product,
+        color: selectedColor,
+        quantity: 1,
+      })
+    );
+    navigate("/cart");
   };
   return (
     <Layout>
@@ -164,7 +180,7 @@ export default function DetailProductPage() {
               </span>
             )}
             <div className="pd-summary-group">
-              <b className="text-16 d-block font-700">Thông số sản phẩm</b>
+              <b className="text-16 d-block font-700">Thông Số Sản Phẩm</b>
               <div
                 className="pd-summary-list"
                 dangerouslySetInnerHTML={{
@@ -202,11 +218,19 @@ export default function DetailProductPage() {
               </div>
             </div>
             <div className="pd-btn-group d-flex flex-wrap">
-              <a className="pd-btn-buyNow">
+              <a
+                className="pd-btn-buyNow"
+                style={{ cursor: "pointer" }}
+                onClick={() => addCart(data)}
+              >
                 <b>MUA NGAY</b>
                 <span>Giao hàng tận nơi nhanh chóng</span>
               </a>
-              <a className="pd-btn-add-product" onClick={() => buyCart(data)}>
+              <a
+                className="pd-btn-add-product"
+                style={{ cursor: "pointer" }}
+                onClick={() => buyCart(data)}
+              >
                 <b>THÊM VÀO GIỎ HÀNG</b>
                 <span>Thêm vào giỏ để chọn tiếp</span>
               </a>
