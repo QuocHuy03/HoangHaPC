@@ -358,7 +358,19 @@ iframe {
     margin: auto;
     display: block;
 }
-
+.product-color {
+    display: flex;
+    gap: 5px;
+}
+.circle {
+    width: 30px; 
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #edecec;
+}
 .autocomplete-suggestions {
     position: absolute;
     width: 100%;
@@ -1879,6 +1891,28 @@ iframe {
 
 .global-popup-login {
     display: none;
+}
+
+.fa-eye-slash:before {
+    content: "\f070";
+    width: 26px;
+    height: 12px;
+    position: absolute;
+    right: 0;
+    top: 9px;
+    font-size: 10px;
+    background-position: -213px -52px;
+}
+
+.fa-eye:before {
+    content: "\f06e";
+    width: 26px;
+    height: 12px;
+    position: absolute;
+    right: 0;
+    top: 9px;
+    font-size: 10px;
+    background-position: -213px -52px;
 }
 
 .global-popup-content {
@@ -4158,7 +4192,7 @@ iframe {
 
 .cart-items-group .icon-delete::before {
     content: "";
-    background: url(../images/sprite.png) no-repeat;
+    background: url(https://i.imgur.com/DVuGkes.png) no-repeat;
     background-size: 250px 300px;
     background-position: -142px -89px;
     display: block;

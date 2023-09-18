@@ -6,6 +6,7 @@ import {
   LOGIN_FAILED,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
+  LOGOUT,
   REGISTER_FAILED,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
@@ -119,6 +120,38 @@ export const register = (data) => {
         },
       });
       throw error; // Rethrow error để cho createAsyncThunk biết đã xảy ra lỗi
+    }
+  };
+};
+
+export const logout = (data) => {
+  return async (dispatch) => {
+    try {
+      console.log(data)
+      const response = await userService.logout(data);
+      if (response.status === true) {
+        dispatch({
+          type: LOGOUT,
+          payload: response.result,
+        });
+      } else {
+        dispatch({
+          type: LOGOUT,
+          payload: response,
+        });
+        return {
+          status: false,
+          response,
+        };
+      }
+    } catch (error) {
+      dispatch({
+        type: LOGOUT,
+        payload: {
+          status: false,
+          message: error.message,
+        },
+      });
     }
   };
 };

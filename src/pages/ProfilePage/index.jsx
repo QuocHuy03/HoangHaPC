@@ -1,9 +1,340 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Layout from "../../components/Layout";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import huydev from "../../json/address.json";
+import { Link } from "react-router-dom";
+import { logout } from "../../stores/authentication/actions";
+import { userService } from "../../services/user.service";
+import { message } from "antd";
+import { LOAD_CURRENT_LOGIN_USER_SUCCESS } from "../../stores/authentication/types";
 
 export default function ProfilePage() {
-  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+  const { user, refreshToken } = useSelector((state) => state.auth);
+  const [activeTab, setActiveTab] = useState(0);
+  const [validationErrors, setValidationErrors] = useState([]);
+
+  const handleTabClick = (index) => {
+    setActiveTab(index);
+  };
+
+  const handleLogout = async () => {
+    // handleTabClick(3);
+    await dispatch(logout(refreshToken));
+  };
+
+  // change-password
+
+  const [inputChangePass, setInputChangePass] = useState({
+    old_password: "",
+    password: "",
+    confirm_password: "",
+  });
+
+  const handleChangePasswordInput = (e) => {
+    const { name, value } = e.target;
+    setInputChangePass((prevInputs) => ({
+      ...prevInputs,
+      [name]: value,
+    }));
+  };
+
+  const handleChangePassword = async (e) => {
+    let data = {
+      old_password: inputChangePass.old_password,
+      password: inputChangePass.password,
+      confirm_password: inputChangePass.confirm_password,
+    };
+    e.preventDefault();
+    try {
+      const response = await userService.changePassword(data);
+      console.log(response);
+      if (response.status === true) {
+        setValidationErrors([]);
+        message.success(response.message);
+        await dispatch(logout(refreshToken));
+      } else {
+        if (response.status === false) {
+          setValidationErrors([]);
+          message.error(response.message);
+        }
+        setValidationErrors(
+          Object.values(response.errors).map((error) => error.msg)
+        );
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  };
+
+  // update me
+
+  const UpdateProfile = ({ user }) => {
+    const isUserAvailable = user !== null;
+    const [provinces, setProvinces] = useState([]);
+    const [selectedProvince, setSelectedProvince] = useState("");
+    const [districts, setDistricts] = useState([]);
+    const [selectedDistrict, setSelectedDistrict] = useState("");
+    const [selectedCommune, setSelectedCommune] = useState("");
+    const [wards, setWards] = useState([]);
+
+    const initialInputValues = {
+      fullname: isUserAvailable ? user.fullname : "",
+      email: isUserAvailable ? user.email : "",
+      address: isUserAvailable ? user.address : "",
+      city: isUserAvailable ? user.city : "",
+      district: isUserAvailable ? user.district : "",
+      commune: isUserAvailable ? user.commune : "",
+      phone: isUserAvailable ? user.phone : "",
+    };
+
+    const [inputs, setInputs] = useState(initialInputValues);
+
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setInputs((prevInputs) => ({
+        ...prevInputs,
+        [name]: value,
+      }));
+    };
+
+    useEffect(() => {
+      setProvinces(huydev.provinces);
+      setDistricts(huydev.districts);
+      setWards(huydev.wards);
+      if (isUserAvailable) {
+        setSelectedProvince(user.city);
+        setSelectedDistrict(user.district);
+        setSelectedCommune(user.commune);
+      }
+    }, [isUserAvailable]);
+
+    const handleSelectProvince = (e) => {
+      setSelectedProvince(e.target.value);
+
+      setInputs((prevInputs) => ({
+        ...prevInputs,
+        city: e.target.value,
+      }));
+    };
+
+    const handleSelectDistrict = (e) => {
+      setSelectedDistrict(e.target.value);
+      setInputs((prevInputs) => ({
+        ...prevInputs,
+        district: e.target.value,
+      }));
+    };
+
+    const handleSelectCommune = (e) => {
+      setSelectedCommune(e.target.value);
+      setInputs((prevInputs) => ({
+        ...prevInputs,
+        commune: e.target.value,
+      }));
+    };
+
+    const filteredDistricts = districts?.filter(
+      (district) => district.province_id === Number(selectedProvince)
+    );
+
+    const filteredWards = wards?.filter(
+      (ward) => ward.district_id === Number(selectedDistrict)
+    );
+    const handleSubmit = async (e) => {
+      let data = {
+        fullname: inputs.fullname,
+        address: inputs.address,
+        city: Number(inputs.city),
+        district: Number(inputs.district),
+        commune: Number(inputs.commune),
+        phone: inputs.phone,
+      };
+      // console.log(data)
+      e.preventDefault();
+      // const selectedCity = provinces.find(
+      //   (province) => province.id === Number(data.city)
+      // );
+      // if (selectedCity) {
+      //   data.city = selectedCity.name;
+      // }
+
+      // const selectedDistrict = districts.find(
+      //   (district) => district.id === Number(data.district)
+      // );
+      // if (selectedDistrict) {
+      //   data.district = selectedDistrict.name;
+      // }
+      // console.log(selectedProvince);
+
+      // const selectedCommune = wards.find(
+      //   (ward) => ward.id === Number(data.commune)
+      // );
+
+      // if (selectedCommune) {
+      //   data.commune = selectedCommune.name;
+      // }
+
+      try {
+        const response = await userService.updateMe(data);
+        dispatch({
+          type: LOAD_CURRENT_LOGIN_USER_SUCCESS,
+          payload: response.user,
+        });
+        if (response.status === true) {
+          message.success(response.message);
+        } else {
+          message.error(response.message);
+        }
+      } catch (error) {
+        console.error("An error occurred:", error);
+      }
+    };
+    return (
+      <div className="account-col-right">
+        <h3>Cập nhật thông tin cá nhân</h3>
+        <form onSubmit={handleSubmit} className="col-right-tbl">
+          <table
+            cellPadding={5}
+            border={0}
+            bordercolor="#CCCCCC"
+            style={{ borderCollapse: "collapse", width: "100%" }}
+          >
+            <tbody>
+              <tr>
+                <td>Họ tên</td>
+                <td>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="fullname"
+                    onChange={handleChange}
+                    value={inputs.fullname}
+                    id="fullname"
+                    size={40}
+                  />
+                </td>
+              </tr>
+
+              <tr>
+                <td>Địa chỉ email</td>
+                <td>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="email"
+                    onChange={handleChange}
+                    value={inputs.email}
+                    disabled
+                    id="email"
+                    size={40}
+                  />
+                </td>
+              </tr>
+
+              <tr>
+                <td>Địa chỉ nhà</td>
+                <td>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="address"
+                    onChange={handleChange}
+                    value={inputs.address}
+                    id="address"
+                    size={40}
+                  />
+                </td>
+              </tr>
+
+              <tr>
+                <td>Tỉnh / TP</td>
+                <td>
+                  <select
+                    className="form-control"
+                    name="city"
+                    onChange={handleSelectProvince}
+                    value={selectedProvince}
+                    placeholder={`Vui lòng chọn Tỉnh / TP`}
+                  >
+                    <option value="">Vui lòng chọn Tỉnh / TP</option>
+                    {provinces?.map((province) => (
+                      <option key={province.id} value={province.id}>
+                        {province.name}
+                      </option>
+                    ))}
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>Quận / Huyện</td>
+                <td>
+                  <select
+                    className="form-control"
+                    name="district"
+                    value={selectedDistrict}
+                    onChange={handleSelectDistrict}
+                    disabled={!selectedProvince}
+                    placeholder={`Vui Lòng Chọn Quận / Huyện ${selectedDistrict}`}
+                  >
+                    <option value="">Vui lòng chọn Quận / Huyện</option>
+                    {filteredDistricts?.map((district) => (
+                      <option key={district.id} value={district.id}>
+                        {district.name}
+                      </option>
+                    ))}
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>Phường / Xã</td>
+                <td>
+                  <select
+                    className="form-control"
+                    name="commune"
+                    value={selectedCommune}
+                    onChange={handleSelectCommune}
+                    disabled={!selectedDistrict}
+                    placeholder="Vui Lòng Chọn Phường / Xã"
+                  >
+                    <option value="">Vui lòng chọn Phường / Xã</option>
+                    {filteredWards?.map((ward) => (
+                      <option key={ward.id} value={ward.id}>
+                        {ward.name}
+                      </option>
+                    ))}
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>Điện thoại di động</td>
+                <td>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="phone"
+                    onChange={handleChange}
+                    value={inputs.phone}
+                    id="phone"
+                    size={40}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td />
+                <td>
+                  <button type="submit" className="btn btn-danger">
+                    Thay đổi
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      </div>
+    );
+  };
+
   return (
     <Layout>
       <div className="account-page">
@@ -12,262 +343,244 @@ export default function ProfilePage() {
             <div className="box-info">
               <i className="fas fa-user-circle" aria-hidden="true" />
               <p>
-                Tài khoản của, <b>{user.fullname}</b>
+                Tài khoản của,{" "}
+                <b>
+                  {user && user.fullname !== null
+                    ? user.fullname
+                    : "Đang cập nhật"}
+                </b>
               </p>
             </div>
             <div className="box-direction">
-              <a href="?view=account-info" className="current">
+              <Link
+                onClick={() => handleTabClick(0)}
+                className={activeTab === 0 || activeTab === 4 ? "current" : ""}
+              >
                 <i className="far fa-user" aria-hidden="true" />
                 <span>Thông tin tài khoản</span>
-              </a>
-              <a href="?view=account-order">
+              </Link>
+              <Link
+                onClick={() => handleTabClick(1)}
+                className={activeTab === 1 ? "current" : ""}
+              >
                 <i className="far fa-list-alt" aria-hidden="true" />
                 <span>Danh sách đơn hàng</span>
-              </a>
-              <a href="/san-pham-da-xem">
-                <i className="far fa-eye" aria-hidden="true" />
-                <span>Sản phẩm đã xem</span>
-              </a>
-              <a href="?view=account-change-pass">
+              </Link>
+              <Link
+                onClick={() => handleTabClick(2)}
+                className={activeTab === 2 ? "current" : ""}
+              >
                 <i className="fas fa-lock" aria-hidden="true" />
                 <span>Thay đổi mật khẩu</span>
-              </a>
-              <a href="/">
+              </Link>
+              <Link
+                onClick={() => handleLogout()}
+                className={activeTab === 3 ? "current" : ""}
+              >
                 <i className="fas fa-sign-out-alt" aria-hidden="true" />
                 <span>Đăng xuất</span>
-              </a>
+              </Link>
             </div>
           </div>
-          <div className="account-col-right">
-            <h3>Thông tin cá nhân</h3>
-            <table
-              cellPadding={5}
-              border={1}
-              bordercolor="#CCCCCC"
-              style={{ borderCollapse: "collapse", width: "100%" }}
-            >
-              <tbody>
-                <tr>
-                  <td width="120px">Họ tên</td>
-                  <td>nguyễn trường thịnh</td>
-                </tr>
-                <tr>
-                  <td>Giới tính</td>
-                  <td>Nữ</td>
-                </tr>
-                <tr>
-                  <td>Địa chỉ email</td>
-                  <td>thinhnguyen012003@gmail.com</td>
-                </tr>
-                <tr>
-                  <td>Địa chỉ nhà</td>
-                  <td />
-                </tr>
-                <tr>
-                  <td>Tỉnh/TP</td>
-                  <td />
-                </tr>
-                <tr>
-                  <td>Số điện thoại</td>
-                  <td />
-                </tr>
-                <tr>
-                  <td>Số di động</td>
-                  <td />
-                </tr>
-              </tbody>
-            </table>
-            <div style={{ paddingTop: 20, fontWeight: "bold" }}>
-              {" "}
-              <a href="?view=account-change-info" className="btn btn-danger">
-                Thay đổi thông tin
-              </a>
-            </div>
-          </div>
-          {/* thay đổi thông tin */}
-          {/* <div className="account-col-right">
-            <h3>Cập nhật thông tin cá nhân</h3>
-            <form method="post" encType="multipart/form-data" name="account_form" className="col-right-tbl">
-              <table cellPadding={5} border={0} bordercolor="#CCCCCC" style={{ borderCollapse: 'collapse', width: '100%' }}>
-                <tbody><tr>
-                  <td>Họ tên</td>
-                  <td><input type="text" className="form-control" name="fullname" id="fullname" size={40} defaultValue="nguyễn trường thịnh" /></td>
-                </tr>
+          {activeTab === 0 && (
+            <div className="account-col-right">
+              <h3>Thông tin cá nhân</h3>
+              <table
+                cellPadding={5}
+                border={1}
+                bordercolor="#CCCCCC"
+                style={{ borderCollapse: "collapse", width: "100%" }}
+              >
+                <tbody>
                   <tr>
-                    <td>Giới tính</td>
+                    <td width="120px">Họ tên</td>
                     <td>
-                      <label><input type="radio" name="sex" defaultValue="male" />Nam </label>&nbsp;
-                      <label><input type="radio" name="sex" defaultValue="female" defaultChecked />Nữ </label>
+                      {user && user.fullname !== null
+                        ? user.fullname
+                        : "Đang cập nhật"}
                     </td>
                   </tr>
                   <tr>
                     <td>Địa chỉ email</td>
                     <td>
-                      <input type="text" className="form-control" name="email" id="email" size={40} defaultValue="thinhnguyen012003@gmail.com" />
-                      <input type="hidden" name="old_email" id="old_email" defaultValue="thinhnguyen012003@gmail.com" />
+                      {user && user.email !== null
+                        ? user.email
+                        : "Đang cập nhật"}
                     </td>
                   </tr>
                   <tr>
                     <td>Địa chỉ nhà</td>
                     <td>
-                      <input type="text" className="form-control" name="address" id="address" defaultValue size={50} />
+                      {user && user.address !== null
+                        ? user.address
+                        : "Đang cập nhật"}
                     </td>
                   </tr>
                   <tr>
-                    <td>Tỉnh / TP</td>
+                    <td>Quận/Huyện</td>
                     <td>
-                      <select className="form-control" name="province">
-                        <option value={1}>Hà Nội</option>
-                        <option value={2}>TP HCM</option>
-                        <option value={5}>Hải Phòng</option>
-                        <option value={4}>Đà Nẵng</option>
-                        <option value={6}>An Giang</option>
-                        <option value={7}>Bà Rịa-Vũng Tàu</option>
-                        <option value={13}>Bình Dương</option>
-                        <option value={15}>Bình Phước</option>
-                        <option value={16}>Bình Thuận</option>
-                        <option value={14}>Bình Định</option>
-                        <option value={8}>Bạc Liêu</option>
-                        <option value={10}>Bắc Giang</option>
-                        <option value={9}>Bắc Kạn</option>
-                        <option value={11}>Bắc Ninh</option>
-                        <option value={12}>Bến Tre</option>
-                        <option value={18}>Cao Bằng</option>
-                        <option value={17}>Cà Mau</option>
-                        <option value={3}>Cần Thơ</option>
-                        <option value={24}>Gia Lai</option>
-                        <option value={25}>Hà Giang</option>
-                        <option value={26}>Hà Nam</option>
-                        <option value={27}>Hà Tĩnh</option>
-                        <option value={30}>Hòa Bình</option>
-                        <option value={28}>Hải Dương</option>
-                        <option value={29}>Hậu Giang</option>
-                        <option value={31}>Hưng Yên</option>
-                        <option value={32}>Khánh Hòa</option>
-                        <option value={33}>Kiên Giang</option>
-                        <option value={34}>Kon Tum</option>
-                        <option value={35}>Lai Châu</option>
-                        <option value={38}>Lào Cai</option>
-                        <option value={36}>Lâm Đồng</option>
-                        <option value={37}>Lạng Sơn</option>
-                        <option value={39}>Long An</option>
-                        <option value={40}>Nam Định</option>
-                        <option value={41}>Nghệ An</option>
-                        <option value={42}>Ninh Bình</option>
-                        <option value={43}>Ninh Thuận</option>
-                        <option value={44}>Phú Thọ</option>
-                        <option value={45}>Phú Yên</option>
-                        <option value={46}>Quảng Bình</option>
-                        <option value={47}>Quảng Nam</option>
-                        <option value={48}>Quảng Ngãi</option>
-                        <option value={49}>Quảng Ninh</option>
-                        <option value={50}>Quảng Trị</option>
-                        <option value={51}>Sóc Trăng</option>
-                        <option value={52}>Sơn La</option>
-                        <option value={53}>Tây Ninh</option>
-                        <option value={56}>Thanh Hóa</option>
-                        <option value={54}>Thái Bình</option>
-                        <option value={55}>Thái Nguyên</option>
-                        <option value={57}>Thừa Thiên-Huế</option>
-                        <option value={58}>Tiền Giang</option>
-                        <option value={59}>Trà Vinh</option>
-                        <option value={60}>Tuyên Quang</option>
-                        <option value={61}>Vĩnh Long</option>
-                        <option value={62}>Vĩnh Phúc</option>
-                        <option value={63}>Yên Bái</option>
-                        <option value={19}>Đắk Lắk</option>
-                        <option value={22}>Đồng Nai</option>
-                        <option value={23}>Đồng Tháp</option>
-                        <option value={21}>Điện Biên</option>
-                        <option value={20}>Đăk Nông</option>
-                      </select>
+                      {user && user.district !== null
+                        ? huydev?.districts.find(
+                            (district) => district.id === Number(user.district)
+                          )?.name || "Đang cập nhật"
+                        : "Đang cập nhật"}
                     </td>
                   </tr>
                   <tr>
-                    <td>Điện thoại cố định</td>
+                    <td>Xã/Phường</td>
                     <td>
-                      <input type="text" className="form-control" name="telephone" id="telephone" size={40} defaultValue />
+                      {user && user.commune !== null
+                        ? huydev?.wards.find(
+                            (commune) => commune.id === Number(user.commune)
+                          )?.name || "Đang cập nhật"
+                        : "Đang cập nhật"}
                     </td>
                   </tr>
                   <tr>
-                    <td>Điện thoại di động</td>
+                    <td>Tỉnh/TP</td>
                     <td>
-                      <input type="text" className="form-control" name="mobile" id="mobile" size={40} defaultValue />
+                      {user && user.city !== null
+                        ? huydev?.provinces.find(
+                            (city) => city.id === Number(user.city)
+                          )?.name || "Đang cập nhật"
+                        : "Đang cập nhật"}
                     </td>
                   </tr>
                   <tr>
-                    <td />
+                    <td>Số điện thoại</td>
                     <td>
-                      <input type="submit" defaultValue="Thay đổi" className="btn btn-danger" />
+                      {user && user.phone !== null
+                        ? user.phone
+                        : "Đang cập nhật"}
                     </td>
                   </tr>
-                </tbody></table>
-              <input type="hidden" name="update" defaultValue="yes" />
-            </form>
-          </div> */}
-          {/* end */}
+                </tbody>
+              </table>
+              <div style={{ paddingTop: 20, fontWeight: "bold" }}>
+                <Link
+                  onClick={() => handleTabClick(4)}
+                  className="btn btn-danger"
+                >
+                  Thay đổi thông tin
+                </Link>
+              </div>
+            </div>
+          )}
 
-          {/* danh sách đơn hàng */}
-          {/* <div className="account-col-right">
-  <h3>Danh sách đơn hàng</h3>
-  <table width="100%" border={1} bordercolor="#CCCCCC" style={{borderCollapse: 'collapse'}} cellPadding={4} cellSpacing={0}>
-    <tbody><tr align="center" style={{fontWeight: 'bold', background: '#0066c1', color: '#fff'}}>
-        <td>STT</td>
-        <td>Số đơn hàng</td>
-        <td>Giá trị</td>
-        <td>Thời gian</td>
-        <td>Thông tin</td>
-      </tr>
-      <tr align="center">
-        <td>1</td>
-        <td align="left">#7541 <a href="?view=account-order-detail&id=7541">Xem chi tiết</a></td>
-        <td>
-          27.650.000
-        </td>
-        <td>12-09-2023</td>
-        <td>
-          Chưa xử lý
-        </td>
-      </tr>
-    </tbody></table>
-  <br />
-</div> */}
-          {/* end */}
+          {activeTab === 1 && (
+            <div className="account-col-right">
+              <h3>Danh sách đơn hàng</h3>
+              <table
+                width="100%"
+                border={1}
+                bordercolor="#CCCCCC"
+                style={{ borderCollapse: "collapse" }}
+                cellPadding={4}
+                cellSpacing={0}
+              >
+                <tbody>
+                  <tr
+                    align="center"
+                    style={{
+                      fontWeight: "bold",
+                      background: "#0066c1",
+                      color: "#fff",
+                    }}
+                  >
+                    <td>STT</td>
+                    <td>Số đơn hàng</td>
+                    <td>Giá trị</td>
+                    <td>Thời gian</td>
+                    <td>Thông tin</td>
+                  </tr>
+                  <tr align="center">
+                    <td>1</td>
+                    <td align="left">
+                      #7541{" "}
+                      <a href="?view=account-order-detail&id=7541">
+                        Xem chi tiết
+                      </a>
+                    </td>
+                    <td>27.650.000</td>
+                    <td>12-09-2023</td>
+                    <td>Chưa xử lý</td>
+                  </tr>
+                </tbody>
+              </table>
+              <br />
+            </div>
+          )}
 
-          {/* thay đổi mật khẩu */}
-          {/* <div className="account-col-right">
-  <h3>Thay đổi mật khẩu</h3>
-  <form method="post" encType="multipart/form-data" name="account_form" className="col-right-tbl">
-    <table cellPadding={5} border={0} bordercolor="#CCCCCC" style={{borderCollapse: 'collapse'}}>
-      <tbody><tr>
-          <td width="150px">Mật khẩu hiện tại</td>
-          <td>
-            <input type="password" name="currentpassword" id="currentpassword" className="form-control" />
-          </td>
-        </tr>
-        <tr>
-          <td>Mật khẩu mới</td>
-          <td>
-            <input type="password" name="newpassword" id="newpassword" className="form-control" />
-          </td>
-        </tr>
-        <tr>
-          <td>Nhập lại mật khẩu</td>
-          <td>
-            <input type="password" name="renewpassword" id="renewpassword" className="form-control" />
-          </td>
-        </tr>
-        <tr>
-          <td />
-          <td>
-            <input type="submit" defaultValue="Thay đổi" className="btn btn-danger" />
-          </td>
-        </tr>
-      </tbody></table>
-    <input type="hidden" name="update" defaultValue="yes" />    
-  </form>
-</div> */}
-          {/* end */}
+          {activeTab === 2 && (
+            <div className="account-col-right">
+              <h3>Thay đổi mật khẩu</h3>
+              <form onSubmit={handleChangePassword} className="col-right-tbl">
+                <table
+                  cellPadding={5}
+                  border={0}
+                  bordercolor="#CCCCCC"
+                  style={{ borderCollapse: "collapse" }}
+                >
+                  <tbody>
+                    <tr>
+                      <td width="150px">Mật khẩu hiện tại</td>
+                      <td>
+                        <input
+                          type="password"
+                          onChange={handleChangePasswordInput}
+                          name="old_password"
+                          className="form-control"
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Mật khẩu mới</td>
+                      <td>
+                        <input
+                          type="password"
+                          name="password"
+                          onChange={handleChangePasswordInput}
+                          className="form-control"
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Nhập lại mật khẩu</td>
+                      <td>
+                        <input
+                          type="password"
+                          name="confirm_password"
+                          onChange={handleChangePasswordInput}
+                          className="form-control"
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td />
+                      <td>
+                        <button type="submit" className="btn btn-danger">
+                          Thay đổi
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </form>
+              {validationErrors && (
+                <p
+                  className="mt-1 red"
+                  id="js-popup-login-note"
+                  style={{ whiteSpace: "pre-line" }}
+                >
+                  {validationErrors.map((error, index) => (
+                    <li key={index}>{error}</li>
+                  ))}
+                </p>
+              )}
+            </div>
+          )}
+
+          {activeTab === 4 && <UpdateProfile user={user} />}
         </div>
       </div>
     </Layout>

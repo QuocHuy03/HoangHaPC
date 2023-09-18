@@ -9,6 +9,25 @@ import { message } from "antd";
 import { register } from "../../stores/authentication/actions";
 
 export default function RegisterPage() {
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(false);
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+  const togglePasswordConfirmVisibility = () => {
+    setPasswordConfirmVisible(!passwordConfirmVisible);
+  };
+  const [isPassword, setIsPassword] = useState("");
+  const [isPasswordConfirm, setIsPasswordConfirm] = useState("");
+
+  // Hàm xử lý sự kiện cho nút tắt hiển thị mật khẩu
+  const handlePasswordChange = (e) => {
+    setIsPassword(e.target.value);
+  };
+  const handlePasswordconfirmChange = (e) => {
+    setIsPasswordConfirm(e.target.value);
+  };
+
   const navigate = useNavigate();
   const [validationErrors, setValidationErrors] = useState([]);
   const [inputs, setInputs] = useState({
@@ -44,8 +63,8 @@ export default function RegisterPage() {
       fullname,
       username,
       email,
-      password,
-      confirm_password,
+      password: isPassword,
+      confirm_password: isPasswordConfirm,
     };
 
     try {
@@ -126,24 +145,39 @@ export default function RegisterPage() {
                   style={{ width: "48%" }}
                 >
                   <input
-                    type="password"
-                    onChange={handleChange}
+                    type={passwordVisible ? "text" : "password"}
+                    onChange={handlePasswordChange}
                     placeholder="Password"
+                    value={isPassword}
                     name="password"
                   />
-                  <a className="icons icon-eye" />
+                  {/* Nút hiện mật khẩu */}
+                  <a
+                    className={`icons ${
+                      passwordVisible ? "fa fa-eye-slash" : " fa fa-eye"
+                    }`}
+                    onClick={togglePasswordVisibility}
+                  ></a>
                 </div>
                 <div
                   className="input-box-auth input-password"
                   style={{ width: "48%" }}
                 >
                   <input
-                    type="password"
-                    onChange={handleChange}
+                    type={passwordConfirmVisible ? "text" : "password"}
+                    onChange={handlePasswordconfirmChange}
                     placeholder="Confirm Password"
+                    value={isPasswordConfirm}
                     name="confirm_password"
                   />
-                  <a className="icons icon-eye" />
+                  {/* Nút hiện mật khẩu */}
+                  <a
+                    className={`icons ${
+                      passwordConfirmVisible ? "fa fa-eye-slash" : " fa fa-eye"
+                    }`}
+                    onClick={togglePasswordConfirmVisibility}
+                  ></a>
+                  {/* Nút tắt hiển thị mật khẩu */}
                 </div>
               </div>
               {submitted && validationErrors && (

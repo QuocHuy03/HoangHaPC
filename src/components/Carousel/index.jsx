@@ -1,7 +1,6 @@
 import React from "react";
-import { Swiper } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
-import "./style.css";
+import { Swiper } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
@@ -12,19 +11,18 @@ export default function Carousel({
   children,
   spaceBetween,
   breakpoints,
+  slidesPerView,
 }) {
   return (
     <Swiper
+      loop={true}
+      delay={delay}
+      slidesPerView={slidesPerView}
       spaceBetween={spaceBetween}
-      centeredSlides={true}
-      breakpoints={breakpoints}
-      autoplay={{
-        delay: delay,
-        disableOnInteraction: false,
-      }}
       pagination={pagination}
       navigation={navigation}
       modules={[Autoplay, Pagination, Navigation]}
+      breakpoints={breakpoints}
       className="mySwiper"
     >
       {children}
