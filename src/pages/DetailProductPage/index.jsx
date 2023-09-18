@@ -101,7 +101,10 @@ export default function DetailProductPage() {
             <div className="pd-info-rating d-flex flex-wrap">
               <p>
                 Đánh giá:
-                <a>
+                <a
+                  href="javascript:void(0)"
+                  onclick='$("body,html").animate({ scrollTop: $("#pd-comment").offset().top - 100},800);'
+                >
                   <i className="icon-star star-5" />{" "}
                   <span className="blue-2">1</span>
                 </a>
@@ -112,14 +115,6 @@ export default function DetailProductPage() {
               <p>
                 Lượt xem: <span className="blue-2">7.986</span>
               </p>
-            </div>
-            <div className="product-color">
-              {data?.colors.map((item) => (
-                <div
-                  class="circle"
-                  style={{ backgroundColor: `${item.nameColor}` }}
-                ></div>
-              ))}
             </div>
             <div className="pd-summary-group">
               <b className="text-16 d-block font-700">Thông số sản phẩm</b>
@@ -149,24 +144,30 @@ export default function DetailProductPage() {
                 Quà tặng và ưu đãi kèm theo
               </p>
               <div className="pd-offer-list">
-                <div className="item">
-                  <p>
-                    <span
-                      style={{ color: "#ff0000", fontSize: "12pt" }}
-                      dangerouslySetInnerHTML={{
-                        __html: data?.presentProduct,
-                      }}
-                    ></span>
-                  </p>
-                </div>
+                <p>
+                  <span
+                    style={{ color: "#ff0000", fontSize: "12pt" }}
+                    dangerouslySetInnerHTML={{
+                      __html: data?.presentProduct,
+                    }}
+                  ></span>
+                </p>
               </div>
             </div>
             <div className="pd-btn-group d-flex flex-wrap">
-              <a className="pd-btn-buyNow">
+              <a
+                href="javascript:void(0)"
+                className="pd-btn-buyNow"
+                onclick="addProductToCart(3738, 1,'/cart')"
+              >
                 <b>MUA NGAY</b>
                 <span>Giao hàng tận nơi nhanh chóng</span>
               </a>
-              <a className="pd-btn-add-product">
+              <a
+                href="javascript:void(0)"
+                className="pd-btn-add-product"
+                onclick="addProductToCart(3738, 1,'')"
+              >
                 <b>THÊM VÀO GIỎ HÀNG</b>
                 <span>Thêm vào giỏ để chọn tiếp</span>
               </a>
@@ -500,6 +501,7 @@ export default function DetailProductPage() {
                       </a>
                       <a
                         className="btn-send-form-cmt"
+                        href="javascript:void(0)"
                         onclick="reviewReply('comment','',0)"
                       >
                         Gửi bình luận
@@ -601,7 +603,7 @@ export default function DetailProductPage() {
           </div>
           <div className="col-5">
             <div className="pd-box-group">
-              <h2 className="box-title">Thông số kỹ thuật</h2>
+              <h2 class="box-title">Thông số kỹ thuật</h2>
               <div className="pd-spec-holder">
                 <div
                   className="tlqcontent"
@@ -673,10 +675,18 @@ export default function DetailProductPage() {
         </div>
         <div className="pd-product-related-group">
           <div className="pd-box-title">
-            <a className="js-box-title active" data-id="js-pd-related">
+            <a
+              href="javascript:void(0)"
+              className="js-box-title active"
+              data-id="js-pd-related"
+            >
               Sản phẩm tương tự
             </a>
-            <a className="js-box-title" data-id="js-history">
+            <a
+              href="javascript:void(0)"
+              className="js-box-title"
+              data-id="js-history"
+            >
               Sản phẩm đã xem
             </a>
           </div>
@@ -740,6 +750,7 @@ export default function DetailProductPage() {
                           </span>
                         </p>
                         <a
+                          href="javascript:void(0)"
                           className="p-add-cart"
                           onclick="addProductToCart(3792, 1,'')"
                         />
@@ -930,7 +941,11 @@ export default function DetailProductPage() {
                               <i className="icons icon-gift" /> Quà tặng
                             </span>
                           </p>
-                          <a className="p-add-cart" />
+                          <a
+                            href="javascript:void(0)"
+                            className="p-add-cart"
+                            onclick="addProductToCart(3738, 1,'')"
+                          />
                         </div>
                       </div>
                       <div className="p-tooltip">

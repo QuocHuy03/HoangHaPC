@@ -1,11 +1,7 @@
 import "./style.css";
-
-import React from "react";
-
+import React, { useState } from "react";
 import { SwiperSlide } from "swiper/react";
-
 import { useQuery } from "@tanstack/react-query";
-
 import Carousel from "../../components/Carousel";
 import Layout from "../../components/Layout";
 import { bannerImages } from "../../constants/image";
@@ -17,10 +13,9 @@ import {
 } from "../../utils/fomatPrice";
 import { useDispatch } from "react-redux";
 import Loading from "../../components/Loading";
+import { addToCart } from "../../stores/cart/actions";
 
 export default function HomePage() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { data, isloading } = useQuery(
     ["product"],
     () => productService.fetchAllProducts(),
@@ -29,6 +24,8 @@ export default function HomePage() {
       retryDelay: 1000,
     }
   );
+
+
   return (
     <Layout>
       {/* Banner */}

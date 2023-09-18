@@ -14,62 +14,56 @@ const initialState = {
 const cartReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TO_CART:
-      const { product, quantity } = action.payload;
-      if (product) {
-        // Kiểm tra xem product đã tồn tại hay chưa
-        const existingProduct = state.carts.find(
-          (item) => item._id === product._id
-        );
-        const newQuantity = parseInt(quantity);
-        if (existingProduct) {
-          // CẬP NHẬT SỐ LƯỢNG MỚI CHO SẢN PHẨM ĐÃ TỒN TẠI
-          existingProduct.quantity += newQuantity;
-        } else {
-          // THÊM SẢN PHẨM MỚI
-          state.carts.push({ ...product, quantity: newQuantity });
-        }
+      console.log(action.payload)
+      const { productID, color, quantity } = action.payload;
+      const existingProduct = state.carts.find(
+        (item) => item._id === productID
+      );
+      const newQuantity = parseInt(quantity);
+
+      if (existingProduct) {
+        // Nếu sản phẩm đã tồn tại trong giỏ hàng, cập nhật số lượng mới
+        existingProduct.quantity += newQuantity;
+        return { ...state };
+      } else {
+        // Nếu sản phẩm chưa tồn tại trong giỏ hàng, thêm sản phẩm mới
+        const newProduct = {
+          _id: productID,
+          color: color,
+          quantity: newQuantity,
+        };
+        return { ...state, carts: [...state.carts, newProduct] };
       }
-      return { ...state };
 
     case REMOVE_CART:
       const productToRemove = action.payload;
-      state.carts = state.carts.filter(
+      const updatedCarts = state.carts.filter(
         (item) => item._id !== productToRemove._id
       );
-      return { ...state };
+      return { ...state, carts: updatedCarts };
 
     case DECREASE_QUANTIRY_CART:
       const productToDecrease = action.payload;
-      const existingProductToDecrease = state.carts.find(
-        (item) => item._id === productToDecrease._id
-      );
-      if (existingProductToDecrease && existingProductToDecrease.quantity > 1) {
-        // Nếu sản phẩm đã tồn tại trong giỏ hàng và số lượng của nó lớn hơn 1
-        existingProductToDecrease.quantity -= 1; // Giảm số lượng của sản phẩm đi 1
-      } else {
-        // Nếu sản phẩm không tồn tại trong giỏ hàng hoặc số lượng của nó chỉ còn 1
-        state.carts = state.carts.filter(
-          (item) => item._id !== productToDecrease._id
-        ); // Xóa sản phẩm khỏi giỏ hàng
-      }
-      return { ...state };
+      const updatedCartsDecrease = state.carts.map((item) => {
+        if (item._id === productToDecrease._id && item.quantity > 1) {
+          item.quantity -= 1;
+        }
+        return item;
+      });
+      return { ...state, carts: updatedCartsDecrease };
 
     case INCREASING_QUANTIRY_CART:
       const productToIncrease = action.payload;
-      const existingProductToIncrease = state.carts.find(
-        (item) => item._id === productToIncrease._id
-      );
-      if (existingProductToIncrease) {
-        // Nếu sản phẩm đã tồn tại trong giỏ hàng
-        existingProductToIncrease.quantity += 1; // Tăng số lượng của sản phẩm đi 1
-      } else {
-        // Nếu sản phẩm chưa tồn tại trong giỏ hàng
-        state.carts.push({ ...productToIncrease, quantity: 1 }); // Thêm sản phẩm vào giỏ hàng với số lượng là 1
-      }
-      return { ...state };
+      const updatedCartsIncrease = state.carts.map((item) => {
+        if (item._id === productToIncrease._id) {
+          item.quantity += 1;
+        }
+        return item;
+      });
+      return { ...state, carts: updatedCartsIncrease };
 
     case REMOVE_ALL_CART:
-      return initialState;
+      return { ...state, carts: [] };
 
     default:
       return state;
