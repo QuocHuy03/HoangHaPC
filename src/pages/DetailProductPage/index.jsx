@@ -73,7 +73,7 @@ export default function DetailProductPage() {
     }
     dispatch(
       addToCart({
-        productID: product._id,
+        product: product,
         color: selectedColor,
         quantity: 1,
       })
@@ -88,7 +88,7 @@ export default function DetailProductPage() {
     }
     dispatch(
       addToCart({
-        productID: product._id,
+        product: product,
         color: selectedColor,
         quantity: 1,
       })
