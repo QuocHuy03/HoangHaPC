@@ -81,7 +81,7 @@ export default function BlogPage() {
                   {data?.map((item) => (
                     <div className="top-art-item">
                       <a
-                        href="/cau-hinh-may-tinh-choi-game"
+                        href={`/tin-tuc/${item.slugBlog}`}
                         className="top-art-img"
                       >
                         <img
@@ -97,7 +97,7 @@ export default function BlogPage() {
                       </a>
                       <div className="top-art-text">
                         <a
-                          href="/cau-hinh-may-tinh-choi-game"
+                          href={`${item.slugBlog}`}
                           className="top-art-title"
                         >
                           {item.titleBlog}
