@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import Layout from '../../components/Layout';
 import { blogService } from '../../services/blog.service';
 import { promotionService } from '../../services/promotion.service';
+import { Link } from 'react-router-dom';
 
 export default function BlogPage() {
   const { data, isLoading } = useQuery(
@@ -46,10 +47,10 @@ export default function BlogPage() {
                   alt=""
                 />
                 <div class="item-text">
-                  <a href="/cau-hinh-may-tinh-dung-phim" class="item-title">
+                  <Link to="/tin-tuc/cau-hinh-may-tinh-dung-phim" class="item-title">
                     17 Cấu Hình Máy Tính Dựng Phim, Render Edit Video Theo Ngân
                     Sách 2023
-                  </a>
+                  </Link>
 
                   <p class="item-icon">
                     <i class="icons icon-edit"></i> <span>By Mai Văn Học</span>
@@ -65,9 +66,9 @@ export default function BlogPage() {
                     <span>Máy Khỏe - Máy Đẹp</span>
                   </p>
 
-                  <a href="/cau-hinh-may-tinh-dung-phim" class="item-btn">
+                  <Link to="/tin-tuc/cau-hinh-may-tinh-dung-phim" class="item-btn">
                     Đọc chi tiết
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -80,8 +81,8 @@ export default function BlogPage() {
                   {/**list blog */}
                   {data?.map((item) => (
                     <div className="top-art-item">
-                      <a
-                        href="/cau-hinh-may-tinh-choi-game"
+                      <Link
+                        to="/tin-tuc/cau-hinh-may-tinh-choi-game"
                         className="top-art-img"
                       >
                         <img
@@ -94,14 +95,14 @@ export default function BlogPage() {
                           data-was-processed="true"
                         />
                         <span className="top-cat">Máy Khỏe - Máy Đẹp</span>
-                      </a>
+                      </Link>
                       <div className="top-art-text">
-                        <a
-                          href="/cau-hinh-may-tinh-choi-game"
+                        <Link
+                          to="/tin-tuc/cau-hinh-may-tinh-choi-game"
                           className="top-art-title"
                         >
                           {item.titleBlog}
-                        </a>
+                        </Link>
                         <div className="top-art-time">
                           <span>
                             by <b>{item.userBlog}</b>
@@ -117,14 +118,14 @@ export default function BlogPage() {
           </div>
           <div className="art-box-group">
             <div className="box-title-group">
-              <a href="/may-khoe-may-dep" className="box-title">
+              <Link to="/tin-tuc/may-khoe-may-dep" className="box-title">
                 <h2>Máy Khỏe - Máy Đẹp</h2>
-              </a>
+              </Link>
               <div className="cat-child-list"></div>
             </div>
             <div className="article-list-container">
               <div className="art-item">
-                <a href="/cau-hinh-may-tinh-do-hoa" className="art-img">
+                <Link to="/tin-tuc/cau-hinh-may-tinh-do-hoa" className="art-img">
                   <img
                     data-src="https://hoanghapccdn.com/media/news/14_pc_do_hoa_hoanghapc_min.jpg"
                     alt="10 Cấu Hình Máy Tính Đồ Họa Theo Ngân Sách✔️"
@@ -135,7 +136,7 @@ export default function BlogPage() {
                     data-was-processed="true"
                   />
                   <span className="art-cat">Máy Khỏe - Máy Đẹp</span>
-                </a>
+                </Link>
                 <div className="art-text">
                   <p className="art-time">
                     <span>
@@ -143,21 +144,21 @@ export default function BlogPage() {
                     </span>{" "}
                     |<time>28-08-2023, 10:25 am</time>
                   </p>
-                  <a href="/cau-hinh-may-tinh-do-hoa" className="art-title">
+                  <Link to="/tin-tuc/cau-hinh-may-tinh-do-hoa" className="art-title">
                     <h3 className="inherit">
                       10 Cấu Hình Máy Tính Đồ Họa Theo Ngân Sách✔️
                     </h3>
-                  </a>
+                  </Link>
                   <div className="art-hover">
                     <div className="art-summary">
                       Cấu hình máy tính đồ họa chuyên dụng cho công việc thiết
                       kế đồ họa, làm phim, Render và xử lý các thuật toán AI trí
                       tuệ nhân tạo phù hợp nhất mọi công việc.
                     </div>
-                    <a href="/cau-hinh-may-tinh-do-hoa" className="art-btn">
+                    <Link to="/tin-tuc/cau-hinh-may-tinh-do-hoa" className="art-btn">
                       Đọc chi tiết{" "}
                       <i className="fas fa-arrow-right" aria-hidden="true" />
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -209,7 +210,7 @@ export default function BlogPage() {
                 </div>
               </div>
               <div className="art-item">
-                <a href="/cau-hinh-may-tinh-dung-phim" className="art-img">
+                <Link to="/tin-tuc/cau-hinh-may-tinh-dung-phim" className="art-img">
                   <img
                     data-src="https://hoanghapccdn.com/media/news/19_10_cau_hinh_6.jpg"
                     alt="17 Cấu Hình Máy Tính Dựng Phim, Render Edit Video Theo Ngân Sách 2023"
@@ -220,7 +221,7 @@ export default function BlogPage() {
                     data-was-processed="true"
                   />
                   <span className="art-cat">Máy Khỏe - Máy Đẹp</span>
-                </a>
+                </Link>
                 <div className="art-text">
                   <p className="art-time">
                     <span>
@@ -347,14 +348,14 @@ export default function BlogPage() {
                     </span>{" "}
                     |<time>04-07-2023, 1:38 pm</time>
                   </p>
-                  <a
-                    href="/cau-hinh-may-tinh-chay-phan-mem-lumion-chuyen-dung"
+                  <Link
+                    to="/tin-tuc/cau-hinh-may-tinh-chay-phan-mem-lumion-chuyen-dung"
                     className="art-title"
                   >
                     <h3 className="inherit">
                       10 Cấu Hình Máy Tính Chạy Lumion✔️Chuyên Dụng
                     </h3>
-                  </a>
+                  </Link>
                   <div className="art-hover">
                     <div className="art-summary">
                       Hoàng Hà PC xin được tư vấn tới anh em các yếu tố lựa chọn
