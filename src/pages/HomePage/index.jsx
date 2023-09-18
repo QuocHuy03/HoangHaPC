@@ -272,7 +272,7 @@ export default function HomePage() {
                             </span>
                           </p>
                           <a
-                            href="javascript:void(0)"
+                            href={`/product/${item.slugProduct}`}
                             className="p-add-cart"
                             onclick="addProductToCart(3792, 1,'')"
                           />
