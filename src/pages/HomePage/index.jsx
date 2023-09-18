@@ -25,7 +25,6 @@ export default function HomePage() {
     }
   );
 
-
   return (
     <Layout>
       {/* Banner */}
@@ -272,7 +271,7 @@ export default function HomePage() {
                             </span>
                           </p>
                           <a
-                            href="javascript:void(0)"
+                            href={`/product/${item.slugProduct}`}
                             className="p-add-cart"
                             onclick="addProductToCart(3792, 1,'')"
                           />
@@ -468,14 +467,14 @@ export default function HomePage() {
                       />
                     </Link>
                     <div className="p-text">
-                      <a
-                        href="/hhpc-3d-lumion-i5-13600k-32g-nvidia-rtx-3060-12g"
+                      <Link
+                        to={`/product/${item.slugProduct}`}
                         className="p-name"
                       >
                         <h3 className="inherit">
-                          HHPC 3D i5 13600K | 32G | NVIDIA RTX 3060 12G
+                          {item.nameProduct}
                         </h3>
-                      </a>
+                      </Link>
                       <div className="p-price-group">
                         <span className="p-price">23.950.000 đ</span>
                         <del className="p-old-price">26.500.000 đ</del>
@@ -490,11 +489,7 @@ export default function HomePage() {
                             <i className="icons icon-gift" /> Quà tặng
                           </span>
                         </p>
-                        <a
-                          href="javascript:void(0)"
-                          className="p-add-cart"
-                          onclick="addProductToCart(3792, 1,'')"
-                        />
+                        <a href="javascript:void(0)" className="p-add-cart" />
                       </div>
                     </div>
                     <div className="p-tooltip">
