@@ -15,7 +15,7 @@ import { AppContext } from "../../contexts/AppContextProvider";
 
 export default function CartPage() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
   const { carts } = useContext(AppContext);
   console.log(carts);
   const totalAmountAll = carts.reduce(
@@ -106,7 +106,7 @@ export default function CartPage() {
                               {item.product.nameProduct}
                             </Link>
                             <div className="item-name">
-                              Color : {item.color}
+                              COLOR : <span style={{textTransform: "uppercase", color: `${item.color}`}}>{item.color}</span>
                             </div>
                           </div>
                           <p className="item-status">
@@ -183,45 +183,40 @@ export default function CartPage() {
                 <div className="cart-customer-group">
                   <div className="cart-customer-holder">
                     <p className="title blue-2">Thông tin thanh toán</p>
-                    <p style={{ margin: "0 0 16px 0" }}>
-                      Để tiếp tục đặt hàng, quý khách xin vui lòng{" "}
-                      <a
-                        href="javascript:void(0)"
-                        onclick="_showCustomerPopup('login')"
-                        className="font-800 blue-2"
-                      >
-                        đăng nhập
-                      </a>{" "}
-                      hoặc nhập thông tin bên dưới
-                    </p>
+                    {user ? (
+                      <p style={{ margin: "0 0 16px 0" }}>
+                        Để tiếp tục đặt hàng, quý khách xin vui lòng nhập thông
+                        tin bên dưới
+                      </p>
+                    ) : (
+                      <p style={{ margin: "0 0 16px 0" }}>
+                        Để tiếp tục đặt hàng, quý khách xin vui lòng{" "}
+                        <a className="font-800 blue-2">đăng nhập</a> hoặc nhập
+                        thông tin bên dưới
+                      </p>
+                    )}
                     <input
                       type="text"
                       placeholder="Họ tên người nhận hàng"
                       className="form-input"
-                      
-                     
-                     
                     />
                     <input
                       type="text"
                       placeholder="Số điện thoại người nhận"
                       className="form-input"
                       name="user_info[tel]"
-                     
                     />
                     <input
                       type="text"
                       placeholder="Email"
                       className="form-input"
                       name="user_info[email]"
-                     
                     />
                     <input
                       type="text"
                       placeholder="Địa chỉ nhận hàng"
                       className="form-input"
                       name="user_info[address]"
-                      
                     />
                     <textarea
                       className="form-input"
