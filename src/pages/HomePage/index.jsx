@@ -271,14 +271,14 @@ export default function HomePage() {
                               <i className="icons icon-gift" /> Quà tặng
                             </span>
                           </p>
-                         
-                            <Link
-                          to={`/product/${item.slugProduct}`}
-                          className="p-add-cart"
-                          onclick="addProductToCart(3792, 1,'')"
-                        >
-                          
-                        </Link>
+
+                          <Link
+                            to={`/product/${item.slugProduct}`}
+                            className="p-add-cart"
+                            onclick="addProductToCart(3792, 1,'')"
+                          >
+
+                          </Link>
                         </div>
                       </div>
                       <div className="p-tooltip">
@@ -498,7 +498,7 @@ export default function HomePage() {
                           className="p-add-cart"
                           onclick="addProductToCart(3792, 1,'')"
                         >
-                          
+
                         </Link>
                       </div>
                     </div>
