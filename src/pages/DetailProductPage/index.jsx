@@ -10,11 +10,17 @@ import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { productService } from "../../services/product.service";
 import { formatPrice } from "./../../utils/fomatPrice";
+import { addToCart } from "../../stores/cart/actions";
+import { useDispatch } from "react-redux";
+import { message } from "antd";
 
 export default function DetailProductPage() {
   const [isSeeMore, setIsSeeMore] = useState(true);
   const [isReview, setIsReview] = useState(true);
   const [rating, setRating] = useState(0);
+  const [selectedColor, setSelectedColor] = useState(null);
+  const [showColorError, setShowColorError] = useState(false);
+  const dispatch = useDispatch();
   const toggleSeeMore = () => {
     setIsSeeMore(!isSeeMore);
   };
@@ -49,6 +55,30 @@ export default function DetailProductPage() {
       retryDelay: 1000,
     }
   );
+
+  const handleColorClick = (color) => {
+    if (color === null) {
+      setShowColorError(true);
+    } else {
+      setSelectedColor(color);
+      setShowColorError(false);
+    }
+  };
+
+  const buyCart = (product) => {
+    if (!selectedColor) {
+      setShowColorError(true);
+      return;
+    }
+    dispatch(
+      addToCart({
+        productID: product._id,
+        color: selectedColor,
+        quantity: 1,
+      })
+    );
+    message.success(`Thêm Sản Phẩm Vào Giỏ Hàng Success`);
+  };
   return (
     <Layout>
       <div className="global-breadcrumb">
@@ -101,10 +131,7 @@ export default function DetailProductPage() {
             <div className="pd-info-rating d-flex flex-wrap">
               <p>
                 Đánh giá:
-                <a
-                  href="javascript:void(0)"
-                  onclick='$("body,html").animate({ scrollTop: $("#pd-comment").offset().top - 100},800);'
-                >
+                <a>
                   <i className="icon-star star-5" />{" "}
                   <span className="blue-2">1</span>
                 </a>
@@ -116,6 +143,27 @@ export default function DetailProductPage() {
                 Lượt xem: <span className="blue-2">7.986</span>
               </p>
             </div>
+            <div className="product-color">
+              {data?.colors.map((item) => (
+                <div
+                  onClick={() => handleColorClick(item.nameColor)}
+                  className="circle"
+                  style={{
+                    backgroundColor: `${item.nameColor}`,
+                    border: ` ${
+                      selectedColor === item.nameColor
+                        ? "2px solid rgb(159 149 149)"
+                        : ""
+                    }`,
+                  }}
+                ></div>
+              ))}
+            </div>
+            {showColorError && (
+              <span style={{ color: "red", paddingTop: "10px" }}>
+                (Vui lòng chọn màu)
+              </span>
+            )}
             <div className="pd-summary-group">
               <b className="text-16 d-block font-700">Thông số sản phẩm</b>
               <div
@@ -155,19 +203,11 @@ export default function DetailProductPage() {
               </div>
             </div>
             <div className="pd-btn-group d-flex flex-wrap">
-              <a
-                href="javascript:void(0)"
-                className="pd-btn-buyNow"
-                onclick="addProductToCart(3738, 1,'/cart')"
-              >
+              <a className="pd-btn-buyNow">
                 <b>MUA NGAY</b>
                 <span>Giao hàng tận nơi nhanh chóng</span>
               </a>
-              <a
-                href="javascript:void(0)"
-                className="pd-btn-add-product"
-                onclick="addProductToCart(3738, 1,'')"
-              >
+              <a className="pd-btn-add-product" onClick={() => buyCart(data)}>
                 <b>THÊM VÀO GIỎ HÀNG</b>
                 <span>Thêm vào giỏ để chọn tiếp</span>
               </a>
