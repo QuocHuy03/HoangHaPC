@@ -3,6 +3,7 @@ import "./style.css";
 import Layout from "../../components/Layout";
 import { useQuery } from "@tanstack/react-query";
 import { paymentService } from "../../services/payment.service";
+import Loading from "../../components/Loading";
 
 export default function CheckoutPage() {
   const [activeItem, setActiveItem] = useState(1);
@@ -17,7 +18,7 @@ export default function CheckoutPage() {
       retryDelay: 1000,
     }
   );
-  console.log(data)
+  console.log(data);
   return (
     <Layout>
       <div className="global-breadcrumb">
@@ -47,7 +48,7 @@ export default function CheckoutPage() {
                 itemProp="item"
                 className="nopad-l"
               >
-                <span itemProp="name"> Thông tin giỏ hàng </span>
+                <span itemProp="name"> Thông tin thanh toán </span>
               </a>
               <meta itemProp="position" content={2} />
             </li>
@@ -86,75 +87,81 @@ export default function CheckoutPage() {
                       rowGap: 16,
                     }}
                   >
-                    {data?.map((huyit) => (
-                    <div
-                      className="teko-col teko-col-6 css-gr7r8o"
-                      style={{ paddingLeft: 8, paddingRight: 8 }}
-                    >
+                    {isloading ? (
+                      <Loading />
+                    ) : (
+                      data?.map((huyit) => (
                         <div
-                          key={huyit._id}
-                          className={`${
-                            activeItem === huyit._id ? "css-1014eaz" : "css-64rk53"
-                          }`}
-                          onClick={() => handleClickPayment(huyit._id)}
-                          style={{ height: "100%" }}
+                          className="teko-col teko-col-6 css-gr7r8o"
+                          style={{ paddingLeft: 8, paddingRight: 8 }}
                         >
-                          <div type="subtitle" className="css-qat15y">
-                            {huyit.namePayment}
-                            <span style={{ paddingLeft: 5 }}>
-                              {huyit.shouldusePayment == "true" ? (
-                                <span className="css-1fh7f3v">
-                                  <div
-                                    type="caption"
-                                    color="white"
-                                    className="css-7496ip"
-                                  >
-                                    Khuyên dùng
-                                  </div>
-                                </span>
-                              ) : (
-                                ""
-                              )}
-                            </span>
-                          </div>
                           <div
-                            type="body"
-                            color="textSecondary"
-                            className="css-ngriz3"
+                            key={huyit._id}
+                            className={`${
+                              activeItem === huyit._id
+                                ? "css-1014eaz"
+                                : "css-64rk53"
+                            }`}
+                            onClick={() => handleClickPayment(huyit._id)}
+                            style={{ height: "100%" }}
                           >
-                            {huyit.descriptionPayment}
-                          </div>
-                          <div type="body" className="css-9o8e5m" />
-                          {activeItem === huyit._id ? (
-                            <React.Fragment>
-                              <div className="css-18wywdr" />
-                              <span className="css-mpv07g">
-                                <svg
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  size={20}
-                                  className="css-1kpmq"
-                                  color="#ffffff"
-                                  height={20}
-                                  width={20}
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    d="M5 12.4545L9.375 17L19 7"
-                                    stroke="#82869E"
-                                    strokeWidth="1.5"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-                                </svg>
+                            <div type="subtitle" className="css-qat15y">
+                              {huyit.namePayment}
+                              <span style={{ paddingLeft: 5 }}>
+                                {huyit.shouldusePayment == "true" ? (
+                                  <span className="css-1fh7f3v">
+                                    <div
+                                      type="caption"
+                                      color="white"
+                                      className="css-7496ip"
+                                    >
+                                      Khuyên dùng
+                                    </div>
+                                  </span>
+                                ) : (
+                                  ""
+                                )}
                               </span>
-                            </React.Fragment>
-                          ) : (
-                            ""
-                          )}
+                            </div>
+                            <div
+                              type="body"
+                              color="textSecondary"
+                              className="css-ngriz3"
+                            >
+                              {huyit.descriptionPayment}
+                            </div>
+                            <div type="body" className="css-9o8e5m" />
+                            {activeItem === huyit._id ? (
+                              <React.Fragment>
+                                <div className="css-18wywdr" />
+                                <span className="css-mpv07g">
+                                  <svg
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    size={20}
+                                    className="css-1kpmq"
+                                    color="#ffffff"
+                                    height={20}
+                                    width={20}
+                                    xmlns="http://www.w3.org/2000/svg"
+                                  >
+                                    <path
+                                      d="M5 12.4545L9.375 17L19 7"
+                                      stroke="#82869E"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                  </svg>
+                                </span>
+                              </React.Fragment>
+                            ) : (
+                              ""
+                            )}
+                          </div>
                         </div>
-                    </div>
-                      ))}
+                      ))
+                    )}
                   </div>
                 </div>
               </div>
