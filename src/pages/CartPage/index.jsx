@@ -3,7 +3,12 @@ import Layout from "../../components/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { URL_CONSTANTS } from "../../constants/url.constants";
-import { decreaseQuantity, increaseQuantity, removeCartItem } from "../../stores/cart/actions";
+import {
+  decreaseQuantity,
+  increaseQuantity,
+  removeAllCart,
+  removeCartItem,
+} from "../../stores/cart/actions";
 import { formatPrice } from "../../utils/fomatPrice";
 import { message } from "antd";
 
@@ -19,17 +24,22 @@ export default function CartPage() {
 
   const handleIncreasingQuantity = (item) => {
     dispatch(increaseQuantity(item));
-    message.success("+ 1 Số Lượng Success");
+    message.success("+ 1 Số Lượng Thành Công");
   };
 
   const handleDecreaseQuantity = (item) => {
     dispatch(decreaseQuantity(item));
-    message.info("- 1 Số Lượng Success");
+    message.info("- 1 Số Lượng Thành Công");
   };
 
   const handleDeleteItem = (item) => {
     dispatch(removeCartItem(item));
-    message.error("Xóa Sản Phẩm Thành Công");
+    message.error("Xóa 1 Sản Phẩm Thành Công");
+  };
+
+  const handleDeleteAll = () => {
+    dispatch(removeAllCart());
+    message.error("Xóa Tất Cả Sản Phẩm Thành Công");
   };
   return (
     <Layout>
@@ -128,14 +138,19 @@ export default function CartPage() {
                             aria-hidden="true"
                           />
                         </div>
-                        <a className="js-delete-item icon-delete" onClick={() => handleDeleteItem(item)} />
+                        <a
+                          className="js-delete-item icon-delete"
+                          onClick={() => handleDeleteItem(item)}
+                        />
                         <div className="item-price-holder">
                           <p className="item-price">
                             {formatPrice(item.product.price_has_dropped)} VNĐ
                           </p>
                           <p className="total-item-price">
                             <span className="js-total-item-price">
-                              {formatPrice(item.product.price_has_dropped * item.quantity)}
+                              {formatPrice(
+                                item.product.price_has_dropped * item.quantity
+                              )}
                             </span>{" "}
                             VNĐ
                           </p>
@@ -158,7 +173,7 @@ export default function CartPage() {
                 <a
                   href="javascript:void(0)"
                   className="btn-remove-group"
-                  onclick='$(".js-delete-item").click();'
+                  onClick={handleDeleteAll}
                 >
                   Làm trống giỏ hàng
                 </a>
