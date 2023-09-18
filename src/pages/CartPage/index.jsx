@@ -1,7 +1,13 @@
 import React from "react";
 import Layout from "../../components/Layout";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function CartPage() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { carts } = useSelector((state) => state.cart);
+  console.log(carts);
   return (
     <Layout>
       <div className="global-breadcrumb">
@@ -43,7 +49,7 @@ export default function CartPage() {
         <div className="page-title d-inline-flex align-items-baseline">
           <h1 className="mb-0 blue-2 font-700">Giỏ hàng của tôi</h1>
           <span className="text-12 ml-2" id="js-cart-total-item">
-            ( 1 sản phẩm )
+            ( {carts?.length} sản phẩm )
           </span>
         </div>
         <form
@@ -55,12 +61,7 @@ export default function CartPage() {
         >
           <div className="col-8">
             <div className="cart-items-group">
-              <div
-                className="item js-item-row"
-                data-variant_id={0}
-                data-item_id={3668}
-                data-item_type="product"
-              >
+              <div className="item js-item-row">
                 <div className="item-left">
                   <span className="item-img">
                     <img src="https://hoanghapccdn.com/media/product/120_3668_hhpc_black_12900k_qc.png" />
@@ -261,6 +262,4 @@ export default function CartPage() {
       </div>
     </Layout>
   );
-};
-
-
+}

@@ -16,7 +16,7 @@ const cartReducer = (state = initialState, action) => {
     case ADD_TO_CART:
       const { productID, color, quantity } = action.payload;
       const existingProduct = state.carts.find(
-        (item) => item._id === productID
+        (item) => item.productID === productID
       );
       const newQuantity = parseInt(quantity);
 
@@ -27,24 +27,23 @@ const cartReducer = (state = initialState, action) => {
       } else {
         // Nếu sản phẩm chưa tồn tại trong giỏ hàng, thêm sản phẩm mới
         const newProduct = {
-          _id: productID,
+          productID: productID,
           color: color,
           quantity: newQuantity,
         };
         return { ...state, carts: [...state.carts, newProduct] };
       }
-
     case REMOVE_CART:
       const productToRemove = action.payload;
       const updatedCarts = state.carts.filter(
-        (item) => item._id !== productToRemove._id
+        (item) => item.productID !== productToRemove._id
       );
       return { ...state, carts: updatedCarts };
 
     case DECREASE_QUANTIRY_CART:
       const productToDecrease = action.payload;
       const updatedCartsDecrease = state.carts.map((item) => {
-        if (item._id === productToDecrease._id && item.quantity > 1) {
+        if (item.productID === productToDecrease._id && item.quantity > 1) {
           item.quantity -= 1;
         }
         return item;
@@ -54,7 +53,7 @@ const cartReducer = (state = initialState, action) => {
     case INCREASING_QUANTIRY_CART:
       const productToIncrease = action.payload;
       const updatedCartsIncrease = state.carts.map((item) => {
-        if (item._id === productToIncrease._id) {
+        if (item.productID === productToIncrease._id) {
           item.quantity += 1;
         }
         return item;
