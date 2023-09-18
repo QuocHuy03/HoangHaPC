@@ -273,7 +273,6 @@ export default function HomePage() {
                           <a
                             href={`/product/${item.slugProduct}`}
                             className="p-add-cart"
-                            onclick="addProductToCart(3792, 1,'')"
                           />
                         </div>
                       </div>
@@ -471,9 +470,7 @@ export default function HomePage() {
                         to={`/product/${item.slugProduct}`}
                         className="p-name"
                       >
-                        <h3 className="inherit">
-                          {item.nameProduct}
-                        </h3>
+                        <h3 className="inherit">{item.nameProduct}</h3>
                       </Link>
                       <div className="p-price-group">
                         <span className="p-price">23.950.000 đ</span>
