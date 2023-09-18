@@ -1,8 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import "./style.css";
 import Layout from "../../components/Layout";
+import { useQuery } from "@tanstack/react-query";
+import { paymentService } from "../../services/payment.service";
 
 export default function CheckoutPage() {
+  const [activeItem, setActiveItem] = useState(1);
+  const handleClickPayment = (itemId) => {
+    setActiveItem(itemId);
+  };
+  const { data, isloading } = useQuery(
+    ["payment"],
+    () => paymentService.fetchAllPayments(),
+    {
+      retry: 3,
+      retryDelay: 1000,
+    }
+  );
+  console.log(data)
   return (
     <Layout>
       <div className="global-breadcrumb">
@@ -47,55 +62,59 @@ export default function CheckoutPage() {
           </div>
           <form className="row" encType="multipart/form-data">
             <div className="col-8">
-           
-                <div className="teko-card css-t9nop0">
-                  <div className="teko-card-header css-0">
-                    <div>
-                      <div type="title" className="css-1p6ero0">
-                        Phương thức thanh toán
-                      </div>
-                      <div
-                        type="body"
-                        color="textSecondary"
-                        className="css-kgtmqg"
-                      >
-                        Thông tin thanh toán của bạn sẽ luôn được bảo mật
-                      </div>
+              <div className="teko-card css-t9nop0">
+                <div className="teko-card-header css-0">
+                  <div>
+                    <div type="title" className="css-1p6ero0">
+                      Phương thức thanh toán
+                    </div>
+                    <div
+                      type="body"
+                      color="textSecondary"
+                      className="css-kgtmqg"
+                    >
+                      Thông tin thanh toán của bạn sẽ luôn được bảo mật
                     </div>
                   </div>
-                  <div className="teko-card-body css-0">
+                </div>
+                <div className="teko-card-body css-0">
+                  <div
+                    className="teko-row teko-row-start css-80kmv8"
+                    style={{
+                      marginLeft: "-8px",
+                      marginRight: "-8px",
+                      rowGap: 16,
+                    }}
+                  >
+                    {data?.map((huyit) => (
                     <div
-                      className="teko-row teko-row-start css-80kmv8"
-                      style={{
-                        marginLeft: "-8px",
-                        marginRight: "-8px",
-                        rowGap: 16,
-                      }}
+                      className="teko-col teko-col-6 css-gr7r8o"
+                      style={{ paddingLeft: 8, paddingRight: 8 }}
                     >
-                      <div
-                        className="teko-col teko-col-6 css-gr7r8o"
-                        style={{ paddingLeft: 8, paddingRight: 8 }}
-                      >
                         <div
-                          data-content-region-name="paymentMethod"
-                          data-track-content="true"
-                          data-content-name="VNPAY_GATEWAY"
-                          data-content-target="VNPAY_GATEWAY"
-                          className="css-1014eaz"
+                          key={huyit._id}
+                          className={`${
+                            activeItem === huyit._id ? "css-1014eaz" : "css-64rk53"
+                          }`}
+                          onClick={() => handleClickPayment(huyit._id)}
                           style={{ height: "100%" }}
                         >
                           <div type="subtitle" className="css-qat15y">
-                            Thanh toán VNPAY-QR
+                            {huyit.namePayment}
                             <span style={{ paddingLeft: 5 }}>
-                              <span className="css-1fh7f3v">
-                                <div
-                                  type="caption"
-                                  color="white"
-                                  className="css-7496ip"
-                                >
-                                  Khuyên dùng
-                                </div>
-                              </span>
+                              {huyit.shouldusePayment == "true" ? (
+                                <span className="css-1fh7f3v">
+                                  <div
+                                    type="caption"
+                                    color="white"
+                                    className="css-7496ip"
+                                  >
+                                    Khuyên dùng
+                                  </div>
+                                </span>
+                              ) : (
+                                ""
+                              )}
                             </span>
                           </div>
                           <div
@@ -103,88 +122,44 @@ export default function CheckoutPage() {
                             color="textSecondary"
                             className="css-ngriz3"
                           >
-                            Thanh toán qua Internet Banking, Visa, Master, JCB,
-                            VNPAY-QR
+                            {huyit.descriptionPayment}
                           </div>
                           <div type="body" className="css-9o8e5m" />
-                          <div className="css-18wywdr" />
-                          <span className="css-mpv07g">
-                            <svg
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              size={20}
-                              className="css-1kpmq"
-                              color="#ffffff"
-                              height={20}
-                              width={20}
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M5 12.4545L9.375 17L19 7"
-                                stroke="#82869E"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </svg>
-                          </span>
+                          {activeItem === huyit._id ? (
+                            <React.Fragment>
+                              <div className="css-18wywdr" />
+                              <span className="css-mpv07g">
+                                <svg
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  size={20}
+                                  className="css-1kpmq"
+                                  color="#ffffff"
+                                  height={20}
+                                  width={20}
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M5 12.4545L9.375 17L19 7"
+                                    stroke="#82869E"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                  />
+                                </svg>
+                              </span>
+                            </React.Fragment>
+                          ) : (
+                            ""
+                          )}
                         </div>
-                      </div>
-                      <div
-                        className="teko-col teko-col-6 css-gr7r8o"
-                        style={{ paddingLeft: 8, paddingRight: 8 }}
-                      >
-                        <div
-                          data-content-region-name="paymentMethod"
-                          data-track-content="true"
-                          data-content-name="COD"
-                          data-content-target="COD"
-                          className="css-64rk53"
-                          style={{ height: "100%" }}
-                        >
-                          <div type="subtitle" className="css-qat15y">
-                            Thanh toán khi nhận hàng
-                            <span style={{ paddingLeft: 5 }} />
-                          </div>
-                          <div
-                            type="body"
-                            color="textSecondary"
-                            className="css-ngriz3"
-                          />
-                          <div type="body" className="css-9o8e5m" />
-                        </div>
-                      </div>
-                      <div
-                        className="teko-col teko-col-6 css-gr7r8o"
-                        style={{ paddingLeft: 8, paddingRight: 8 }}
-                      >
-                        <div
-                          data-content-region-name="paymentMethod"
-                          data-track-content="true"
-                          data-content-name="ZALOPAY_GATEWAY"
-                          data-content-target="ZALOPAY_GATEWAY"
-                          className="css-64rk53"
-                          style={{ height: "100%" }}
-                        >
-                          <div type="subtitle" className="css-qat15y">
-                            Thanh toán QR Code ZaloPay
-                            <span style={{ paddingLeft: 5 }} />
-                          </div>
-                          <div
-                            type="body"
-                            color="textSecondary"
-                            className="css-ngriz3"
-                          >
-                            Thanh toán QR Code ZaloPay
-                          </div>
-                          <div type="body" className="css-9o8e5m" />
-                        </div>
-                      </div>
                     </div>
+                      ))}
                   </div>
                 </div>
               </div>
-            
+            </div>
+
             <div className="col-4">
               <div className="cart-customer-group">
                 <div className="cart-customer-holder">
@@ -205,34 +180,29 @@ export default function CheckoutPage() {
                     placeholder="Họ tên người nhận hàng"
                     className="form-input"
                     name="user_info[name]"
-                    
                   />
                   <input
                     type="text"
                     placeholder="Số điện thoại người nhận"
                     className="form-input"
                     name="user_info[tel]"
-                    
                   />
                   <input
                     type="text"
                     placeholder="Email"
                     className="form-input"
                     name="user_info[email]"
-                    
                   />
                   <input
                     type="text"
                     placeholder="Địa chỉ nhận hàng"
                     className="form-input"
                     name="user_info[address]"
-                    
                   />
                   <textarea
                     className="form-input"
                     placeholder="Ghi chú"
                     name="user_info[note]"
-                   
                   />
                 </div>
                 <button type="submit" className="btn-submit-cart js-send-cart">
