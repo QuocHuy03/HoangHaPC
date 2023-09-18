@@ -1,8 +1,31 @@
-import React from "react";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
-import Layout from "../../components/Layout";
+import { useParams } from 'react-router';
+
+import { useQuery } from '@tanstack/react-query';
+
+import Layout from '../../components/Layout';
+import { blogService } from '../../services/blog.service';
 
 export default function BlogDetailPage() {
+  const { slug } = useParams();
+  const [isSlug, setSlug] = useState(null);
+  useEffect(() => {
+    if (slug) {
+      setSlug(slug);
+    }
+  }, [slug]);
+  const { data, isLoading } = useQuery({
+    queryKey: ["edit-blog", isSlug],
+    queryFn: () => blogService.fetchBlogBySlug(isSlug),
+    staleTime: 500,
+    enabled: !!isSlug,
+  });
+ 
+
   return (
     <Layout>
       <div className="article-page">
@@ -25,12 +48,15 @@ export default function BlogDetailPage() {
           <div className="row">
             <div className="col-8 art-detail-col-left">
               <h1 className="art-detail-title">
-                10 Cấu Hình Máy Tính Đồ Họa Theo Ngân Sách✔️
+                {data?.result.titleBlog}
               </h1>
               <p className="art-detail-author">
-                Đăng trong <b>Máy Khỏe - Máy Đẹp</b>
+                Đăng bởi <b>{data?.result.userBlog}</b>
               </p>
               <div className="art-detail-content" id="js-find_toc">
+                {data?.result.descriptionBlog}
+              </div>
+              {/* <div className="art-detail-content" id="js-find_toc">
                 <p>
                   <em>
                     Nếu bạn đang tìm kiếm một cấu hình{" "}
@@ -7125,7 +7151,7 @@ export default function BlogDetailPage() {
                   </a>{" "}
                   để được tư vấn rõ hơn.
                 </p>
-              </div>
+              </div> */}
               <div className="art-detail-info">
                 <div className="art-info-title">
                   <span className="info-img">
