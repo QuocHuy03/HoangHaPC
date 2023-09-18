@@ -184,7 +184,6 @@ export default function HeaderBottom() {
                   <i
                     className="cat-thum lazy"
                     data-bg={`url(${category.imageCategory})`}
-                    data-was-processed="true"
                     style={{
                       backgroundImage: `url(${category.imageCategory})`,
                     }}
@@ -270,10 +269,9 @@ export default function HeaderBottom() {
           </div>
           <input
             type="text"
-            id="js-seach-input"
             name="q"
             placeholder="Nhập từ khóa cần tìm"
-            defaultValue
+            className="search-input"
             autoComplete="off"
             className="text-search"
           />
