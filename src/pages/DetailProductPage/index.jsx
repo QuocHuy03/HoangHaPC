@@ -40,7 +40,7 @@ export default function DetailProductPage() {
     staleTime: 500,
     enabled: !!isSlug,
   });
-  
+
   const { data: isProduct, isloading: loadingProduct } = useQuery(
     ["product"],
     () => productService.fetchAllProducts(),
@@ -144,16 +144,14 @@ export default function DetailProductPage() {
                 Quà tặng và ưu đãi kèm theo
               </p>
               <div className="pd-offer-list">
-                <div className="item">
-                  <p>
-                    <span
-                      style={{ color: "#ff0000", fontSize: "12pt" }}
-                      dangerouslySetInnerHTML={{
-                        __html: data?.presentProduct,
-                      }}
-                    ></span>
-                  </p>
-                </div>
+                <p>
+                  <span
+                    style={{ color: "#ff0000", fontSize: "12pt" }}
+                    dangerouslySetInnerHTML={{
+                      __html: data?.presentProduct,
+                    }}
+                  ></span>
+                </p>
               </div>
             </div>
             <div className="pd-btn-group d-flex flex-wrap">
@@ -605,7 +603,7 @@ export default function DetailProductPage() {
           </div>
           <div className="col-5">
             <div className="pd-box-group">
-            <h2 class="box-title">Thông số kỹ thuật</h2>
+              <h2 class="box-title">Thông số kỹ thuật</h2>
               <div className="pd-spec-holder">
                 <div
                   className="tlqcontent"
@@ -720,21 +718,23 @@ export default function DetailProductPage() {
                   <div className="p-item">
                     <Link to={`/product/${item.slugProduct}`} className="p-img">
                       <img
-                       src={`${item.images[0].imagePath}`}
+                        src={`${item.images[0].imagePath}`}
                         alt="HHPC 3D i5 13600K | 32G | NVIDIA RTX 3060 12G"
                         width={250}
                         height={250}
                       />
                     </Link>
                     <div className="p-text">
-                    <Link
+                      <Link
                         to={`/product/${item.slugProduct}`}
                         className="p-name"
                       >
                         <h3 className="inherit">{item.nameProduct}</h3>
                       </Link>
                       <div className="p-price-group">
-                      <span className="p-price">{formatPrice(item.initial_price)}đ</span>
+                        <span className="p-price">
+                          {formatPrice(item.initial_price)}đ
+                        </span>
                         <del className="p-old-price">
                           {formatPrice(item.price_has_dropped)} đ
                         </del>
