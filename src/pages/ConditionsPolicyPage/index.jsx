@@ -4,6 +4,6 @@ import Layout from '../../components/Layout';
 
 export default function ConditionsPolicyPage() {
   return (
-    <Layout>ConditionsPolicyPage</Layout>
+    <Layout>Chính Sách Bản Quyền</Layout>
   )
 }
