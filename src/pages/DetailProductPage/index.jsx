@@ -4,17 +4,24 @@ import SliderImages from "../../components/SliderImages";
 import { imageProduct } from "../../constants/imageProduct";
 import { Rating } from "react-simple-star-rating";
 import Carousel from "../../components/Carousel";
-import { bannerImages } from "../../constants/image";
+
 import { SwiperSlide } from "swiper/react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { productService } from "../../services/product.service";
 import { formatPrice } from "./../../utils/fomatPrice";
+import { addToCart } from "../../stores/cart/actions";
+import { useDispatch } from "react-redux";
+import { message } from "antd";
 
 export default function DetailProductPage() {
   const [isSeeMore, setIsSeeMore] = useState(true);
   const [isReview, setIsReview] = useState(true);
   const [rating, setRating] = useState(0);
+  const [selectedColor, setSelectedColor] = useState(null);
+  const [showColorError, setShowColorError] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const toggleSeeMore = () => {
     setIsSeeMore(!isSeeMore);
   };
@@ -49,6 +56,45 @@ export default function DetailProductPage() {
       retryDelay: 1000,
     }
   );
+
+  const handleColorClick = (color) => {
+    if (color === null) {
+      setShowColorError(true);
+    } else {
+      setSelectedColor(color);
+      setShowColorError(false);
+    }
+  };
+
+  const buyCart = (product) => {
+    if (!selectedColor) {
+      setShowColorError(true);
+      return;
+    }
+    dispatch(
+      addToCart({
+        product: product,
+        color: selectedColor,
+        quantity: 1,
+      })
+    );
+    message.success(`Thêm Sản Phẩm Vào Giỏ Hàng Success`);
+  };
+
+  const addCart = (product) => {
+    if (!selectedColor) {
+      setShowColorError(true);
+      return;
+    }
+    dispatch(
+      addToCart({
+        product: product,
+        color: selectedColor,
+        quantity: 1,
+      })
+    );
+    navigate("/cart");
+  };
   return (
     <Layout>
       <div className="global-breadcrumb">
@@ -116,13 +162,26 @@ export default function DetailProductPage() {
             <div className="product-color">
               {data?.colors.map((item) => (
                 <div
-                  class="circle"
-                  style={{ backgroundColor: `${item.nameColor}` }}
+                  onClick={() => handleColorClick(item.nameColor)}
+                  className="circle"
+                  style={{
+                    backgroundColor: `${item.nameColor}`,
+                    border: ` ${
+                      selectedColor === item.nameColor
+                        ? "2px solid rgb(159 149 149)"
+                        : ""
+                    }`,
+                  }}
                 ></div>
               ))}
             </div>
+            {showColorError && (
+              <span style={{ color: "red", paddingTop: "10px" }}>
+                (Vui lòng chọn màu)
+              </span>
+            )}
             <div className="pd-summary-group">
-              <b className="text-16 d-block font-700">Thông số sản phẩm</b>
+              <b className="text-16 d-block font-700">Thông Số Sản Phẩm</b>
               <div
                 className="pd-summary-list"
                 dangerouslySetInnerHTML={{
@@ -149,24 +208,30 @@ export default function DetailProductPage() {
                 Quà tặng và ưu đãi kèm theo
               </p>
               <div className="pd-offer-list">
-                <div className="item">
-                  <p>
-                    <span
-                      style={{ color: "#ff0000", fontSize: "12pt" }}
-                      dangerouslySetInnerHTML={{
-                        __html: data?.presentProduct,
-                      }}
-                    ></span>
-                  </p>
-                </div>
+                <p>
+                  <span
+                    style={{ color: "#ff0000", fontSize: "12pt" }}
+                    dangerouslySetInnerHTML={{
+                      __html: data?.presentProduct,
+                    }}
+                  ></span>
+                </p>
               </div>
             </div>
             <div className="pd-btn-group d-flex flex-wrap">
-              <a className="pd-btn-buyNow">
+              <a
+                className="pd-btn-buyNow"
+                style={{ cursor: "pointer" }}
+                onClick={() => addCart(data)}
+              >
                 <b>MUA NGAY</b>
                 <span>Giao hàng tận nơi nhanh chóng</span>
               </a>
-              <a className="pd-btn-add-product">
+              <a
+                className="pd-btn-add-product"
+                style={{ cursor: "pointer" }}
+                onClick={() => buyCart(data)}
+              >
                 <b>THÊM VÀO GIỎ HÀNG</b>
                 <span>Thêm vào giỏ để chọn tiếp</span>
               </a>
@@ -500,6 +565,7 @@ export default function DetailProductPage() {
                       </a>
                       <a
                         className="btn-send-form-cmt"
+                        href="javascript:void(0)"
                         onclick="reviewReply('comment','',0)"
                       >
                         Gửi bình luận
@@ -601,7 +667,7 @@ export default function DetailProductPage() {
           </div>
           <div className="col-5">
             <div className="pd-box-group">
-              <h2 className="box-title">Thông số kỹ thuật</h2>
+              <h2 class="box-title">Thông số kỹ thuật</h2>
               <div className="pd-spec-holder">
                 <div
                   className="tlqcontent"
@@ -673,10 +739,18 @@ export default function DetailProductPage() {
         </div>
         <div className="pd-product-related-group">
           <div className="pd-box-title">
-            <a className="js-box-title active" data-id="js-pd-related">
+            <a
+              href="javascript:void(0)"
+              className="js-box-title active"
+              data-id="js-pd-related"
+            >
               Sản phẩm tương tự
             </a>
-            <a className="js-box-title" data-id="js-history">
+            <a
+              href="javascript:void(0)"
+              className="js-box-title"
+              data-id="js-history"
+            >
               Sản phẩm đã xem
             </a>
           </div>
@@ -740,6 +814,7 @@ export default function DetailProductPage() {
                           </span>
                         </p>
                         <a
+                          href="javascript:void(0)"
                           className="p-add-cart"
                           onclick="addProductToCart(3792, 1,'')"
                         />
@@ -930,7 +1005,11 @@ export default function DetailProductPage() {
                               <i className="icons icon-gift" /> Quà tặng
                             </span>
                           </p>
-                          <a className="p-add-cart" />
+                          <a
+                            href="javascript:void(0)"
+                            className="p-add-cart"
+                            onclick="addProductToCart(3738, 1,'')"
+                          />
                         </div>
                       </div>
                       <div className="p-tooltip">

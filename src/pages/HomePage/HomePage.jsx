@@ -1,19 +1,16 @@
-import "./style.css";
-import React, { useState } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 import { SwiperSlide } from "swiper/react";
 import { useQuery } from "@tanstack/react-query";
 import Carousel from "../../components/Carousel";
 import Layout from "../../components/Layout";
+import Loading from "../../components/Loading";
 import { bannerImages } from "../../constants/image";
 import { productService } from "../../services/product.service";
-import { Link, useNavigate } from "react-router-dom";
 import {
   calculateDiscountPercentage,
   formatPrice,
 } from "../../utils/fomatPrice";
-import { useDispatch } from "react-redux";
-import Loading from "../../components/Loading";
-import { addToCart } from "../../stores/cart/actions";
 
 export default function HomePage() {
   const { data, isloading } = useQuery(
