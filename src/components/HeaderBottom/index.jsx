@@ -271,7 +271,7 @@ export default function HeaderBottom() {
             type="text"
             name="q"
             placeholder="Nhập từ khóa cần tìm"
-            className="search-input"
+            className="text-search"
             autoComplete="off"
           />
           <button type="submit" className="btn-search">
