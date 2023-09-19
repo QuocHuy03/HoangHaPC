@@ -6023,14 +6023,10 @@ iframe {
 }
 
 .box-produc-review .box-review-content .form-review .form-review-left {
-    width: 50%;
-    float: left;
     padding-right: 5px;
 }
 
 .box-produc-review .box-review-content .form-review .form-review-right {
-    width: 50%;
-    float: right;
     padding-left: 5px;
 }
 
@@ -6047,14 +6043,13 @@ iframe {
     border-radius: 3px;
 }
 
-.box-produc-review .box-review-content .form-review .form-review-right input {
+.box-produc-review .box-review-content .form-review .form-review-right button {
     border: 1px solid #eeeeee;
     border-radius: 4px;
     font-size: 14px;
-    padding: 5px;
+    padding: 5px 20px;
     margin: 5px 0;
     height: 40px;
-    width: calc(50% - 5px);
     float: left;
     color: #161616;
 }
