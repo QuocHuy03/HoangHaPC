@@ -358,17 +358,20 @@ iframe {
     margin: auto;
     display: block;
 }
+
 .product-color {
     display: flex;
     gap: 5px;
 }
+
 .item-color {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
+
 .circle {
-    width: 30px; 
+    width: 30px;
     height: 30px;
     border-radius: 50%;
     display: flex;
@@ -376,6 +379,7 @@ iframe {
     align-items: center;
     border: 1px solid #edecec;
 }
+
 .autocomplete-suggestions {
     position: absolute;
     width: 100%;
@@ -3341,7 +3345,7 @@ iframe {
 }
 
 .p-item .p-add-cart::before {
-    content: '';
+    content: "";
     width: 18px;
     height: 100%;
     background: url(https://i.imgur.com/T4IdJgI.png) no-repeat center;
@@ -3349,7 +3353,7 @@ iframe {
     display: block;
     margin: auto;
     -webkit-filter: brightness(100);
-    filter: brightness(100)
+    filter: brightness(100);
 }
 
 .p-list-container .p-btn-group {
@@ -5826,7 +5830,6 @@ iframe {
 
 .box-produc-review .box-review-content .review-all-rate {
     width: 115px;
-    margin-right: 40px;
     text-align: center;
 }
 
@@ -5859,7 +5862,7 @@ iframe {
 }
 
 .box-produc-review .box-review-content .rate-review-center {
-    width: 392px;
+    width: 322px;
     padding: 0 40px;
     border-left: 1px solid #e5eaf1;
     border-right: 1px solid #e5eaf1;

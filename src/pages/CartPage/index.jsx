@@ -1,35 +1,46 @@
-import React from "react";
+import React, { useContext } from "react";
 import Layout from "../../components/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { URL_CONSTANTS } from "../../constants/url.constants";
-import { decreaseQuantity, increaseQuantity, removeCartItem } from "../../stores/cart/actions";
+import {
+  decreaseQuantity,
+  increaseQuantity,
+  removeAllCart,
+  removeCartItem,
+} from "../../stores/cart/actions";
 import { formatPrice } from "../../utils/fomatPrice";
 import { message } from "antd";
+import { AppContext } from "../../contexts/AppContextProvider";
 
 export default function CartPage() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { carts } = useSelector((state) => state.cart);
-
+  const user = useSelector((state) => state.auth.user);
+  const { carts } = useContext(AppContext);
+  console.log(carts);
   const totalAmountAll = carts.reduce(
-    (total, item) => total + item.product.price_has_dropped * item.quantity,
+    (total, item) => total + item?.product.price_has_dropped * item.quantity,
     0
   );
 
   const handleIncreasingQuantity = (item) => {
     dispatch(increaseQuantity(item));
-    message.success("+ 1 Số Lượng Success");
+    message.success("+ 1 Số Lượng Thành Công");
   };
 
   const handleDecreaseQuantity = (item) => {
     dispatch(decreaseQuantity(item));
-    message.info("- 1 Số Lượng Success");
+    message.info("- 1 Số Lượng Thành Công");
   };
 
   const handleDeleteItem = (item) => {
     dispatch(removeCartItem(item));
-    message.error("Xóa Sản Phẩm Thành Công");
+    message.error("Xóa 1 Sản Phẩm Thành Công");
+  };
+
+  const handleDeleteAll = () => {
+    dispatch(removeAllCart());
+    message.error("Xóa Tất Cả Sản Phẩm Thành Công");
   };
   return (
     <Layout>
@@ -95,7 +106,7 @@ export default function CartPage() {
                               {item.product.nameProduct}
                             </Link>
                             <div className="item-name">
-                              Color : {item.color}
+                              COLOR : <span style={{textTransform: "uppercase", color: `${item.color}`}}>{item.color}</span>
                             </div>
                           </div>
                           <p className="item-status">
@@ -128,14 +139,19 @@ export default function CartPage() {
                             aria-hidden="true"
                           />
                         </div>
-                        <a className="js-delete-item icon-delete" onClick={() => handleDeleteItem(item)} />
+                        <a
+                          className="js-delete-item icon-delete"
+                          onClick={() => handleDeleteItem(item)}
+                        />
                         <div className="item-price-holder">
                           <p className="item-price">
                             {formatPrice(item.product.price_has_dropped)} VNĐ
                           </p>
                           <p className="total-item-price">
                             <span className="js-total-item-price">
-                              {formatPrice(item.product.price_has_dropped * item.quantity)}
+                              {formatPrice(
+                                item.product.price_has_dropped * item.quantity
+                              )}
                             </span>{" "}
                             VNĐ
                           </p>
@@ -158,7 +174,7 @@ export default function CartPage() {
                 <a
                   href="javascript:void(0)"
                   className="btn-remove-group"
-                  onclick='$(".js-delete-item").click();'
+                  onClick={handleDeleteAll}
                 >
                   Làm trống giỏ hàng
                 </a>
@@ -167,48 +183,40 @@ export default function CartPage() {
                 <div className="cart-customer-group">
                   <div className="cart-customer-holder">
                     <p className="title blue-2">Thông tin thanh toán</p>
-                    <p style={{ margin: "0 0 16px 0" }}>
-                      Để tiếp tục đặt hàng, quý khách xin vui lòng{" "}
-                      <a
-                        href="javascript:void(0)"
-                        onclick="_showCustomerPopup('login')"
-                        className="font-800 blue-2"
-                      >
-                        đăng nhập
-                      </a>{" "}
-                      hoặc nhập thông tin bên dưới
-                    </p>
+                    {user ? (
+                      <p style={{ margin: "0 0 16px 0" }}>
+                        Để tiếp tục đặt hàng, quý khách xin vui lòng nhập thông
+                        tin bên dưới
+                      </p>
+                    ) : (
+                      <p style={{ margin: "0 0 16px 0" }}>
+                        Để tiếp tục đặt hàng, quý khách xin vui lòng{" "}
+                        <a className="font-800 blue-2">đăng nhập</a> hoặc nhập
+                        thông tin bên dưới
+                      </p>
+                    )}
                     <input
                       type="text"
                       placeholder="Họ tên người nhận hàng"
                       className="form-input"
-                      name="user_info[name]"
-                      id="buyer_name"
-                      defaultValue
                     />
                     <input
                       type="text"
                       placeholder="Số điện thoại người nhận"
                       className="form-input"
                       name="user_info[tel]"
-                      id="buyer_tel"
-                      defaultValue
                     />
                     <input
                       type="text"
                       placeholder="Email"
                       className="form-input"
                       name="user_info[email]"
-                      id="buyer_email"
-                      defaultValue
                     />
                     <input
                       type="text"
                       placeholder="Địa chỉ nhận hàng"
                       className="form-input"
                       name="user_info[address]"
-                      id="buyer_address"
-                      defaultValue
                     />
                     <textarea
                       className="form-input"
