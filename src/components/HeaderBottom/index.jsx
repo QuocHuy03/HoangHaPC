@@ -273,7 +273,6 @@ export default function HeaderBottom() {
             placeholder="Nhập từ khóa cần tìm"
             className="search-input"
             autoComplete="off"
-            className="text-search"
           />
           <button type="submit" className="btn-search">
             <i className="icons icon-search" />
