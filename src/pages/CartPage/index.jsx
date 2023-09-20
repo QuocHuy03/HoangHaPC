@@ -17,7 +17,7 @@ export default function CartPage() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const { carts } = useContext(AppContext);
-  console.log(carts);
+  
   const totalAmountAll = carts.reduce(
     (total, item) => total + item?.product.price_has_dropped * item.quantity,
     0
