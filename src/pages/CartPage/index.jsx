@@ -15,6 +15,7 @@ import { AppContext } from "../../contexts/AppContextProvider";
 
 export default function CartPage() {
   const dispatch = useDispatch();
+
   const { carts, user } = useContext(AppContext);
   const totalAmountAll = carts?.reduce(
     (total, item) => total + item?.product.price_has_dropped * item.quantity,
@@ -210,7 +211,12 @@ export default function CartPage() {
                   <div className="cart-customer-holder">
                     <div className="cart-information">
                       <p className="title blue-2">Thông tin thanh toán</p>
-                      <Link to={URL_CONSTANTS.PROFILE} className="title-edit-cart">Chỉnh sửa</Link>
+                      <Link
+                        to={URL_CONSTANTS.PROFILE}
+                        className="title-edit-cart"
+                      >
+                        Chỉnh sửa
+                      </Link>
                     </div>
                     {user ? (
                       <p style={{ margin: "0 0 16px 0" }}>
@@ -261,8 +267,9 @@ export default function CartPage() {
                       placeholder="Ghi chú"
                       name="note"
                       value={inputs.note}
-                     >{inputs.note}</textarea>
-                    
+                    >
+                      {inputs.note}
+                    </textarea>
                   </div>
                   <button
                     type="submit"
