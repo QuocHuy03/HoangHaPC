@@ -12,7 +12,6 @@ import BlogDetailPage from "../pages/BlogDetailPage";
 import PromotionDetailPage from "../pages/PromotionDetailPage";
 import CartPage from "../pages/CartPage";
 import ProfilePage from "../pages/ProfilePage";
-import ResetPasswordPage from "../pages/ResetPasswordPage";
 import { URL_CONSTANTS } from "../constants/url.constants";
 import CheckoutPage from "../pages/CheckoutPage";
 
@@ -37,7 +36,6 @@ export default function AppRouter() {
       <Route path={URL_CONSTANTS.CART} element={<CartPage />} />
       <Route path={URL_CONSTANTS.PROFILE} element={<ProfilePage />} />
       <Route path={URL_CONSTANTS.CHECKOUT} element={<CheckoutPage />} />
-      
     </Routes>
   );
 }

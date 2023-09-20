@@ -156,7 +156,7 @@ export default function HeaderBottom() {
           </div>
         </div>
         <Link to={URL_CONSTANTS.CART} className="icon-cart">
-          <span className="js-cart-count cart-count">{carts?.length}</span>
+          <span className="js-cart-count cart-count">{carts?.length > 0 ? carts?.length : 0}</span>
         </Link>
       </div>
       <div className="header-left-group header-menu-group">
@@ -271,9 +271,8 @@ export default function HeaderBottom() {
             type="text"
             name="q"
             placeholder="Nhập từ khóa cần tìm"
-            className="search-input"
-            autoComplete="off"
             className="text-search"
+            autoComplete="off"
           />
           <button type="submit" className="btn-search">
             <i className="icons icon-search" />
