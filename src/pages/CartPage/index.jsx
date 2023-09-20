@@ -260,8 +260,9 @@ export default function CartPage() {
                       className="form-input"
                       placeholder="Ghi chú"
                       name="note"
-                      defaultValue={""}
-                    />
+                      value={inputs.note}
+                     >{inputs.note}</textarea>
+                    
                   </div>
                   <button
                     type="submit"
