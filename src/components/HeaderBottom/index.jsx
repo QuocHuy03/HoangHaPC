@@ -156,7 +156,7 @@ export default function HeaderBottom() {
           </div>
         </div>
         <Link to={URL_CONSTANTS.CART} className="icon-cart">
-          <span className="js-cart-count cart-count">{carts?.length}</span>
+          <span className="js-cart-count cart-count">{carts?.length > 0 ? carts?.length : 0}</span>
         </Link>
       </div>
       <div className="header-left-group header-menu-group">
