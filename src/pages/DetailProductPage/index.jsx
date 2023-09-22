@@ -216,17 +216,14 @@ export default function DetailProductPage() {
           <div className="pd-middle-group text-14">
             <div className="pd-info-rating d-flex flex-wrap">
               <p>
-                Đánh giá:
+                Đánh giá :
                 <a>
                   <i className="icon-star star-5" />{" "}
                   <span className="blue-2">1</span>
                 </a>
               </p>
               <p>
-                Bình luận: <span className="blue-2">1</span>
-              </p>
-              <p>
-                Lượt xem: <span className="blue-2">7.986</span>
+                Bình luận : <span className="blue-2">1</span>
               </p>
             </div>
             <div className="product-color">
@@ -610,21 +607,23 @@ export default function DetailProductPage() {
                     {isComment?.map((item) => (
                       <div className="item" key={item._id}>
                         <div className="name-date">
-                          <b>{item.userID?.fullname}</b> | {formatDate(item.createdAt)}
+                          <b>{item.userID?.fullname}</b> |{" "}
+                          {formatDate(item.createdAt)}
                         </div>
                         <div className="content d-flex align-items-center">
                           <span className="star-rate-review icon-star star-5" />
-                          <span className="txt">
-                            {item.comment}
-                          </span>
+                          <span className="txt">{item.comment}</span>
                         </div>
                       </div>
                     ))}
                   </div>
                 </div>
-                <div className="box-produc-comment bg-w content-detail-read clearfix">
+                {/* modal */}
+                {/* <div className="box-produc-comment bg-w content-detail-read clearfix">
                   <div className="comment-list clearfix"></div>
-                  <div id="newCommentBox" style={{ display: "none" }}>
+                  <div id="newCommentBox" 
+                  // style={{ display: "none" }}
+                  >
                     <div className="comment-box-container">
                       <div className="title">
                         Nhập thông tin
@@ -709,7 +708,7 @@ export default function DetailProductPage() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -787,20 +786,9 @@ export default function DetailProductPage() {
         </div>
         <div className="pd-product-related-group">
           <div className="pd-box-title">
-            <a
-              href="javascript:void(0)"
-              className="js-box-title active"
-              data-id="js-pd-related"
-            >
+            <Link className="js-box-title active" data-id="js-pd-related">
               Sản phẩm tương tự
-            </a>
-            <a
-              href="javascript:void(0)"
-              className="js-box-title"
-              data-id="js-history"
-            >
-              Sản phẩm đã xem
-            </a>
+            </Link>
           </div>
           <div
             className="p-container js-product"

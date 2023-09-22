@@ -271,8 +271,8 @@ export default function CartPage() {
                       {inputs.note}
                     </textarea>
                   </div>
-                  <button
-                    type="submit"
+                  <Link
+                    to={URL_CONSTANTS.CHECKOUT}
                     className="btn-submit-cart js-send-cart"
                   >
                     <b>Đặt hàng</b>
@@ -280,7 +280,7 @@ export default function CartPage() {
                       Tư vấn viên sẽ gọi điện thoại xác nhận, không mua không
                       sao
                     </span>
-                  </button>
+                  </Link>
                   {/*-mot so bien khac chi de front-end*/}
                 </div>
               </div>
