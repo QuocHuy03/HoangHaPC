@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-09-22T01:45:34.316Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36" etag="TkSn5hw63G_L0S3vm7_x" version="21.8.0" type="github">
+<mxfile host="app.diagrams.net" modified="2023-09-22T01:46:37.996Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36" etag="Q-u8E_RhAViI9RlfNiT4" version="21.8.0" type="github">
   <diagram name="Trang-1" id="HFZAB9TipLMJUbm5E7J9">
     <mxGraphModel dx="1500" dy="2773" grid="1" gridSize="4" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="1920" math="0" shadow="0">
       <root>
@@ -1619,7 +1619,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="iUDl3XDyvXX3epN_kTBg-457" value="Payments" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;" vertex="1" parent="1">
-          <mxGeometry x="924" y="-788" width="256" height="210" as="geometry" />
+          <mxGeometry x="972" y="-784" width="256" height="210" as="geometry" />
         </mxCell>
         <mxCell id="iUDl3XDyvXX3epN_kTBg-458" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" vertex="1" parent="iUDl3XDyvXX3epN_kTBg-457">
           <mxGeometry y="30" width="256" height="30" as="geometry" />
@@ -2125,7 +2125,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="iUDl3XDyvXX3epN_kTBg-575" value="Order_detail" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;" vertex="1" parent="1">
-          <mxGeometry x="664" y="-884" width="180" height="180" as="geometry" />
+          <mxGeometry x="692" y="-856" width="180" height="180" as="geometry" />
         </mxCell>
         <mxCell id="iUDl3XDyvXX3epN_kTBg-576" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" vertex="1" parent="iUDl3XDyvXX3epN_kTBg-575">
           <mxGeometry y="30" width="180" height="30" as="geometry" />
