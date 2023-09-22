@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-09-21T13:05:56.723Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36" etag="7Ym8tVo0aErJbYcXDlkV" version="21.8.0" type="github">
+<mxfile host="app.diagrams.net" modified="2023-09-22T01:32:46.875Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36" etag="QSxGptgpgxubMdGh1WRr" version="21.8.0" type="github">
   <diagram name="Trang-1" id="HFZAB9TipLMJUbm5E7J9">
     <mxGraphModel dx="1750" dy="2915" grid="1" gridSize="4" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="1920" math="0" shadow="0">
       <root>
@@ -1619,7 +1619,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="iUDl3XDyvXX3epN_kTBg-457" value="Payments" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;" vertex="1" parent="1">
-          <mxGeometry x="940" y="568" width="256" height="210" as="geometry" />
+          <mxGeometry x="824" y="-816" width="256" height="210" as="geometry" />
         </mxCell>
         <mxCell id="iUDl3XDyvXX3epN_kTBg-458" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" vertex="1" parent="iUDl3XDyvXX3epN_kTBg-457">
           <mxGeometry y="30" width="256" height="30" as="geometry" />
@@ -2121,6 +2121,19 @@
               <mxPoint x="1044" y="-503" />
               <mxPoint x="974" y="-652" />
               <mxPoint x="464" y="-505" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iUDl3XDyvXX3epN_kTBg-573" value="" style="edgeStyle=entityRelationEdgeStyle;fontSize=12;html=1;endArrow=ERoneToMany;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="iUDl3XDyvXX3epN_kTBg-458" target="iUDl3XDyvXX3epN_kTBg-486">
+          <mxGeometry width="100" height="100" relative="1" as="geometry">
+            <mxPoint x="668" y="-335" as="sourcePoint" />
+            <mxPoint x="780" y="-491" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1200" y="-198" />
+              <mxPoint x="948" />
+              <mxPoint x="1176" y="-190" />
+              <mxPoint x="1106" y="-339" />
+              <mxPoint x="596" y="-192" />
             </Array>
           </mxGeometry>
         </mxCell>
