@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-09-22T14:15:20.681Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36" etag="7v3z_KBPrwNK-_2u_TMM" version="21.8.0" type="github">
+<mxfile host="app.diagrams.net" modified="2023-09-23T05:47:58.482Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36" etag="--1ClF3R5-2qzcH_XBrV" version="21.8.0" type="github">
   <diagram name="ERD Database" id="HFZAB9TipLMJUbm5E7J9">
-    <mxGraphModel dx="1615" dy="2838" grid="1" gridSize="4" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="1920" math="0" shadow="0">
+    <mxGraphModel dx="1750" dy="2915" grid="1" gridSize="4" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="1920" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -568,7 +568,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="iUDl3XDyvXX3epN_kTBg-178" value="Products" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;" vertex="1" parent="1">
-          <mxGeometry x="1020" y="104" width="244" height="412" as="geometry" />
+          <mxGeometry x="1020" y="104" width="244" height="438" as="geometry" />
         </mxCell>
         <mxCell id="iUDl3XDyvXX3epN_kTBg-179" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" vertex="1" parent="iUDl3XDyvXX3epN_kTBg-178">
           <mxGeometry y="30" width="244" height="30" as="geometry" />
@@ -737,6 +737,19 @@
         <mxCell id="iUDl3XDyvXX3epN_kTBg-217" value="updatedAt (Datetime)" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;whiteSpace=wrap;html=1;" vertex="1" parent="iUDl3XDyvXX3epN_kTBg-215">
           <mxGeometry x="30" width="214" height="30" as="geometry">
             <mxRectangle width="214" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iUDl3XDyvXX3epN_kTBg-640" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=0;" vertex="1" parent="iUDl3XDyvXX3epN_kTBg-178">
+          <mxGeometry y="412" width="244" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="iUDl3XDyvXX3epN_kTBg-641" value="" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;editable=1;overflow=hidden;whiteSpace=wrap;html=1;" vertex="1" parent="iUDl3XDyvXX3epN_kTBg-640">
+          <mxGeometry width="30" height="26" as="geometry">
+            <mxRectangle width="30" height="26" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iUDl3XDyvXX3epN_kTBg-642" value="quantityProduct (number)" style="shape=partialRectangle;connectable=0;fillColor=none;top=0;left=0;bottom=0;right=0;align=left;spacingLeft=6;overflow=hidden;whiteSpace=wrap;html=1;" vertex="1" parent="iUDl3XDyvXX3epN_kTBg-640">
+          <mxGeometry x="30" width="214" height="26" as="geometry">
+            <mxRectangle width="214" height="26" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
         <mxCell id="iUDl3XDyvXX3epN_kTBg-221" value="" style="edgeStyle=entityRelationEdgeStyle;fontSize=12;html=1;endArrow=ERzeroToOne;endFill=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="iUDl3XDyvXX3epN_kTBg-194" target="iUDl3XDyvXX3epN_kTBg-130">
