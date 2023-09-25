@@ -17,8 +17,7 @@ export default function Footer() {
         <div className="container d-flex flex-wrap align-items-center justify-content-between">
           <div className="item-left">
             <b className="d-block">
-              Nhận thông báo khuyến mại <br /> hoặc tư vấn miến phí từ Hoàng Hà
-              PC
+              Nhận thông báo khuyến mại <br /> hoặc tư vấn miến phí từ GradTechShop
             </b>
             <p className="m-0">
               Bạn hãy để lại email để không bỏ lỡ hàng ngàn
@@ -34,7 +33,6 @@ export default function Footer() {
             <a
               href="javascript:;"
               className="btn-send-newsletter"
-              onclick="subscribe_newsletter('#js-email-newsletter')"
             >
               Gửi ngay
             </a>
@@ -51,20 +49,20 @@ export default function Footer() {
               <div className="item-right d-flex flex-wrap align-items-center">
                 <p>
                   <span>Hợp Tác Phát Triển:</span>
-                  <a href="mailto:hoanghapcws@gmail.com" rel="nofollow">
-                    hoanghapcws@gmail.com
+                  <a href="mailto:hotro@gmail.com" rel="nofollow">
+                    hotro@gmail.com
                   </a>
                 </p>
                 <p>
                   <span>Liên Hệ Báo Giá:</span>
-                  <a href="mailto:kinhdoanh@hoanghapc.vn" rel="nofollow">
-                    kinhdoanh@hoanghapc.vn
+                  <a href="mailto:kinhdoanh@gradtechshop.vn" rel="nofollow">
+                    kinhdoanh@gradtechshop.vn
                   </a>
                 </p>
                 <p>
                   <span>Hỗ Trợ Bảo Hành:</span>
-                  <a href="mailto:kinhdoanh@hoanghapc.vn" rel="nofollow">
-                    baohanh@hoanghapc.vn
+                  <a href="mailto:kinhdoanh@gradtechshop.vn" rel="nofollow">
+                    baohanh@gradtechshop.vn
                   </a>
                 </p>
               </div>
@@ -81,9 +79,9 @@ export default function Footer() {
                 </div>
               </div>
               <div className="col">
-                <p className="title">Thông tin Hoàng Hà PC</p>
+                <p className="title">Thông tin GradTechShop</p>
                 <div className="info-list">
-                  <a href="/gioi-thieu">Giới thiệu Hoàng Hà PC</a>
+                  <a href="/gioi-thieu">Giới thiệu GradTechShop</a>
                   <a href="/he-thong-cua-hang">Hệ thống showroom</a>
                   <a href="/lien-he">Thông tin liên hệ</a>
                   <a href="/tuyen-dung">Tuyển dụng</a>
@@ -91,25 +89,25 @@ export default function Footer() {
                 </div>
               </div>
               <div className="col">
-                <p className="title">Cộng đồng Hoàng Hà PC</p>
+                <p className="title">Cộng đồng GradTechShop</p>
                 <div className="info-list">
                   <a href="https://www.facebook.com/hoanghapc" rel="nofollow">
-                    Hoàng Hà PC Fanpage
+                    GradTechShop Fanpage
                   </a>
                   <a
                     href="https://www.facebook.com/groups/hoanghapc"
                     rel="nofollow"
                   >
-                    Hoàng Hà PC Group
+                    GradTechShop Group
                   </a>
                   <a href="https://www.tiktok.com/@hoangha.pc" rel="nofollow">
-                    Hoàng Hà PC Tik Tok
+                    GradTechShop Tik Tok
                   </a>
                   <a
                     href="https://www.youtube.com/channel/UC5-eX5HHykW9T3sgmKT6rJQ"
                     rel="nofollow"
                   >
-                    Hoàng Hà Media
+                    GradTechShop Media
                   </a>
                 </div>
               </div>

@@ -15,6 +15,7 @@ import { AppContext } from "../../contexts/AppContextProvider";
 
 export default function CartPage() {
   const dispatch = useDispatch();
+
   const { carts, user } = useContext(AppContext);
   const totalAmountAll = carts?.reduce(
     (total, item) => total + item?.product.price_has_dropped * item.quantity,
@@ -23,12 +24,10 @@ export default function CartPage() {
 
   const handleIncreasingQuantity = (item) => {
     dispatch(increaseQuantity(item));
-    message.success("+ 1 Số Lượng Thành Công");
   };
 
   const handleDecreaseQuantity = (item) => {
     dispatch(decreaseQuantity(item));
-    message.info("- 1 Số Lượng Thành Công");
   };
 
   const handleDeleteItem = (item) => {
@@ -210,7 +209,12 @@ export default function CartPage() {
                   <div className="cart-customer-holder">
                     <div className="cart-information">
                       <p className="title blue-2">Thông tin thanh toán</p>
-                      <Link to={URL_CONSTANTS.PROFILE} className="title-edit-cart">Chỉnh sửa</Link>
+                      <Link
+                        to={URL_CONSTANTS.PROFILE}
+                        className="title-edit-cart"
+                      >
+                        Chỉnh sửa
+                      </Link>
                     </div>
                     {user ? (
                       <p style={{ margin: "0 0 16px 0" }}>
@@ -260,11 +264,13 @@ export default function CartPage() {
                       className="form-input"
                       placeholder="Ghi chú"
                       name="note"
-                      defaultValue={""}
-                    />
+                      value={inputs.note}
+                    >
+                      {inputs.note}
+                    </textarea>
                   </div>
-                  <button
-                    type="submit"
+                  <Link
+                    to={URL_CONSTANTS.CHECKOUT}
                     className="btn-submit-cart js-send-cart"
                   >
                     <b>Đặt hàng</b>
@@ -272,7 +278,7 @@ export default function CartPage() {
                       Tư vấn viên sẽ gọi điện thoại xác nhận, không mua không
                       sao
                     </span>
-                  </button>
+                  </Link>
                   {/*-mot so bien khac chi de front-end*/}
                 </div>
               </div>

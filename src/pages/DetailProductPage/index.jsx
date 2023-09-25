@@ -6,15 +6,17 @@ import Carousel from "../../components/Carousel";
 
 import { SwiperSlide } from "swiper/react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { productService } from "../../services/product.service";
 import { formatPrice } from "./../../utils/fomatPrice";
 import { addToCart } from "../../stores/cart/actions";
 import { useDispatch } from "react-redux";
 import { message } from "antd";
 import { commentService } from "../../services/comment.service";
+import formatDate from "../../utils/fomatDate";
 
 export default function DetailProductPage() {
+  const queryClient = useQueryClient();
   const [isSeeMore, setIsSeeMore] = useState(true);
   const [isReview, setIsReview] = useState(true);
   const [rating, setRating] = useState(0);
@@ -38,21 +40,23 @@ export default function DetailProductPage() {
   const [inputs, setInputs] = useState({
     comment: "",
   });
+  const [detailProduct, setDetailProduct] = useState(null);
+  const [isComment, setIsComment] = useState(null);
+
   useEffect(() => {
     if (slug) {
       setSlug(slug);
     }
   }, [slug]);
-  // console.log("slug : ", isSlug);
 
-  const { data: detailProduct, isLoading: isDetailProduct } = useQuery({
+  const { data: detailProductData, isLoading: isDetailProduct } = useQuery({
     queryKey: ["edit-product", isSlug],
     queryFn: () => productService.fetchProductBySlug(isSlug),
     staleTime: 500,
     enabled: !!isSlug,
   });
 
-  const { data: isProduct, isloading: loadingProduct } = useQuery(
+  const { data: isProduct, isLoading: loadingProduct } = useQuery(
     ["product"],
     () => productService.fetchAllProducts(),
     {
@@ -60,6 +64,28 @@ export default function DetailProductPage() {
       retryDelay: 1000,
     }
   );
+
+  useEffect(() => {
+    if (detailProductData) {
+      setDetailProduct(detailProductData);
+    }
+  }, [detailProductData]);
+
+  const fetchCommentData = async () => {
+    if (detailProduct) {
+      try {
+        const commentData = await commentService.fetchByProductComments(
+          detailProduct._id
+        );
+        setIsComment(commentData);
+      } catch (error) {
+        console.error("Error fetching comment data:", error);
+      }
+    }
+  };
+  useEffect(() => {
+    fetchCommentData();
+  }, [detailProduct]);
 
   const handleColorClick = (color) => {
     if (color === null) {
@@ -120,9 +146,11 @@ export default function DetailProductPage() {
         setRating(0);
         setInputs({ ...inputs, comment: "" });
         message.success(response.message);
+        fetchCommentData();
       } else {
         if (response?.status === false) {
           setValidationErrors([]);
+          setInputs({ ...inputs, comment: "" });
           message.error(response.message);
         }
         setValidationErrors(
@@ -189,17 +217,14 @@ export default function DetailProductPage() {
           <div className="pd-middle-group text-14">
             <div className="pd-info-rating d-flex flex-wrap">
               <p>
-                Đánh giá:
+                Đánh giá :
                 <a>
                   <i className="icon-star star-5" />{" "}
                   <span className="blue-2">1</span>
                 </a>
               </p>
               <p>
-                Bình luận: <span className="blue-2">1</span>
-              </p>
-              <p>
-                Lượt xem: <span className="blue-2">7.986</span>
+                Bình luận : <span className="blue-2">1</span>
               </p>
             </div>
             <div className="product-color">
@@ -557,7 +582,8 @@ export default function DetailProductPage() {
                             cols={30}
                             rows={10}
                             placeholder="Mời bạn để lại bình luận..."
-                          />
+                            value={inputs.comment}
+                          ></textarea>
                         </div>
                         <div className="form-review-right">
                           <button type="submit" id="submit-review">
@@ -579,20 +605,26 @@ export default function DetailProductPage() {
                     )}
                   </div>
                   <div className="box-review-list">
-                    <div className="item">
-                      <div className="name-date">
-                        <b>Nguyễn Tiến Minh</b> | Ngày 18-10-2022, 10:49 am
+                    {isComment?.map((item) => (
+                      <div className="item" key={item._id}>
+                        <div className="name-date">
+                          <b>{item.userID?.fullname}</b> |{" "}
+                          {formatDate(item.createdAt)}
+                        </div>
+                        <div className="content d-flex align-items-center">
+                          <span className="star-rate-review icon-star star-5" />
+                          <span className="txt">{item.comment}</span>
+                        </div>
                       </div>
-                      <div className="content d-flex align-items-center">
-                        <span className="star-rate-review icon-star star-5" />
-                        <span className="txt">sản phẩm lần này ổn áp nhỉ</span>
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
-                <div className="box-produc-comment bg-w content-detail-read clearfix">
+                {/* modal */}
+                {/* <div className="box-produc-comment bg-w content-detail-read clearfix">
                   <div className="comment-list clearfix"></div>
-                  <div id="newCommentBox" style={{ display: "none" }}>
+                  <div id="newCommentBox" 
+                  // style={{ display: "none" }}
+                  >
                     <div className="comment-box-container">
                       <div className="title">
                         Nhập thông tin
@@ -677,7 +709,7 @@ export default function DetailProductPage() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -755,20 +787,9 @@ export default function DetailProductPage() {
         </div>
         <div className="pd-product-related-group">
           <div className="pd-box-title">
-            <a
-              href="javascript:void(0)"
-              className="js-box-title active"
-              data-id="js-pd-related"
-            >
+            <Link className="js-box-title active" data-id="js-pd-related">
               Sản phẩm tương tự
-            </a>
-            <a
-              href="javascript:void(0)"
-              className="js-box-title"
-              data-id="js-history"
-            >
-              Sản phẩm đã xem
-            </a>
+            </Link>
           </div>
           <div
             className="p-container js-product"
