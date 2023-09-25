@@ -24,12 +24,10 @@ export default function CartPage() {
 
   const handleIncreasingQuantity = (item) => {
     dispatch(increaseQuantity(item));
-    message.success("+ 1 Số Lượng Thành Công");
   };
 
   const handleDecreaseQuantity = (item) => {
     dispatch(decreaseQuantity(item));
-    message.info("- 1 Số Lượng Thành Công");
   };
 
   const handleDeleteItem = (item) => {
