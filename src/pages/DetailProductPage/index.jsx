@@ -6,7 +6,7 @@ import Carousel from "../../components/Carousel";
 
 import { SwiperSlide } from "swiper/react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { productService } from "../../services/product.service";
 import { formatPrice } from "./../../utils/fomatPrice";
 import { addToCart } from "../../stores/cart/actions";
@@ -16,6 +16,7 @@ import { commentService } from "../../services/comment.service";
 import formatDate from "../../utils/fomatDate";
 
 export default function DetailProductPage() {
+  const queryClient = useQueryClient();
   const [isSeeMore, setIsSeeMore] = useState(true);
   const [isReview, setIsReview] = useState(true);
   const [rating, setRating] = useState(0);
@@ -70,20 +71,19 @@ export default function DetailProductPage() {
     }
   }, [detailProductData]);
 
-  useEffect(() => {
-    const fetchCommentData = async () => {
-      if (detailProduct) {
-        try {
-          const commentData = await commentService.fetchByProductComments(
-            detailProduct._id
-          );
-          setIsComment(commentData);
-        } catch (error) {
-          console.error("Error fetching comment data:", error);
-        }
+  const fetchCommentData = async () => {
+    if (detailProduct) {
+      try {
+        const commentData = await commentService.fetchByProductComments(
+          detailProduct._id
+        );
+        setIsComment(commentData);
+      } catch (error) {
+        console.error("Error fetching comment data:", error);
       }
-    };
-
+    }
+  };
+  useEffect(() => {
     fetchCommentData();
   }, [detailProduct]);
 
@@ -146,6 +146,7 @@ export default function DetailProductPage() {
         setRating(0);
         setInputs({ ...inputs, comment: "" });
         message.success(response.message);
+        fetchCommentData();
       } else {
         if (response?.status === false) {
           setValidationErrors([]);

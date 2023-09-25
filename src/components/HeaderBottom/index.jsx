@@ -53,7 +53,6 @@ export default function HeaderBottom() {
     if (!selectedCategory) {
       return []; // Trả về một mảng rỗng nếu không tìm thấy danh mục
     }
-
     // Lấy tất cả các thương hiệu có categoryID trùng khớp với danh mục được chọn
     const categoryBrands = isBrands.filter(
       (brand) => brand.categoryID._id === selectedCategory._id
@@ -65,8 +64,8 @@ export default function HeaderBottom() {
     <div className="global-header-bottom-group container d-flex flex-wrap align-items-center position-relative">
       <a href="/" className="header-left-group header-logo">
         <img
-          src="https://hoanghapc.vn/template/2022/images/Logo_hoanghapc.png"
-          alt="Hoàng Hà PC - Chuyên Cung Cấp Máy Tính Đồ Họa Cao Cấp"
+          src=""
+          alt="GradTechShop"
           width={247}
           height={96}
           className="d-block h-auto w-auto m-auto"
