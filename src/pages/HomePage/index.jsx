@@ -27,6 +27,7 @@ export default function HomePage() {
     }
   );
 
+
   return (
     <Layout>
       {/* Banner */}
@@ -272,11 +273,14 @@ export default function HomePage() {
                               <i className="icons icon-gift" /> Quà tặng
                             </span>
                           </p>
-                          <a
-                            href={`/product/${item.slugProduct}`}
+
+                          <Link
+                            to={`/product/${item.slugProduct}`}
                             className="p-add-cart"
                             onclick="addProductToCart(3792, 1,'')"
-                          />
+                          >
+
+                          </Link>
                         </div>
                       </div>
                       <div className="p-tooltip">
@@ -469,14 +473,14 @@ export default function HomePage() {
                       />
                     </Link>
                     <div className="p-text">
-                      <Link
-                        to={`/product/${item.slugProduct}`}
+                      <a
+                        href="/hhpc-3d-lumion-i5-13600k-32g-nvidia-rtx-3060-12g"
                         className="p-name"
                       >
                         <h3 className="inherit">
-                          {item.nameProduct}
+                          HHPC 3D i5 13600K | 32G | NVIDIA RTX 3060 12G
                         </h3>
-                      </Link>
+                      </a>
                       <div className="p-price-group">
                         <span className="p-price">23.950.000 đ</span>
                         <del className="p-old-price">26.500.000 đ</del>
@@ -491,7 +495,13 @@ export default function HomePage() {
                             <i className="icons icon-gift" /> Quà tặng
                           </span>
                         </p>
-                        <a href="javascript:void(0)" className="p-add-cart" />
+                        <Link
+                          to={`/product/${item.slugProduct}`}
+                          className="p-add-cart"
+                          onclick="addProductToCart(3792, 1,'')"
+                        >
+
+                        </Link>
                       </div>
                     </div>
                     <div className="p-tooltip">

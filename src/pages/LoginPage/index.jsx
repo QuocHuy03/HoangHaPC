@@ -105,7 +105,7 @@ export default function LoginPage() {
             <div className="box-title-auth">
               <p>Đăng nhập bằng Email</p>
               <p>
-                <Link to={"/auth/register"}>Đăng ký</Link> nếu chưa có tài khoản.
+                <Link to={`/auth${URL_CONSTANTS.REGISTER}`}>Đăng ký</Link> nếu chưa có tài khoản.
               </p>
             </div>
             <form className="input-holder-auth" onSubmit={handleSubmit}>

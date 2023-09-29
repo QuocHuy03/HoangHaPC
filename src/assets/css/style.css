@@ -358,15 +358,18 @@ iframe {
   margin: auto;
   display: block;
 }
+
 .product-color {
   display: flex;
   gap: 5px;
 }
+
 .item-color {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
+
 .circle {
   width: 30px;
   height: 30px;
@@ -376,6 +379,7 @@ iframe {
   align-items: center;
   border: 1px solid #edecec;
 }
+
 .autocomplete-suggestions {
   position: absolute;
   width: 100%;
@@ -435,7 +439,7 @@ iframe {
 }
 
 .icon-star {
-  background-image: url(../images/star.png);
+  background-image: url(https://i.imgur.com/Orry1E0.png);
   width: 63px;
   height: 11px;
   display: inline-block;
@@ -4243,7 +4247,16 @@ iframe {
   display: block;
   height: 100%;
 }
-
+.cart-information {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.title-edit-cart {
+  font-size: 14px;
+  font-weight: 400;
+  color: #8b8b8b;
+}
 .cart-items-group .icon-phone {
   background-position: -45px -98px;
 }
@@ -6126,14 +6139,10 @@ iframe {
 }
 
 .box-produc-review .box-review-content .form-review .form-review-left {
-  width: 50%;
-  float: left;
   padding-right: 5px;
 }
 
 .box-produc-review .box-review-content .form-review .form-review-right {
-  width: 50%;
-  float: right;
   padding-left: 5px;
 }
 
@@ -6150,14 +6159,13 @@ iframe {
   border-radius: 3px;
 }
 
-.box-produc-review .box-review-content .form-review .form-review-right input {
+.box-produc-review .box-review-content .form-review .form-review-right button {
   border: 1px solid #eeeeee;
   border-radius: 4px;
   font-size: 14px;
-  padding: 5px;
+  padding: 5px 20px;
   margin: 5px 0;
   height: 40px;
-  width: calc(50% - 5px);
   float: left;
   color: #161616;
 }

@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
 import SliderImages from "../../components/SliderImages";
-import { imageProduct } from "../../constants/imageProduct";
 import { Rating } from "react-simple-star-rating";
 import Carousel from "../../components/Carousel";
 
 import { SwiperSlide } from "swiper/react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { productService } from "../../services/product.service";
 import { formatPrice } from "./../../utils/fomatPrice";
 import { addToCart } from "../../stores/cart/actions";
 import { useDispatch } from "react-redux";
 import { message } from "antd";
+import { commentService } from "../../services/comment.service";
+import formatDate from "../../utils/fomatDate";
 
 export default function DetailProductPage() {
+  const queryClient = useQueryClient();
   const [isSeeMore, setIsSeeMore] = useState(true);
   const [isReview, setIsReview] = useState(true);
   const [rating, setRating] = useState(0);
@@ -34,21 +36,27 @@ export default function DetailProductPage() {
 
   const { slug } = useParams();
   const [isSlug, setSlug] = useState(null);
+  const [validationErrors, setValidationErrors] = useState([]);
+  const [inputs, setInputs] = useState({
+    comment: "",
+  });
+  const [detailProduct, setDetailProduct] = useState(null);
+  const [isComment, setIsComment] = useState(null);
+
   useEffect(() => {
     if (slug) {
       setSlug(slug);
     }
   }, [slug]);
-  // console.log("slug : ", isSlug);
 
-  const { data, isLoading } = useQuery({
+  const { data: detailProductData, isLoading: isDetailProduct } = useQuery({
     queryKey: ["edit-product", isSlug],
     queryFn: () => productService.fetchProductBySlug(isSlug),
     staleTime: 500,
     enabled: !!isSlug,
   });
 
-  const { data: isProduct, isloading: loadingProduct } = useQuery(
+  const { data: isProduct, isLoading: loadingProduct } = useQuery(
     ["product"],
     () => productService.fetchAllProducts(),
     {
@@ -56,6 +64,28 @@ export default function DetailProductPage() {
       retryDelay: 1000,
     }
   );
+
+  useEffect(() => {
+    if (detailProductData) {
+      setDetailProduct(detailProductData);
+    }
+  }, [detailProductData]);
+
+  const fetchCommentData = async () => {
+    if (detailProduct) {
+      try {
+        const commentData = await commentService.fetchByProductComments(
+          detailProduct._id
+        );
+        setIsComment(commentData);
+      } catch (error) {
+        console.error("Error fetching comment data:", error);
+      }
+    }
+  };
+  useEffect(() => {
+    fetchCommentData();
+  }, [detailProduct]);
 
   const handleColorClick = (color) => {
     if (color === null) {
@@ -95,6 +125,43 @@ export default function DetailProductPage() {
     );
     navigate("/cart");
   };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInputs((inputs) => ({ ...inputs, [name]: value }));
+  };
+
+  const handleComment = async (e) => {
+    e.preventDefault();
+    let data = {
+      rating: rating,
+      comment: inputs.comment,
+      productID: detailProduct?._id,
+    };
+
+    try {
+      const response = await commentService.fetchPostComment(data);
+      if (response.status === true) {
+        setValidationErrors([]);
+        setRating(0);
+        setInputs({ ...inputs, comment: "" });
+        message.success(response.message);
+        fetchCommentData();
+      } else {
+        if (response?.status === false) {
+          setValidationErrors([]);
+          setInputs({ ...inputs, comment: "" });
+          message.error(response.message);
+        }
+        setValidationErrors(
+          Object.values(response.errors).map((error) => error.msg)
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Layout>
       <div className="global-breadcrumb">
@@ -139,37 +206,39 @@ export default function DetailProductPage() {
       </div>
       <div className="product-detail-page container">
         <div className="pd-box-group pd-info-container d-flex flex-wrap">
-          <h1 className="pd-name w-100">{data?.nameProduct}</h1>
+          <h1 className="pd-name w-100">{detailProduct?.nameProduct}</h1>
           <div className="pd-left-group">
-            <SliderImages loop={true} images={data?.images} navigation={true} />
+            <SliderImages
+              loop={true}
+              images={detailProduct?.images}
+              navigation={true}
+            />
           </div>
           <div className="pd-middle-group text-14">
             <div className="pd-info-rating d-flex flex-wrap">
               <p>
-                Đánh giá:
+                Đánh giá :
                 <a>
                   <i className="icon-star star-5" />{" "}
                   <span className="blue-2">1</span>
                 </a>
               </p>
               <p>
-                Bình luận: <span className="blue-2">1</span>
-              </p>
-              <p>
-                Lượt xem: <span className="blue-2">7.986</span>
+                Bình luận : <span className="blue-2">1</span>
               </p>
             </div>
             <div className="product-color">
-              {data?.colors.map((item) => (
+              {detailProduct?.colors.map((item) => (
                 <div
                   onClick={() => handleColorClick(item.nameColor)}
                   className="circle"
                   style={{
                     backgroundColor: `${item.nameColor}`,
-                    border: ` ${selectedColor === item.nameColor
+                    border: ` ${
+                      selectedColor === item.nameColor
                         ? "2px solid rgb(159 149 149)"
                         : ""
-                      }`,
+                    }`,
                   }}
                 ></div>
               ))}
@@ -184,20 +253,24 @@ export default function DetailProductPage() {
               <div
                 className="pd-summary-list"
                 dangerouslySetInnerHTML={{
-                  __html: data?.contentProduct,
+                  __html: detailProduct?.contentProduct,
                 }}
               ></div>
             </div>
             <div className="pd-price-group">
               <span className="pd-price">
-                {formatPrice(data?.price_has_dropped)} đ
+                {formatPrice(detailProduct?.price_has_dropped)} đ
               </span>
               <del className="pd-old-price">
-                {formatPrice(data?.initial_price)} đ{" "}
+                {formatPrice(detailProduct?.initial_price)} đ{" "}
               </del>
               <span className="pd-price-off">
                 Tiết kiệm{" "}
-                {formatPrice(data?.initial_price - data?.price_has_dropped)} đ
+                {formatPrice(
+                  detailProduct?.initial_price -
+                    detailProduct?.price_has_dropped
+                )}{" "}
+                đ
               </span>
               <span className="pd-warranty">Bảo hành 36 tháng</span>
             </div>
@@ -211,7 +284,7 @@ export default function DetailProductPage() {
                   <span
                     style={{ color: "#ff0000", fontSize: "12pt" }}
                     dangerouslySetInnerHTML={{
-                      __html: data?.presentProduct,
+                      __html: detailProduct?.presentProduct,
                     }}
                   ></span>
                 </p>
@@ -221,7 +294,7 @@ export default function DetailProductPage() {
               <a
                 className="pd-btn-buyNow"
                 style={{ cursor: "pointer" }}
-                onClick={() => addCart(data)}
+                onClick={() => addCart(detailProduct)}
               >
                 <b>MUA NGAY</b>
                 <span>Giao hàng tận nơi nhanh chóng</span>
@@ -229,7 +302,7 @@ export default function DetailProductPage() {
               <a
                 className="pd-btn-add-product"
                 style={{ cursor: "pointer" }}
-                onClick={() => buyCart(data)}
+                onClick={() => buyCart(detailProduct)}
               >
                 <b>THÊM VÀO GIỎ HÀNG</b>
                 <span>Thêm vào giỏ để chọn tiếp</span>
@@ -348,10 +421,12 @@ export default function DetailProductPage() {
         <div className="row product-detail-row">
           <div className="col-7">
             <div className="pd-box-group js-static-container">
-              <h2 className="box-title">Đánh giá {data?.nameProduct}</h2>
+              <h2 className="box-title">
+                Đánh giá {detailProduct?.nameProduct}
+              </h2>
               <div
                 dangerouslySetInnerHTML={{
-                  __html: data?.descriptionProduct,
+                  __html: detailProduct?.descriptionProduct,
                 }}
                 className={
                   isSeeMore
@@ -480,7 +555,7 @@ export default function DetailProductPage() {
                         isReview ? { display: "none" } : { display: "block" }
                       }
                     >
-                      <form>
+                      <form onSubmit={handleComment}>
                         <div className="star-rank">
                           <span style={{ float: "left" }}>
                             Chọn đánh giá của bạn
@@ -502,84 +577,58 @@ export default function DetailProductPage() {
                         </div>
                         <div className="form-review-left">
                           <textarea
-                            name="user_post[content]"
-                            id="review_reply_content_0"
+                            name="comment"
+                            onChange={handleChange}
                             cols={30}
                             rows={10}
-                            defaultValue={""}
-                          />
+                            placeholder="Mời bạn để lại bình luận..."
+                            value={inputs.comment}
+                          ></textarea>
                         </div>
                         <div className="form-review-right">
-                          <input
-                            type="text"
-                            id="review_reply_name_0"
-                            placeholder="Họ tên*"
-                          />
-                          <input
-                            type="text"
-                            id="review_reply_tel_0"
-                            placeholder="Số điện thoại*"
-                          />
-                          <input
-                            type="text"
-                            id="review_reply_email_0"
-                            placeholder="Email*"
-                          />
-                          <input
-                            type="submit"
-                            id="submit-review"
-                            defaultValue="Gửi đánh giá"
-                          />
+                          <button type="submit" id="submit-review">
+                            Gửi bình luận đánh giá
+                          </button>
                         </div>
                       </form>
                     </div>
+                    {validationErrors && (
+                      <p
+                        className="mt-1 red"
+                        id="js-popup-login-note"
+                        style={{ whiteSpace: "pre-line" }}
+                      >
+                        {validationErrors.map((error, index) => (
+                          <li key={index}>{error}</li>
+                        ))}
+                      </p>
+                    )}
                   </div>
                   <div className="box-review-list">
-                    <div className="item">
-                      <div className="name-date">
-                        <b>Nguyễn Tiến Minh</b> | Ngày 18-10-2022, 10:49 am
+                    {isComment?.map((item) => (
+                      <div className="item" key={item._id}>
+                        <div className="name-date">
+                          <b>{item.userID?.fullname}</b> |{" "}
+                          {formatDate(item.createdAt)}
+                        </div>
+                        <div className="content d-flex align-items-center">
+                          <span className="star-rate-review icon-star star-5" />
+                          <span className="txt">{item.comment}</span>
+                        </div>
                       </div>
-                      <div className="content d-flex align-items-center">
-                        <span className="star-rate-review icon-star star-5" />
-                        <span className="txt">sản phẩm lần này ổn áp nhỉ</span>
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 </div>
-                <div className="box-produc-comment bg-w content-detail-read clearfix">
-                  <div className="form-comment">
-                    <textarea
-                      id="comment_reply_content_0"
-                      name="user_post[content]"
-                      placeholder="Mời bạn để lại bình luận..."
-                      defaultValue={""}
-                    />
-                    <div className="send-comment clearfix">
-                      <a
-                        href="https://hoanghapc.vn/chinh-sach-quy-dinh-chung"
-                        className="qd-cmt"
-                        target="_blank"
-                      >
-                        Quy định đăng bình luận
-                      </a>
-                      <a
-                        className="btn-send-form-cmt"
-                        href="javascript:void(0)"
-                        onclick="reviewReply('comment','',0)"
-                      >
-                        Gửi bình luận
-                      </a>
-                    </div>
-                  </div>
+                {/* modal */}
+                {/* <div className="box-produc-comment bg-w content-detail-read clearfix">
                   <div className="comment-list clearfix"></div>
-                  <div id="newCommentBox" style={{ display: "none" }}>
+                  <div id="newCommentBox" 
+                  // style={{ display: "none" }}
+                  >
                     <div className="comment-box-container">
                       <div className="title">
                         Nhập thông tin
-                        <a
-                          href="javascript:closeCommentBox();"
-                          className="back-btn"
-                        >
+                        <a className="back-btn">
                           <i className="fa fa-arrow-left" aria-hidden="true" />
                         </a>
                       </div>
@@ -660,7 +709,7 @@ export default function DetailProductPage() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
@@ -671,7 +720,7 @@ export default function DetailProductPage() {
                 <div
                   className="tlqcontent"
                   dangerouslySetInnerHTML={{
-                    __html: data?.specificationsProduct,
+                    __html: detailProduct?.specificationsProduct,
                   }}
                 ></div>
               </div>
@@ -738,20 +787,9 @@ export default function DetailProductPage() {
         </div>
         <div className="pd-product-related-group">
           <div className="pd-box-title">
-            <a
-              href="javascript:void(0)"
-              className="js-box-title active"
-              data-id="js-pd-related"
-            >
+            <Link className="js-box-title active" data-id="js-pd-related">
               Sản phẩm tương tự
-            </a>
-            <a
-              href="javascript:void(0)"
-              className="js-box-title"
-              data-id="js-history"
-            >
-              Sản phẩm đã xem
-            </a>
+            </Link>
           </div>
           <div
             className="p-container js-product"
