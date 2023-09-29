@@ -135,6 +135,10 @@ export default function CartPage() {
                               <span
                                 style={{
                                   textTransform: "uppercase",
+                                  border: "1px solid #eee",
+                                  padding: "4px",
+                                  borderRadius: "10px",
+                                  backgroundColor: "#a8a8a8",
                                   color: `${item.color}`,
                                 }}
                               >
