@@ -128,12 +128,12 @@ export default function Footer() {
           <div className="container d-flex align-items-center justify-content-between flex-wrap">
             <div className="text">
               <b className="d-block">
-                CÔNG TY TNHH DỊCH VỤ VÀ CÔNG NGHỆ HOÀNG HÀ ©
+                CÔNG TY TNHH DỊCH VỤ VÀ CÔNG NGHỆ GradTechShop ©
               </b>
               <span>
-                2008 - 2020 - Công ty TNHH Dịch Vụ Và Công Nghệ Hoàng Hà / GPKD
+                2008 - 2020 - Công ty TNHH Dịch Vụ Và Công Nghệ GradTechShop / GPKD
                 số:0107406972 Do Sở Kế Hoạch Và Đầu Tư Thành Phố Hà Nội Cấp{" "}
-                <br /> Bản Quyền Thuộc Về hoanghapc.vn
+                <br /> Bản Quyền Thuộc Về GradTechShop.vn
               </span>
             </div>
             <a
