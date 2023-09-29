@@ -179,7 +179,7 @@ export default function CheckoutPage() {
 
             <div className="col-4">
               <div className="css-127zbo8">
-                <div className="card-header css-0">
+                <div className="css-0">
                   <div className="css-1knbux5">
                     <span>Khuyến mãi</span>
                     <a
