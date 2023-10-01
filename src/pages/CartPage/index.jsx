@@ -12,15 +12,10 @@ import {
 import { formatPrice } from "../../utils/fomatPrice";
 import { message } from "antd";
 import { AppContext } from "../../contexts/AppContextProvider";
+import { v4 as uuidv4 } from "uuid";
 
 export default function CartPage() {
   const dispatch = useDispatch();
-
-
-
-  
-
-
   const { carts, user } = useContext(AppContext);
   const totalAmountAll = carts?.reduce(
 
@@ -274,8 +269,9 @@ export default function CartPage() {
                       defaultValue={""}
                     />
                   </div>
-                  <button
-                    type="submit"
+
+                  <Link
+                    to={`/checkout/${uuidv4()}`}
                     className="btn-submit-cart js-send-cart"
                   >
                     <b>Đặt hàng</b>
@@ -283,7 +279,7 @@ export default function CartPage() {
                       Tư vấn viên sẽ gọi điện thoại xác nhận, không mua không
                       sao
                     </span>
-                  </button>
+                  </Link>
                   {/*-mot so bien khac chi de front-end*/}
                 </div>
               </div>

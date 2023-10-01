@@ -14,5 +14,5 @@ export const URL_CONSTANTS = {
     FORGOT_PASSWORD: "/forgot-password",
     RESET_PASSWORD: "/reset-password",
     PROFILE: "/profile",
-    CHECKOUT: "/checkout"
+    CHECKOUT: "/checkout/:code"
 };

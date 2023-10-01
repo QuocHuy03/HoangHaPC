@@ -61,7 +61,7 @@ class Http {
               }
             } else {
               console.log("Refresh token not available.");
-              history.push(URL_CONSTANTS.LOGIN);
+              history.push(`/auth` + URL_CONSTANTS.LOGIN);
             }
           }
         }
@@ -86,7 +86,7 @@ class Http {
       return response.data;
     } catch (error) {
       if (error.response && error.response.status === 400) {
-        return error.response.data
+        return error.response.data;
       }
     }
   }
@@ -97,7 +97,7 @@ class Http {
       return response.data;
     } catch (error) {
       if (error.response && error.response.status === 400) {
-        return error.response.data
+        return error.response.data;
       }
     }
   }
@@ -108,7 +108,7 @@ class Http {
       return response.data;
     } catch (error) {
       if (error.response && error.response.status === 400) {
-        return error.response.data
+        return error.response.data;
       }
     }
   }
@@ -119,7 +119,7 @@ class Http {
       return response.data;
     } catch (error) {
       if (error.response && error.response.status === 400) {
-        return error.response.data
+        return error.response.data;
       }
     }
   }
