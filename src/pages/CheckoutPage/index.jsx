@@ -6,17 +6,26 @@ import { paymentService } from "../../services/payment.service";
 import Loading from "../../components/Loading";
 import { AppContext } from "../../contexts/AppContextProvider";
 import { formatPrice } from "../../utils/fomatPrice";
+import { Link, useParams } from "react-router-dom";
+import { URL_CONSTANTS } from "../../constants/url.constants";
 
 export default function CheckoutPage() {
-  const { carts } = useContext(AppContext);
+  const { code } = useParams();
+  const { carts, user } = useContext(AppContext);
+  const [isOpen, setIsOpen] = useState(false);
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
 
   const totalAmountAll = carts.reduce(
     (total, item) => total + item?.product.price_has_dropped * item.quantity,
     0
   );
-  console.log(totalAmountAll);
-
-  const [activeItem, setActiveItem] = useState(1);
+  const [activeItem, setActiveItem] = useState("64f98dfe26535a0cff5054ea");
   const handleClickPayment = (itemId) => {
     setActiveItem(itemId);
   };
@@ -28,7 +37,13 @@ export default function CheckoutPage() {
       retryDelay: 1000,
     }
   );
-  console.log(data);
+
+  const handleMouseDown = (event) => {
+    if (event.target === event.currentTarget) {
+      setIsOpen(false);
+    }
+  };
+
   return (
     <Layout>
       <div className="global-breadcrumb">
@@ -182,8 +197,8 @@ export default function CheckoutPage() {
                 <div className="css-0">
                   <div className="css-1knbux5">
                     <span>Khuyến mãi</span>
-                    <a
-                      target="_blank"
+                    <Link
+                      onClick={openModal}
                       rel="noopener noreferrer"
                       className="css-x3sjt9"
                       color="link500"
@@ -205,29 +220,36 @@ export default function CheckoutPage() {
                         />
                       </svg>
                       &nbsp; Chọn hoặc nhập khuyến mãi
-                    </a>
+                    </Link>
                   </div>
                 </div>
-                <div className="card-body css-0">
-                  <div className="css-twos5s">
-                    Đơn hàng chưa đủ điều kiện áp dụng khuyến mãi. Vui lòng mua
-                    thêm để áp dụng
+                {!user && (
+                  <div className="card-body css-0">
+                    <div className="css-twos5s">
+                      Đơn hàng chưa đủ điều kiện áp dụng khuyến mãi. Vui lòng
+                      mua thêm để áp dụng
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
               <div style={{ paddingTop: "1rem" }}></div>
               <div className="teko-col teko-col-4 css-gr7r8o">
                 <div className="css-14xqo9c">
-                  <div className="card-header css-0">
+                  <div className="css-0">
                     <div className="css-1euuut5">
                       <h5>Thông tin đơn hàng</h5>
-                      <a href="/cart">Chỉnh sửa</a>
+                      <Link to={URL_CONSTANTS.CART}>Chỉnh sửa</Link>
                     </div>
                   </div>
                   <div className="card-body css-0">
                     <div className="css-9op68y">
                       {carts?.map((item) => (
-                        <div className="css-ov1ktg">
+                        <div
+                          className="css-ov1ktg"
+                          style={{
+                            padding: "5px 0px",
+                          }}
+                        >
                           <div>
                             <div height={80} width={80} className="css-17nqxzh">
                               <picture>
@@ -242,9 +264,8 @@ export default function CheckoutPage() {
                             </div>
                           </div>
                           <div className="css-f0vs3e">
-                            <a
-                              target="_blank"
-                              href="/products/201201616"
+                            <Link
+                              to={`/product/${item.product.slugProduct}`}
                               aria-label="Image"
                               className="css-587jha"
                             >
@@ -255,7 +276,7 @@ export default function CheckoutPage() {
                               >
                                 {item.product.nameProduct}
                               </div>
-                            </a>
+                            </Link>
                             <div
                               type="caption"
                               color="textSecondary"
@@ -317,7 +338,7 @@ export default function CheckoutPage() {
                                   Thành tiền{" "}
                                 </td>
                                 <td className="att-final-price css-aafp0n">
-                                {formatPrice(totalAmountAll)}
+                                  {formatPrice(totalAmountAll)}
                                 </td>
                               </tr>
                             </tbody>
@@ -356,6 +377,117 @@ export default function CheckoutPage() {
               </div>
             </div>
           </form>
+          <div className="box-produc-comment bg-w content-detail-read clearfix">
+            <div className="comment-list clearfix"></div>
+            <div
+              id="newCommentBox"
+              onMouseDown={handleMouseDown}
+              style={isOpen ? {} : { display: "none" }}
+            >
+              <div className="comment-box-container">
+                <div className="title">
+                  Khuyến mãi và mã giảm giá
+                  <Link onClick={closeModal} className="back-btn">
+                    <i className="fa fa-arrow-left" aria-hidden="true" />
+                  </Link>
+                </div>
+                <div
+                  className="form-wrap"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                  }}
+                >
+                  <input
+                    type="text"
+                    placeholder="Mã giảm giá/phiếu mua hàng"
+                    maxlength="255"
+                    id="comment_box_tel"
+                  />
+                  <button type="submit" onclick id="change-submit-2020">
+                    Áp dụng
+                  </button>
+                </div>
+                {/* Mã Khuyến Mãi */}
+                <div width="100%" className="css-aw1phq">
+                  <div className="teko-row teko-row-no-wrap teko-row-space-between css-1qrgscw">
+                    <div className="teko-col css-1kuu3ui">
+                      <div className="css-1vwnyiz">
+                        <div width="100%" className="css-1ddnbai">
+                          <img
+                            src="https://shopfront-cdn.tekoapis.com/cart/discount.png"
+                            loading="lazy"
+                            decoding="async"
+                            style={{ width: "100%", height: "auto" }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      width="100%"
+                      className="teko-col css-oi0lj1"
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <div>
+                        <div
+                          type="body"
+                          className="css-i5q8p4"
+                          style={{ whiteSpace: "pre-line" }}
+                        >
+                          <span className="css-ammihu">
+                            <div
+                              type="caption"
+                              color="primary600"
+                              className="css-1fktfn4"
+                            >
+                              PVAS0509
+                            </div>
+                          </span>
+                          Giảm 1.300.000₫
+                        </div>
+                        <div
+                          type="caption"
+                          color="textSecondary"
+                          className="css-q3pfns"
+                        />
+                      </div>
+                      <div className="teko-row teko-row-space-between teko-row-bottom css-1cxmf7d">
+                        <div className="teko-col css-17ajfcv">
+                          <div
+                            type="caption"
+                            color="textSecondary"
+                            className="css-1f5a6jh"
+                          >
+                            HSD: 30/09/2023
+                          </div>
+                        </div>
+                        <a
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="apply-promotion att-apply-promotion-485123 css-kfv2zc"
+                          color="link500"
+                        >
+                          <div
+                            type="body"
+                            className="button-text css-1c7714w"
+                            color="link500"
+                          >
+                            Áp dụng
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/* end Mã Khuyến Mãi */}
+              </div>
+            </div>
+          </div>
         </React.Fragment>
       </div>
     </Layout>

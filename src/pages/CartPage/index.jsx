@@ -12,10 +12,10 @@ import {
 import { formatPrice } from "../../utils/fomatPrice";
 import { message } from "antd";
 import { AppContext } from "../../contexts/AppContextProvider";
+import { v4 as uuidv4 } from "uuid";
 
 export default function CartPage() {
   const dispatch = useDispatch();
-
   const { carts, user } = useContext(AppContext);
   const totalAmountAll = carts?.reduce(
     (total, item) => total + item?.product.price_has_dropped * item.quantity,
@@ -127,6 +127,10 @@ export default function CartPage() {
                               <span
                                 style={{
                                   textTransform: "uppercase",
+                                  border: "1px solid #eee",
+                                  padding: "4px",
+                                  borderRadius: "10px",
+                                  backgroundColor: "#a8a8a8",
                                   color: `${item.color}`,
                                 }}
                               >
@@ -270,7 +274,7 @@ export default function CartPage() {
                     </textarea>
                   </div>
                   <Link
-                    to={URL_CONSTANTS.CHECKOUT}
+                    to={`/checkout/${uuidv4()}`}
                     className="btn-submit-cart js-send-cart"
                   >
                     <b>Đặt hàng</b>
