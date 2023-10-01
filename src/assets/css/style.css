@@ -6562,7 +6562,6 @@ iframe {
   padding: 8px;
   width: 100%;
   margin: 10px 0;
-  height: 35px;
   border: 1px solid #dadada;
   background: #fff;
   border-radius: 4px;
@@ -6625,10 +6624,8 @@ iframe {
 
 #newCommentBox .comment-box-container .form-wrap button {
   display: block;
-  width: 100%;
-  margin: 0 auto 10px;
+  width: 30%;
   padding: 8px;
-  height: 40px;
   font-size: 14px;
   color: #fff;
   text-transform: uppercase;
