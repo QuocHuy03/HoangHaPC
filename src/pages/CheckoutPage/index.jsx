@@ -3,14 +3,22 @@ import "./style.css";
 import Layout from "../../components/Layout";
 import { useQuery } from "@tanstack/react-query";
 import { paymentService } from "../../services/payment.service";
+import { couponService } from "../../services/coupon.service";
 import Loading from "../../components/Loading";
 import { AppContext } from "../../contexts/AppContextProvider";
 import { formatPrice } from "../../utils/fomatPrice";
+import formatDate from "../../utils/fomatDate";
 import { Link, useParams } from "react-router-dom";
 import { URL_CONSTANTS } from "../../constants/url.constants";
+import { useDispatch } from "react-redux";
+import { applyCoupon } from "../../stores/discount/actions";
+import { message } from "antd";
 
 export default function CheckoutPage() {
   const { code } = useParams();
+  const dispatch = useDispatch();
+  const [userID, setUserID] = useState(null);
+  const [couponID, setCouponID] = useState(null);
   const { carts, user } = useContext(AppContext);
   const [isOpen, setIsOpen] = useState(false);
   const openModal = () => {
@@ -29,9 +37,18 @@ export default function CheckoutPage() {
   const handleClickPayment = (itemId) => {
     setActiveItem(itemId);
   };
-  const { data, isloading } = useQuery(
+  const { data: isPayments, isloading: loadingPayment } = useQuery(
     ["payment"],
     () => paymentService.fetchAllPayments(),
+    {
+      retry: 3,
+      retryDelay: 1000,
+    }
+  );
+
+  const { data: isCoupons, isloading: loadingCoupon } = useQuery(
+    ["coupons"],
+    () => couponService.fetchAllCoupons(),
     {
       retry: 3,
       retryDelay: 1000,
@@ -41,6 +58,24 @@ export default function CheckoutPage() {
   const handleMouseDown = (event) => {
     if (event.target === event.currentTarget) {
       setIsOpen(false);
+    }
+  };
+
+  const handleClickCouponVavailable = async (huyit) => {
+    const data = {
+      userID: user?._id,
+      couponID: huyit,
+    };
+
+    try {
+      const response = await dispatch(applyCoupon(data));
+      if (response.status === true) {
+        message.success(response.message);
+      } else {
+        message.error(response.message);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -112,10 +147,10 @@ export default function CheckoutPage() {
                       rowGap: 16,
                     }}
                   >
-                    {isloading ? (
+                    {loadingPayment ? (
                       <Loading />
                     ) : (
-                      data?.map((huyit) => (
+                      isPayments?.map((huyit) => (
                         <div
                           className="teko-col teko-col-6 css-gr7r8o"
                           style={{ paddingLeft: 8, paddingRight: 8 }}
@@ -410,80 +445,87 @@ export default function CheckoutPage() {
                   </button>
                 </div>
                 {/* Mã Khuyến Mãi */}
-                <div width="100%" className="css-aw1phq">
-                  <div className="teko-row teko-row-no-wrap teko-row-space-between css-1qrgscw">
-                    <div className="teko-col css-1kuu3ui">
-                      <div className="css-1vwnyiz">
-                        <div width="100%" className="css-1ddnbai">
-                          <img
-                            src="https://shopfront-cdn.tekoapis.com/cart/discount.png"
-                            loading="lazy"
-                            decoding="async"
-                            style={{ width: "100%", height: "auto" }}
-                          />
+                {loadingCoupon ? (
+                  <Loading />
+                ) : (
+                  isCoupons?.map((huyit) => (
+                    <div width="100%" className="css-aw1phq">
+                      <div className="teko-row teko-row-no-wrap teko-row-space-between css-1qrgscw">
+                        <div className="teko-col css-1kuu3ui">
+                          <div className="css-1vwnyiz">
+                            <div width="100%" className="css-1ddnbai">
+                              <img
+                                src="https://shopfront-cdn.tekoapis.com/cart/discount.png"
+                                loading="lazy"
+                                decoding="async"
+                                style={{ width: "100%", height: "auto" }}
+                              />
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div
-                      width="100%"
-                      className="teko-col css-oi0lj1"
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <div>
                         <div
-                          type="body"
-                          className="css-i5q8p4"
-                          style={{ whiteSpace: "pre-line" }}
+                          width="100%"
+                          className="teko-col css-oi0lj1"
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "space-between",
+                          }}
                         >
-                          <span className="css-ammihu">
+                          <div>
+                            <div
+                              type="body"
+                              className="css-i5q8p4"
+                              style={{ whiteSpace: "pre-line" }}
+                            >
+                              <span className="css-ammihu">
+                                <div
+                                  type="caption"
+                                  color="primary600"
+                                  className="css-1fktfn4"
+                                >
+                                  {huyit?.code}
+                                </div>
+                              </span>
+                              Giảm {formatPrice(huyit?.price)}₫
+                            </div>
                             <div
                               type="caption"
-                              color="primary600"
-                              className="css-1fktfn4"
-                            >
-                              PVAS0509
+                              color="textSecondary"
+                              className="css-q3pfns"
+                            />
+                          </div>
+                          <div className="teko-row teko-row-space-between teko-row-bottom css-1cxmf7d">
+                            <div className="teko-col css-17ajfcv">
+                              <div
+                                type="caption"
+                                color="textSecondary"
+                                className="css-1f5a6jh"
+                              >
+                                HSD: {formatDate(huyit?.createdAt)}
+                              </div>
                             </div>
-                          </span>
-                          Giảm 1.300.000₫
-                        </div>
-                        <div
-                          type="caption"
-                          color="textSecondary"
-                          className="css-q3pfns"
-                        />
-                      </div>
-                      <div className="teko-row teko-row-space-between teko-row-bottom css-1cxmf7d">
-                        <div className="teko-col css-17ajfcv">
-                          <div
-                            type="caption"
-                            color="textSecondary"
-                            className="css-1f5a6jh"
-                          >
-                            HSD: 30/09/2023
+                            <Link
+                              onClick={() =>
+                                handleClickCouponVavailable(huyit._id)
+                              }
+                              rel="noopener noreferrer"
+                              className="apply-promotion att-apply-promotion-485123 css-kfv2zc"
+                              color="link500"
+                            >
+                              <div
+                                className="button-text css-1c7714w"
+                                color="link500"
+                              >
+                                Áp dụng
+                              </div>
+                            </Link>
                           </div>
                         </div>
-                        <a
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="apply-promotion att-apply-promotion-485123 css-kfv2zc"
-                          color="link500"
-                        >
-                          <div
-                            type="body"
-                            className="button-text css-1c7714w"
-                            color="link500"
-                          >
-                            Áp dụng
-                          </div>
-                        </a>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  ))
+                )}
                 {/* end Mã Khuyến Mãi */}
               </div>
             </div>
