@@ -57,21 +57,15 @@ export const uncheckedCoupon = (data) => {
       if (response.status === true) {
         dispatch({
           type: UNCHECKED_COUPON_SUCCESS,
-          payload: response.result,
+          payload: response,
         });
-        return {
-          status: true,
-          message: response.message,
-        };
+        return response;
       } else {
         dispatch({
           type: UNCHECKED_COUPON_FAILED,
           payload: response,
         });
-        return {
-          status: false,
-          response,
-        };
+        return response;
       }
     } catch (error) {
       dispatch({

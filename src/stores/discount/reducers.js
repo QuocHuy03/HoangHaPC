@@ -36,11 +36,9 @@ const discountReducer = (state = initialState, action) => {
       return { ...state, loading: true };
 
     case UNCHECKED_COUPON_SUCCESS:
-      const { couponID } = action.payload;
-      const updatedDiscounts = state.discounts.filter(
-        (discount) => discount._id !== couponID
-      );
-      return { ...state, discounts: updatedDiscounts };
+      return {
+        ...state,
+      };
 
     case UNCHECKED_COUPON_FAILED:
       return {

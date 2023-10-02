@@ -119,11 +119,11 @@ export default function CheckoutPage() {
     }
   };
 
+
   const handleClickUnCouponVavailable = async (huyit) => {
     const data = {
       couponID: huyit._id,
     };
-
     try {
       const response = await dispatch(uncheckedCoupon(data));
       if (response.status === true) {
@@ -564,9 +564,9 @@ export default function CheckoutPage() {
                             </div>
                             <Link
                               onClick={() =>
-                                isDiscount
-                                  ? handleClickCouponVavailable(huyit)
-                                  : handleClickUnCouponVavailable(huyit)
+                                isDiscount && isDiscount?.length > 0
+                                  ? handleClickUnCouponVavailable(huyit)
+                                  : handleClickCouponVavailable(huyit)
                               }
                               rel="noopener noreferrer"
                               className="apply-promotion att-apply-promotion-485123 css-kfv2zc"
@@ -576,7 +576,7 @@ export default function CheckoutPage() {
                                 className="button-text css-1c7714w"
                                 color="link500"
                               >
-                                {isDiscount ? "Bỏ chọn" : "Áp dụng"}
+                                {isDiscount && isDiscount?.length > 0 ? "Bỏ chọn" : "Áp dụng"}
                               </div>
                             </Link>
                           </div>
