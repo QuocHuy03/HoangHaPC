@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./style.css";
 import Layout from "../../components/Layout";
 import { useQuery } from "@tanstack/react-query";
@@ -11,23 +11,15 @@ import formatDate from "../../utils/fomatDate";
 import { Link, useParams } from "react-router-dom";
 import { URL_CONSTANTS } from "../../constants/url.constants";
 import { useDispatch } from "react-redux";
-import { applyCoupon } from "../../stores/discount/actions";
+import { applyCoupon, uncheckedCoupon } from "../../stores/discount/actions";
 import { message } from "antd";
 
 export default function CheckoutPage() {
   const { code } = useParams();
   const dispatch = useDispatch();
-  const [userID, setUserID] = useState(null);
-  const [couponID, setCouponID] = useState(null);
   const { carts, user } = useContext(AppContext);
   const [isOpen, setIsOpen] = useState(false);
-  const openModal = () => {
-    setIsOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsOpen(false);
-  };
+  const [filterProductCoupon, setFilterProductCoupon] = useState([]);
 
   const totalAmountAll = carts.reduce(
     (total, item) => total + item?.product.price_has_dropped * item.quantity,
@@ -55,6 +47,55 @@ export default function CheckoutPage() {
     }
   );
 
+  const { data: isDiscount, isloading: loadingDiscount } = useQuery(
+    ["discounts"],
+    () => couponService.fetchCouponByUserID(user?._id),
+    {
+      retry: 3,
+      retryDelay: 1000,
+    }
+  );
+
+  useEffect(() => {
+    // Lấy danh sách coupons đã lưu trong localStorage (nếu có)
+    const savedCoupons = JSON.parse(localStorage.getItem("listCoupons")) || {};
+    // Tạo một đối tượng để theo dõi coupon cho từng sản phẩm
+    const productCouponMap = {};
+    // Lặp qua từng sản phẩm trong giỏ hàng
+    for (const cartItem of carts) {
+      // Kiểm tra xem sản phẩm đã có coupon được lưu trong localStorage chưa
+      const savedCoupon = savedCoupons[cartItem.product._id];
+
+      if (savedCoupon) {
+        // Nếu đã có coupon cho sản phẩm này, sử dụng nó
+        productCouponMap[cartItem.product._id] = savedCoupon;
+      } else {
+        // Nếu chưa có coupon, tìm coupon từ danh sách isCoupons
+        const coupon = isCoupons?.find(
+          (c) => c.product._id === cartItem.product._id
+        );
+        if (coupon) {
+          // Lưu coupon vào productCouponMap
+          productCouponMap[cartItem.product._id] = coupon;
+          // Lưu coupon vào localStorage
+          savedCoupons[cartItem.product._id] = coupon;
+          localStorage.setItem("listCoupons", JSON.stringify(savedCoupons));
+        }
+      }
+    }
+    // Chuyển đối tượng productCouponMap thành mảng để setFilterProductCoupon
+    const filteredCoupons = Object.values(productCouponMap);
+    setFilterProductCoupon(filteredCoupons);
+  }, [carts, isCoupons]);
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
   const handleMouseDown = (event) => {
     if (event.target === event.currentTarget) {
       setIsOpen(false);
@@ -63,12 +104,28 @@ export default function CheckoutPage() {
 
   const handleClickCouponVavailable = async (huyit) => {
     const data = {
-      userID: user?._id,
-      couponID: huyit,
+      couponID: huyit._id,
     };
 
     try {
       const response = await dispatch(applyCoupon(data));
+      if (response.status === true) {
+        message.success(response.message);
+      } else {
+        message.error(response.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleClickUnCouponVavailable = async (huyit) => {
+    const data = {
+      couponID: huyit._id,
+    };
+
+    try {
+      const response = await dispatch(uncheckedCoupon(data));
       if (response.status === true) {
         message.success(response.message);
       } else {
@@ -448,7 +505,7 @@ export default function CheckoutPage() {
                 {loadingCoupon ? (
                   <Loading />
                 ) : (
-                  isCoupons?.map((huyit) => (
+                  filterProductCoupon?.map((huyit) => (
                     <div width="100%" className="css-aw1phq">
                       <div className="teko-row teko-row-no-wrap teko-row-space-between css-1qrgscw">
                         <div className="teko-col css-1kuu3ui">
@@ -507,7 +564,9 @@ export default function CheckoutPage() {
                             </div>
                             <Link
                               onClick={() =>
-                                handleClickCouponVavailable(huyit._id)
+                                isDiscount
+                                  ? handleClickCouponVavailable(huyit)
+                                  : handleClickUnCouponVavailable(huyit)
                               }
                               rel="noopener noreferrer"
                               className="apply-promotion att-apply-promotion-485123 css-kfv2zc"
@@ -517,7 +576,7 @@ export default function CheckoutPage() {
                                 className="button-text css-1c7714w"
                                 color="link500"
                               >
-                                Áp dụng
+                                {isDiscount ? "Bỏ chọn" : "Áp dụng"}
                               </div>
                             </Link>
                           </div>

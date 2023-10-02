@@ -9,7 +9,6 @@ import {
 } from "./types";
 
 export const applyCoupon = (data) => {
-  console.log(data);
   return async (dispatch) => {
     dispatch({
       type: APPLY_COUPON_REQUEST,
@@ -47,7 +46,6 @@ export const applyCoupon = (data) => {
 };
 
 export const uncheckedCoupon = (data) => {
-  console.log(data);
   return async (dispatch) => {
     dispatch({
       type: UNCHECKED_COUPON_REQUEST,
@@ -55,7 +53,7 @@ export const uncheckedCoupon = (data) => {
     });
 
     try {
-      const response = await couponService.fetchDeleteCoupon(data);
+      const response = await couponService.fetchDeleteCoupon(data.couponID);
       if (response.status === true) {
         dispatch({
           type: UNCHECKED_COUPON_SUCCESS,

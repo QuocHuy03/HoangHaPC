@@ -11,6 +11,15 @@ const fetchAllCoupons = async () => {
   }
 };
 
+const fetchCouponByUserID = async (id) => {
+  try {
+    const response = await http.get(`/coupon-user/getCouponUserByUserID/${id}`);
+    return response.result;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const fetchPostCoupon = async (data) => {
   try {
     const response = await http.post(`/coupon-user/postCouponUser`, data);
@@ -31,5 +40,6 @@ const fetchDeleteCoupon = async (id) => {
 export const couponService = {
   fetchAllCoupons,
   fetchPostCoupon,
+  fetchCouponByUserID,
   fetchDeleteCoupon,
 };
