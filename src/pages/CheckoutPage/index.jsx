@@ -19,8 +19,9 @@ export default function CheckoutPage() {
   const dispatch = useDispatch();
   const { carts, user } = useContext(AppContext);
   const [isOpen, setIsOpen] = useState(false);
-  const [filterProductCoupon, setFilterProductCoupon] = useState([]);
-
+  const [filterProductCoupon, setFilterProductCoupon] = useState(null);
+  const [isToggeDiscount, setIsToggeDiscount] = useState(false);
+  const [isDiscount, setIsDiscount] = useState(null);
   const totalAmountAll = carts.reduce(
     (total, item) => total + item?.product.price_has_dropped * item.quantity,
     0
@@ -47,14 +48,13 @@ export default function CheckoutPage() {
     }
   );
 
-  const { data: isDiscount, isloading: loadingDiscount } = useQuery(
-    ["discounts"],
-    () => couponService.fetchCouponByUserID(user?._id),
-    {
-      retry: 3,
-      retryDelay: 1000,
-    }
-  );
+  useEffect(() => {
+    const fetchDiscounts = async () => {
+      const data = await couponService.fetchCouponByUserID(user?._id);
+      setIsDiscount(data);
+    };
+    fetchDiscounts();
+  }, [isToggeDiscount]);
 
   useEffect(() => {
     // Lấy danh sách coupons đã lưu trong localStorage (nếu có)
@@ -102,37 +102,22 @@ export default function CheckoutPage() {
     }
   };
 
-  const handleClickCouponVavailable = async (huyit) => {
+  const handleCouponChange = async (huyit) => {
     const data = {
       couponID: huyit._id,
     };
 
-    try {
-      const response = await dispatch(applyCoupon(data));
-      if (response.status === true) {
-        message.success(response.message);
-      } else {
-        message.error(response.message);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    const response = await dispatch(
+      !isDiscount || isDiscount.length === 0
+        ? applyCoupon(data)
+        : uncheckedCoupon(data)
+    );
 
-
-  const handleClickUnCouponVavailable = async (huyit) => {
-    const data = {
-      couponID: huyit._id,
-    };
-    try {
-      const response = await dispatch(uncheckedCoupon(data));
-      if (response.status === true) {
-        message.success(response.message);
-      } else {
-        message.error(response.message);
-      }
-    } catch (error) {
-      console.log(error);
+    if (response.status === true) {
+      message.success(response.message);
+      setIsToggeDiscount(!isToggeDiscount); // Cập nhật trạng thái khi hoàn thành thành công (Bật/Tắt)
+    } else {
+      message.error(response.message);
     }
   };
 
@@ -333,55 +318,113 @@ export default function CheckoutPage() {
                       <Link to={URL_CONSTANTS.CART}>Chỉnh sửa</Link>
                     </div>
                   </div>
-                  <div className="card-body css-0">
+                  <div className="css-0">
                     <div className="css-9op68y">
                       {carts?.map((item) => (
-                        <div
-                          className="css-ov1ktg"
-                          style={{
-                            padding: "5px 0px",
-                          }}
-                        >
-                          <div>
-                            <div height={80} width={80} className="css-17nqxzh">
-                              <picture>
-                                <img
-                                  className="lazyload css-jdz5ak"
-                                  alt="product"
-                                  src={item.product.images[0].imagePath}
-                                  loading="lazy"
-                                  decoding="async"
-                                />
-                              </picture>
-                            </div>
-                          </div>
-                          <div className="css-f0vs3e">
-                            <Link
-                              to={`/product/${item.product.slugProduct}`}
-                              aria-label="Image"
-                              className="css-587jha"
-                            >
+                        <React.Fragment>
+                          <div
+                            className="css-ov1ktg"
+                            style={{
+                              padding: "5px 0px",
+                            }}
+                          >
+                            <div>
                               <div
-                                type="body"
-                                color="textPrimary"
-                                className="css-l4bwcr"
+                                height={80}
+                                width={80}
+                                className="css-17nqxzh"
                               >
-                                {item.product.nameProduct}
+                                <picture>
+                                  <img
+                                    className="lazyload css-jdz5ak"
+                                    alt="product"
+                                    src={item.product.images[0].imagePath}
+                                    loading="lazy"
+                                    decoding="async"
+                                  />
+                                </picture>
                               </div>
-                            </Link>
-                            <div
-                              type="caption"
-                              color="textSecondary"
-                              className="css-1qm2d75"
-                            >
-                              Số lượng {item.quantity}
                             </div>
-                            <span className="css-7ofbab">
-                              {formatPrice(item.product.price_has_dropped)}{" "}
-                              <span className="css-1ul6wk9">VNĐ</span>
-                            </span>
+                            <div className="css-f0vs3e">
+                              <Link
+                                to={`/product/${item.product.slugProduct}`}
+                                aria-label="Image"
+                                className="css-587jha"
+                              >
+                                <div
+                                  type="body"
+                                  color="textPrimary"
+                                  className="css-l4bwcr"
+                                >
+                                  {item.product.nameProduct}
+                                </div>
+                              </Link>
+                              <div
+                                type="caption"
+                                color="textSecondary"
+                                className="css-1qm2d75"
+                              >
+                                Số lượng {item.quantity}
+                              </div>
+                              <span className="css-7ofbab">
+                                {formatPrice(item.product.price_has_dropped)}{" "}
+                                <span className="css-1ul6wk9">VNĐ</span>
+                              </span>
+                            </div>
                           </div>
-                        </div>
+                          <div className="teko-row teko-row-no-wrap teko-row-start css-1qrgscw">
+                            <div className="teko-col css-17ajfcv" />
+                            <div className="teko-col css-cudft">
+                              <div className="teko-row css-1qrgscw">
+                                <div
+                                  className="teko-col css-17ajfcv"
+                                  style={{ padding: "0px 10px" }}
+                                >
+                                  <div width="100%" className="css-6q9u1e">
+                                    <div
+                                      className="teko-row teko-row-no-wrap teko-row-space-between css-1qrgscw"
+                                      style={{
+                                        gap: "10px",
+                                      }}
+                                    >
+                                      <div className="teko-col css-1q4g17t">
+                                        <div
+                                          height={16}
+                                          width={16}
+                                          className="css-11m9qpq"
+                                        >
+                                          <img
+                                            src="https://shopfront-cdn.tekoapis.com/cart/gift-filled.png"
+                                            loading="lazy"
+                                            decoding="async"
+                                            style={{
+                                              width: "100%",
+                                              height: 16,
+                                            }}
+                                          />
+                                        </div>
+                                      </div>
+                                      <div
+                                        width="100%"
+                                        className="teko-col css-oi0lj1"
+                                      >
+                                        <div
+                                          className="css-1lchwqw"
+                                          style={{
+                                            fontSize: "15px",
+                                          }}
+                                        >
+                                          Giảm 7.500.000₫ (áp dụng vào giá sản
+                                          phẩm)
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </React.Fragment>
                       ))}
                     </div>
                   </div>
@@ -483,7 +526,7 @@ export default function CheckoutPage() {
                     <i className="fa fa-arrow-left" aria-hidden="true" />
                   </Link>
                 </div>
-                <div
+                {/* <div
                   className="form-wrap"
                   style={{
                     display: "flex",
@@ -500,7 +543,7 @@ export default function CheckoutPage() {
                   <button type="submit" onclick id="change-submit-2020">
                     Áp dụng
                   </button>
-                </div>
+                </div> */}
                 {/* Mã Khuyến Mãi */}
                 {loadingCoupon ? (
                   <Loading />
@@ -563,11 +606,7 @@ export default function CheckoutPage() {
                               </div>
                             </div>
                             <Link
-                              onClick={() =>
-                                isDiscount && isDiscount?.length > 0
-                                  ? handleClickUnCouponVavailable(huyit)
-                                  : handleClickCouponVavailable(huyit)
-                              }
+                              onClick={() => handleCouponChange(huyit)}
                               rel="noopener noreferrer"
                               className="apply-promotion att-apply-promotion-485123 css-kfv2zc"
                               color="link500"
@@ -576,7 +615,7 @@ export default function CheckoutPage() {
                                 className="button-text css-1c7714w"
                                 color="link500"
                               >
-                                {isDiscount && isDiscount?.length > 0 ? "Bỏ chọn" : "Áp dụng"}
+                                {isToggeDiscount ? "Bỏ chọn" : "Áp dụng"}
                               </div>
                             </Link>
                           </div>
