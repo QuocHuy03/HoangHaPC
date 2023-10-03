@@ -88,6 +88,25 @@ export default function CheckoutPage() {
     setFilterProductCoupon(filteredCoupons);
   }, [carts, isCoupons]);
 
+  // Tính tổng giảm giá từ các coupon cho từng sản phẩm trong giỏ hàng
+  const totalDiscount = carts.reduce((total, cartItem) => {
+    const productDiscount = isDiscount?.find((man) => {
+      return man.coupon.some(
+        (coupon) => coupon.productID === cartItem.product._id
+      );
+    });
+
+    // Nếu có coupon cho sản phẩm này, tính tổng giảm giá
+    if (productDiscount) {
+      const productCoupon = productDiscount.coupon.find(
+        (coupon) => coupon.productID === cartItem.product._id
+      );
+      return total + productCoupon.price;
+    }
+
+    return total;
+  }, 0);
+
   const openModal = () => {
     setIsOpen(true);
   };
@@ -367,7 +386,9 @@ export default function CheckoutPage() {
                                 Số lượng {item.quantity}
                               </div>
                               <span className="css-7ofbab">
-                                {formatPrice(item.product.price_has_dropped)}{" "}
+                                {formatPrice(
+                                  item.product.price_has_dropped
+                                )}{" "}
                                 <span className="css-1ul6wk9">VNĐ</span>
                               </span>
                             </div>
@@ -396,7 +417,10 @@ export default function CheckoutPage() {
                                             >
                                               <div
                                                 className="teko-row teko-row-no-wrap teko-row-space-between css-1qrgscw"
-                                                style={{ gap: "10px" }}
+                                                style={{
+                                                  alignItems: "center",
+                                                  gap: "10px",
+                                                }}
                                               >
                                                 <div className="teko-col css-1q4g17t">
                                                   <div
@@ -423,8 +447,9 @@ export default function CheckoutPage() {
                                                     className="css-1lchwqw"
                                                     style={{ fontSize: "15px" }}
                                                   >
-                                                    Giảm 7.500.000₫ (áp dụng vào
-                                                    giá sản phẩm)
+                                                    Giảm{" "}
+                                                    {formatPrice(coupon.price)}₫
+                                                    (áp dụng vào giá sản phẩm)
                                                   </div>
                                                 </div>
                                               </div>
@@ -440,59 +465,6 @@ export default function CheckoutPage() {
                               })}
                             </div>
                           ))}
-
-                          {/* <div className="teko-row teko-row-no-wrap teko-row-start css-1qrgscw">
-                            <div className="teko-col css-17ajfcv" />
-                            <div className="teko-col css-cudft">
-                              <div className="teko-row css-1qrgscw">
-                                <div
-                                  className="teko-col css-17ajfcv"
-                                  style={{ padding: "0px 10px" }}
-                                >
-                                  <div width="100%" className="css-6q9u1e">
-                                    <div
-                                      className="teko-row teko-row-no-wrap teko-row-space-between css-1qrgscw"
-                                      style={{
-                                        gap: "10px",
-                                      }}
-                                    >
-                                      <div className="teko-col css-1q4g17t">
-                                        <div
-                                          height={16}
-                                          width={16}
-                                          className="css-11m9qpq"
-                                        >
-                                          <img
-                                            src="https://shopfront-cdn.tekoapis.com/cart/gift-filled.png"
-                                            loading="lazy"
-                                            decoding="async"
-                                            style={{
-                                              width: "100%",
-                                              height: 16,
-                                            }}
-                                          />
-                                        </div>
-                                      </div>
-                                      <div
-                                        width="100%"
-                                        className="teko-col css-oi0lj1"
-                                      >
-                                        <div
-                                          className="css-1lchwqw"
-                                          style={{
-                                            fontSize: "15px",
-                                          }}
-                                        >
-                                          Giảm 7.500.000₫ (áp dụng vào giá sản
-                                          phẩm)
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div> */}
                         </React.Fragment>
                       ))}
                     </div>
@@ -542,7 +514,7 @@ export default function CheckoutPage() {
                                   Thành tiền{" "}
                                 </td>
                                 <td className="att-final-price css-aafp0n">
-                                  {formatPrice(totalAmountAll)}
+                                  {formatPrice(totalAmountAll - totalDiscount)}
                                 </td>
                               </tr>
                             </tbody>
