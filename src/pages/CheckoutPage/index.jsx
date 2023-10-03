@@ -115,7 +115,7 @@ export default function CheckoutPage() {
 
     if (response.status === true) {
       message.success(response.message);
-      setIsToggeDiscount(!isToggeDiscount); // Cập nhật trạng thái khi hoàn thành thành công (Bật/Tắt)
+      setIsToggeDiscount(!isDiscount || isDiscount.length === 0);
     } else {
       message.error(response.message);
     }
@@ -372,7 +372,76 @@ export default function CheckoutPage() {
                               </span>
                             </div>
                           </div>
-                          <div className="teko-row teko-row-no-wrap teko-row-start css-1qrgscw">
+
+                          {isDiscount?.map((man) => (
+                            <div key={man._id}>
+                              {man.coupon?.map((coupon) => {
+                                if (coupon.productID === item.product._id) {
+                                  return (
+                                    <div
+                                      className="teko-row teko-row-no-wrap teko-row-start css-1qrgscw"
+                                      key={coupon._id}
+                                    >
+                                      {/* Các phần tử khác của coupon */}
+                                      <div className="teko-col css-17ajfcv" />
+                                      <div className="teko-col css-cudft">
+                                        <div className="teko-row css-1qrgscw">
+                                          <div
+                                            className="teko-col css-17ajfcv"
+                                            style={{ padding: "0px 10px" }}
+                                          >
+                                            <div
+                                              width="100%"
+                                              className="css-6q9u1e"
+                                            >
+                                              <div
+                                                className="teko-row teko-row-no-wrap teko-row-space-between css-1qrgscw"
+                                                style={{ gap: "10px" }}
+                                              >
+                                                <div className="teko-col css-1q4g17t">
+                                                  <div
+                                                    height={16}
+                                                    width={16}
+                                                    className="css-11m9qpq"
+                                                  >
+                                                    <img
+                                                      src="https://shopfront-cdn.tekoapis.com/cart/gift-filled.png"
+                                                      loading="lazy"
+                                                      decoding="async"
+                                                      style={{
+                                                        width: "100%",
+                                                        height: 16,
+                                                      }}
+                                                    />
+                                                  </div>
+                                                </div>
+                                                <div
+                                                  width="100%"
+                                                  className="teko-col css-oi0lj1"
+                                                >
+                                                  <div
+                                                    className="css-1lchwqw"
+                                                    style={{ fontSize: "15px" }}
+                                                  >
+                                                    Giảm 7.500.000₫ (áp dụng vào
+                                                    giá sản phẩm)
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  );
+                                } else {
+                                  return null;
+                                }
+                              })}
+                            </div>
+                          ))}
+
+                          {/* <div className="teko-row teko-row-no-wrap teko-row-start css-1qrgscw">
                             <div className="teko-col css-17ajfcv" />
                             <div className="teko-col css-cudft">
                               <div className="teko-row css-1qrgscw">
@@ -423,7 +492,7 @@ export default function CheckoutPage() {
                                 </div>
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                         </React.Fragment>
                       ))}
                     </div>
