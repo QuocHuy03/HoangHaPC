@@ -1136,3 +1136,20 @@
   min-width: unset;
   transition: color 0.3s ease 0s;
 }
+
+.css-cudft.teko-col {
+  position: relative;
+  max-width: 100%;
+  min-height: 1px;
+}
+
+.css-cudft {
+  border-style: none;
+  border-width: 1px;
+  border-color: unset;
+  opacity: 1;
+  padding: 8px 0px;
+  margin: 8px 0px;
+  background-color: rgb(243, 243, 247);
+  border-radius: 4px;
+}
