@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import Layout from "../../components/Layout";
 import { blogService } from "../../services/blog.service";
-import { promotionService } from "../../services/promotion.service";
+
 import { Link } from "react-router-dom";
 
 export default function BlogPage() {
