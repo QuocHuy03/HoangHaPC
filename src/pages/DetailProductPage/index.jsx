@@ -6,18 +6,18 @@ import Carousel from "../../components/Carousel";
 
 import { SwiperSlide } from "swiper/react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { productService } from "../../services/product.service";
 import { formatPrice } from "./../../utils/fomatPrice";
 import { addToCart } from "../../stores/cart/actions";
 import { useDispatch } from "react-redux";
-import { message } from "antd";
+import { Empty } from "antd";
 import { commentService } from "../../services/comment.service";
 import formatDate from "../../utils/fomatDate";
 import Loading from "../../components/Loading";
+import createNotification from "../../utils/notification";
 
 export default function DetailProductPage() {
-  const queryClient = useQueryClient();
   const [isSeeMore, setIsSeeMore] = useState(true);
   const [isReview, setIsReview] = useState(true);
   const [rating, setRating] = useState(0);
@@ -58,14 +58,19 @@ export default function DetailProductPage() {
       enabled: !!isSlug,
     });
 
-  const { data: isProduct, isLoading: loadingProduct } = useQuery(
-    ["product"],
-    () => productService.fetchAllProducts(),
+  const { data: related, isLoading: loadingRelated } = useQuery(
+    ["related", detailProductData?.brandID],
+    () => productService.getProductOfBrand(detailProductData?.brandID),
     {
-      retry: 3,
-      retryDelay: 1000,
+      staleTime: 500,
+      enabled: !!detailProductData?.brandID,
     }
   );
+
+  const filteredRelated =
+    related?.filter(
+      (huydev) => huydev.slugProduct !== detailProductData?.slugProduct
+    ) ?? [];
 
   useEffect(() => {
     if (detailProductData) {
@@ -110,7 +115,11 @@ export default function DetailProductPage() {
         quantity: 1,
       })
     );
-    message.success(`Thêm Sản Phẩm Vào Giỏ Hàng Success`);
+    createNotification(
+      "success",
+      "topRight",
+      "Thêm sản phẩm vào giỏ hàng thành công"
+    );
   };
 
   const addCart = (product) => {
@@ -147,13 +156,13 @@ export default function DetailProductPage() {
         setValidationErrors([]);
         setRating(0);
         setInputs({ ...inputs, comment: "" });
-        message.success(response.message);
+        createNotification("success", "topRight", response.message);
         fetchCommentData();
       } else {
         if (response?.status === false) {
           setValidationErrors([]);
           setInputs({ ...inputs, comment: "" });
-          message.error(response.message);
+          createNotification("error", "topRight", response.message);
         }
         setValidationErrors(
           Object.values(response.errors).map((error) => error.msg)
@@ -819,72 +828,78 @@ export default function DetailProductPage() {
                 style={{ minHeight: 432 }}
               >
                 {/* slide sản phẩm  */}
-                <Carousel
-                  spaceBetween={12}
-                  delay={4000}
-                  navigation={false}
-                  pagination={false}
-                  breakpoints={{
-                    640: {
-                      slidesPerView: 2,
-                    },
-                    768: {
-                      slidesPerView: 4,
-                    },
-                    1024: {
-                      slidesPerView: 5,
-                    },
-                  }}
-                >
-                  {isProduct?.map((item) => (
-                    <SwiperSlide key={item.id}>
-                      <div className="p-item">
-                        <Link
-                          to={`/product/${item.slugProduct}`}
-                          className="p-img"
-                        >
-                          <img
-                            src={`${item.images[0].imagePath}`}
-                            alt="HHPC 3D i5 13600K | 32G | NVIDIA RTX 3060 12G"
-                            width={250}
-                            height={250}
-                          />
-                        </Link>
-                        <div className="p-text">
+                {filteredRelated?.length > 0 ? (
+                  <Carousel
+                    spaceBetween={12}
+                    delay={4000}
+                    navigation={false}
+                    pagination={false}
+                    breakpoints={{
+                      640: {
+                        slidesPerView: 2,
+                      },
+                      768: {
+                        slidesPerView: 4,
+                      },
+                      1024: {
+                        slidesPerView: 5,
+                      },
+                    }}
+                  >
+                    {filteredRelated?.map((item) => (
+                      <SwiperSlide key={item.id}>
+                        <div className="p-item">
                           <Link
                             to={`/product/${item.slugProduct}`}
-                            className="p-name"
+                            className="p-img"
                           >
-                            <h3 className="inherit">{item.nameProduct}</h3>
+                            <img
+                              src={`${item.images[0].imagePath}`}
+                              alt="HHPC 3D i5 13600K | 32G | NVIDIA RTX 3060 12G"
+                              width={250}
+                              height={250}
+                            />
                           </Link>
-                          <div className="p-price-group">
-                            <span className="p-price">
-                              {formatPrice(item.initial_price)}đ
-                            </span>
-                            <del className="p-old-price">
-                              {formatPrice(item.price_has_dropped)} đ
-                            </del>
-                            <span className="p-discount">(Tiết kiệm: 10%)</span>
-                          </div>
-                          <div className="p-btn-group">
-                            <p>
-                              <span style={{ color: "#0DB866" }}>
-                                <i className="icons icon-check" /> Còn hàng
-                              </span>
-                              <span style={{ color: "#A3A3A3" }}>
-                                <i className="icons icon-gift" /> Quà tặng
-                              </span>
-                            </p>
+                          <div className="p-text">
                             <Link
                               to={`/product/${item.slugProduct}`}
-                              className="p-add-cart"
-                            ></Link>
+                              className="p-name"
+                            >
+                              <h3 className="inherit">{item.nameProduct}</h3>
+                            </Link>
+                            <div className="p-price-group">
+                              <span className="p-price">
+                                {formatPrice(item.initial_price)}đ
+                              </span>
+                              <del className="p-old-price">
+                                {formatPrice(item.price_has_dropped)} đ
+                              </del>
+                              <span className="p-discount">
+                                (Tiết kiệm: 10%)
+                              </span>
+                            </div>
+                            <div className="p-btn-group">
+                              <p>
+                                <span style={{ color: "#0DB866" }}>
+                                  <i className="icons icon-check" /> Còn hàng
+                                </span>
+                                <span style={{ color: "#A3A3A3" }}>
+                                  <i className="icons icon-gift" /> Quà tặng
+                                </span>
+                              </p>
+                              <Link
+                                to={`/product/${item.slugProduct}`}
+                                className="p-add-cart"
+                              ></Link>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </SwiperSlide>
-                  ))}
-                </Carousel>
+                      </SwiperSlide>
+                    ))}
+                  </Carousel>
+                ) : (
+                  <Empty />
+                )}
               </div>
             </div>
           </div>

@@ -12,7 +12,7 @@ import { Link, useParams } from "react-router-dom";
 import { URL_CONSTANTS } from "../../constants/url.constants";
 import { useDispatch } from "react-redux";
 import { applyCoupon, uncheckedCoupon } from "../../stores/discount/actions";
-import { message } from "antd";
+import { Empty, message } from "antd";
 
 export default function CheckoutPage() {
   const { code } = useParams();
@@ -386,14 +386,11 @@ export default function CheckoutPage() {
                                 Số lượng {item.quantity}
                               </div>
                               <span className="css-7ofbab">
-                                {formatPrice(
-                                  item.product.price_has_dropped
-                                )}{" "}
+                                {formatPrice(item.product.price_has_dropped)}{" "}
                                 <span className="css-1ul6wk9">VNĐ</span>
                               </span>
                             </div>
                           </div>
-
                           {isDiscount?.map((man) => (
                             <div key={man._id}>
                               {man.coupon?.map((coupon) => {
@@ -445,7 +442,9 @@ export default function CheckoutPage() {
                                                 >
                                                   <div
                                                     className="css-1lchwqw"
-                                                    style={{ fontSize: "15px" }}
+                                                    style={{
+                                                      fontSize: "15px",
+                                                    }}
                                                   >
                                                     Giảm{" "}
                                                     {formatPrice(coupon.price)}₫
@@ -560,7 +559,10 @@ export default function CheckoutPage() {
               onMouseDown={handleMouseDown}
               style={isOpen ? {} : { display: "none" }}
             >
-              <div className="comment-box-container">
+              <div
+                className="comment-box-container"
+                style={{ padding: "20px 0px" }}
+              >
                 <div className="title">
                   Khuyến mãi và mã giảm giá
                   <Link onClick={closeModal} className="back-btn">
@@ -588,7 +590,7 @@ export default function CheckoutPage() {
                 {/* Mã Khuyến Mãi */}
                 {loadingCoupon ? (
                   <Loading />
-                ) : (
+                ) : isDiscount?.length > 0 ? (
                   filterProductCoupon?.map((huyit) => (
                     <div width="100%" className="css-aw1phq">
                       <div className="teko-row teko-row-no-wrap teko-row-space-between css-1qrgscw">
@@ -664,6 +666,8 @@ export default function CheckoutPage() {
                       </div>
                     </div>
                   ))
+                ) : (
+                  <Empty />
                 )}
                 {/* end Mã Khuyến Mãi */}
               </div>
