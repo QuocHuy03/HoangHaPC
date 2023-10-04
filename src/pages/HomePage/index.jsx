@@ -11,9 +11,7 @@ import {
   calculateDiscountPercentage,
   formatPrice,
 } from "../../utils/fomatPrice";
-import { useDispatch } from "react-redux";
 import Loading from "../../components/Loading";
-import { addToCart } from "../../stores/cart/actions";
 
 export default function HomePage() {
   const { data, isloading } = useQuery(

@@ -178,7 +178,7 @@ export default function HeaderTop() {
                     <tbody>
                       <tr>
                         <td colSpan={2}>
-                          <p className="col-title">HOÀNG HÀ PC CẦU GIẤY</p>
+                          <p className="col-title">GRADTECHSHOP PC CẦU GIẤY</p>
                         </td>
                       </tr>
                       <tr>
@@ -219,7 +219,7 @@ export default function HeaderTop() {
                     <tbody>
                       <tr>
                         <td colSpan={2}>
-                          <p className="col-title">HOÀNG HÀ PC ĐỐNG ĐA</p>
+                          <p className="col-title">GRADTECHSHOP PC ĐỐNG ĐA</p>
                         </td>
                       </tr>
                       <tr>

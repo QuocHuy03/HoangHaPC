@@ -5,7 +5,7 @@ export default function System() {
     <div className="container">
       <div className="footer-store-group d-flex flex-wrap">
         <p className="box-title blue text-24 text-center w-100">
-          HỆ THỐNG SHOWROOM CỦA HOÀNG HÀ PC
+          HỆ THỐNG SHOWROOM CỦA GRADTECHSHOP
         </p>
         <div className="item">
           <div
@@ -52,7 +52,7 @@ export default function System() {
             </a>
             <a href="mailto:hoanghapcws@gmail.com" rel="nofollow">
               <i className="icons icon-email" />
-              <span className="text">Email: hoanghapcws@gmail.com</span>
+              <span className="text">Email: hotro@gmail.com</span>
             </a>
             <a href="javascript:void(0)">
               <i className="icons icon-time" />
@@ -103,9 +103,9 @@ export default function System() {
               <i className="icons icon-phone" />
               <span className="text">Hotline bảo hành: 19006100</span>
             </a>
-            <a href="mailto:hoanghapcws@gmail.com" rel="nofollow">
+            <a href="mailto:hotro@gmail.com" rel="nofollow">
               <i className="icons icon-email" />
-              <span className="text">Email: hoanghapcws@gmail.com</span>
+              <span className="text">Email: hotro@gmail.com</span>
             </a>
             <a href="javascript:void(0)">
               <i className="icons icon-time" />
@@ -156,9 +156,9 @@ export default function System() {
               <i className="icons icon-phone" />
               <span className="text">Hotline bảo hành: 19006100</span>
             </a>
-            <a href="mailto:hoanghapcws@gmail.com" rel="nofollow">
+            <a href="mailto:hotro@gmail.com" rel="nofollow">
               <i className="icons icon-email" />
-              <span className="text">Email: hoanghapcws@gmail.com</span>
+              <span className="text">Email: hotro@gmail.com</span>
             </a>
             <a href="javascript:void(0)">
               <i className="icons icon-time" />
@@ -217,9 +217,9 @@ export default function System() {
               <i className="icons icon-phone" />
               <span className="text">Hotline bảo hành: 19006100</span>
             </a>
-            <a href="mailto:hoanghapcws@gmail.com" rel="nofollow">
+            <a href="mailto:hotro@gmail.com" rel="nofollow">
               <i className="icons icon-email" />
-              <span className="text">Email: hoanghapcws@gmail.com</span>
+              <span className="text">Email: hotro@gmail.com</span>
             </a>
             <a href="javascript:void(0)">
               <i className="icons icon-time" />

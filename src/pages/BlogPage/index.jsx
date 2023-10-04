@@ -16,14 +16,6 @@ export default function BlogPage() {
       retryDelay: 1000,
     }
   );
-  const { data: promotionData, isLoading: isPromotionLoading } = useQuery(
-    ["promotion"],
-    () => promotionService.fetchAllPromotions(),
-    {
-      retry: 3,
-      retryDelay: 1000,
-    }
-  );
 
   return (
     <Layout>

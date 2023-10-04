@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Layout from "../../components/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -12,25 +12,22 @@ import {
 import { formatPrice } from "../../utils/fomatPrice";
 import { message } from "antd";
 import { AppContext } from "../../contexts/AppContextProvider";
+import { v4 as uuidv4 } from "uuid";
 
 export default function CartPage() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);
-  const { carts } = useContext(AppContext);
-  console.log(carts);
-  const totalAmountAll = carts.reduce(
+  const { carts, user } = useContext(AppContext);
+  const totalAmountAll = carts?.reduce(
     (total, item) => total + item?.product.price_has_dropped * item.quantity,
     0
   );
 
   const handleIncreasingQuantity = (item) => {
     dispatch(increaseQuantity(item));
-    message.success("+ 1 Số Lượng Thành Công");
   };
 
   const handleDecreaseQuantity = (item) => {
     dispatch(decreaseQuantity(item));
-    message.info("- 1 Số Lượng Thành Công");
   };
 
   const handleDeleteItem = (item) => {
@@ -41,6 +38,26 @@ export default function CartPage() {
   const handleDeleteAll = () => {
     dispatch(removeAllCart());
     message.error("Xóa Tất Cả Sản Phẩm Thành Công");
+  };
+
+  const initialInputValues = {
+    fullname: user ? user.fullname : "",
+    email: user ? user.email : "",
+    address: user ? user.address : "",
+    city: user ? user.city : "",
+    district: user ? user.district : "",
+    commune: user ? user.commune : "",
+    phone: user ? user.phone : "",
+  };
+
+  const [inputs, setInputs] = useState(initialInputValues);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInputs((prevInputs) => ({
+      ...prevInputs,
+      [name]: value,
+    }));
   };
   return (
     <Layout>
@@ -80,7 +97,7 @@ export default function CartPage() {
       </div>
 
       <div className="cart-page container">
-        {carts.length > 0 ? (
+        {carts?.length > 0 ? (
           <React.Fragment>
             <div className="page-title d-inline-flex align-items-baseline">
               <h1 className="mb-0 blue-2 font-700">Giỏ hàng của tôi</h1>
@@ -106,7 +123,19 @@ export default function CartPage() {
                               {item.product.nameProduct}
                             </Link>
                             <div className="item-name">
-                              COLOR : <span style={{textTransform: "uppercase", color: `${item.color}`}}>{item.color}</span>
+                              COLOR :{" "}
+                              <span
+                                style={{
+                                  textTransform: "uppercase",
+                                  border: "1px solid #eee",
+                                  padding: "4px",
+                                  borderRadius: "10px",
+                                  backgroundColor: "#a8a8a8",
+                                  color: `${item.color}`,
+                                }}
+                              >
+                                {item.color}
+                              </span>
                             </div>
                           </div>
                           <p className="item-status">
@@ -182,7 +211,15 @@ export default function CartPage() {
               <div className="col-4">
                 <div className="cart-customer-group">
                   <div className="cart-customer-holder">
-                    <p className="title blue-2">Thông tin thanh toán</p>
+                    <div className="cart-information">
+                      <p className="title blue-2">Thông tin thanh toán</p>
+                      <Link
+                        to={URL_CONSTANTS.PROFILE}
+                        className="title-edit-cart"
+                      >
+                        Chỉnh sửa
+                      </Link>
+                    </div>
                     {user ? (
                       <p style={{ margin: "0 0 16px 0" }}>
                         Để tiếp tục đặt hàng, quý khách xin vui lòng nhập thông
@@ -197,37 +234,47 @@ export default function CartPage() {
                     )}
                     <input
                       type="text"
+                      name="fullname"
+                      onChange={handleChange}
                       placeholder="Họ tên người nhận hàng"
                       className="form-input"
+                      value={inputs.fullname}
                     />
                     <input
                       type="text"
                       placeholder="Số điện thoại người nhận"
                       className="form-input"
-                      name="user_info[tel]"
+                      name="phone"
+                      onChange={handleChange}
+                      value={inputs.phone}
                     />
                     <input
-                      type="text"
+                      type="email"
                       placeholder="Email"
                       className="form-input"
-                      name="user_info[email]"
+                      name="email"
+                      onChange={handleChange}
+                      value={inputs.email}
                     />
                     <input
                       type="text"
                       placeholder="Địa chỉ nhận hàng"
                       className="form-input"
-                      name="user_info[address]"
+                      name="address"
+                      onChange={handleChange}
+                      value={inputs.address}
                     />
                     <textarea
                       className="form-input"
                       placeholder="Ghi chú"
-                      name="user_info[note]"
-                      id="buyer_note"
-                      defaultValue={""}
-                    />
+                      name="note"
+                      value={inputs.note}
+                    >
+                      {inputs.note}
+                    </textarea>
                   </div>
-                  <button
-                    type="submit"
+                  <Link
+                    to={`/checkout/${uuidv4()}`}
                     className="btn-submit-cart js-send-cart"
                   >
                     <b>Đặt hàng</b>
@@ -235,53 +282,8 @@ export default function CartPage() {
                       Tư vấn viên sẽ gọi điện thoại xác nhận, không mua không
                       sao
                     </span>
-                  </button>
+                  </Link>
                   {/*-mot so bien khac chi de front-end*/}
-                  <input type="hidden" name="send_order" defaultValue="yes" />
-                  <input
-                    type="hidden"
-                    id="js-total-before-fee-discount"
-                    defaultValue={27650000}
-                  />
-                  <input
-                    type="hidden"
-                    id="js-member-point-used"
-                    name="use_member_point"
-                    defaultValue={0}
-                  />
-                  <input
-                    type="hidden"
-                    id="js-fee-memberpoint"
-                    defaultValue={0}
-                  />
-                  <input
-                    type="hidden"
-                    id="js-discount-voucher"
-                    defaultValue={0}
-                  />
-                  <input
-                    type="hidden"
-                    name="coupon_code"
-                    defaultValue
-                    id="js_coupon_code"
-                  />
-                  <input
-                    type="hidden"
-                    id="js-discount-membership"
-                    defaultValue={0}
-                  />
-                  <input
-                    type="hidden"
-                    name="shipping_fee"
-                    id="js-fee-shipping"
-                    defaultValue={0}
-                  />
-                  <input
-                    type="hidden"
-                    name="cod_fee"
-                    id="js-fee-cod"
-                    defaultValue={0}
-                  />
                 </div>
               </div>
             </form>
