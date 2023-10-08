@@ -13,6 +13,7 @@ import { formatPrice } from "../../utils/fomatPrice";
 import { message } from "antd";
 import { AppContext } from "../../contexts/AppContextProvider";
 import { v4 as uuidv4 } from "uuid";
+import createNotification from "../../utils/notification";
 
 export default function CartPage() {
   const dispatch = useDispatch();
@@ -32,12 +33,11 @@ export default function CartPage() {
 
   const handleDeleteItem = (item) => {
     dispatch(removeCartItem(item));
-    message.error("Xóa 1 Sản Phẩm Thành Công");
   };
 
   const handleDeleteAll = () => {
     dispatch(removeAllCart());
-    message.error("Xóa Tất Cả Sản Phẩm Thành Công");
+    createNotification("success", "topRight", "Xóa Tất Cả Sản Phẩm Thành Công");
   };
 
   const initialInputValues = {

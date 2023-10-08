@@ -4,8 +4,8 @@ import Layout from "../../components/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../stores/authentication/actions";
 import Loading from "../../components/Loading";
-import { message } from "antd";
 import { URL_CONSTANTS } from "../../constants/url.constants";
+import createNotification from "../../utils/notification";
 
 const getGoogleAuthUrl = () => {
   const url = `https://accounts.google.com/o/oauth2/v2/auth`;
@@ -65,7 +65,7 @@ export default function LoginPage() {
       const response = await dispatch(login(data));
       if (response.status === true) {
         setValidationErrors([]);
-        message.success(response.message);
+        createNotification("success", "topRight", response.message);
         if (redirectTo) {
           navigate(redirectTo);
         } else {
@@ -74,7 +74,7 @@ export default function LoginPage() {
       } else {
         if (response.response?.status === false) {
           setValidationErrors([]);
-          message.error(response.response.message);
+          createNotification("error", "topRight", response.response.message);
         }
         setValidationErrors(
           Object.values(response.response.errors).map((error) => error.msg)
@@ -105,7 +105,8 @@ export default function LoginPage() {
             <div className="box-title-auth">
               <p>Đăng nhập bằng Email</p>
               <p>
-                <Link to={`/auth${URL_CONSTANTS.REGISTER}`}>Đăng ký</Link> nếu chưa có tài khoản.
+                <Link to={`/auth${URL_CONSTANTS.REGISTER}`}>Đăng ký</Link> nếu
+                chưa có tài khoản.
               </p>
             </div>
             <form className="input-holder-auth" onSubmit={handleSubmit}>
@@ -125,7 +126,7 @@ export default function LoginPage() {
                   value={isPassword}
                   name="password"
                 />
-               
+
                 {/* Nút hiện mật khẩu */}
                 <a
                   className={`icons ${
@@ -158,7 +159,7 @@ export default function LoginPage() {
                   className="popup-btn btn-login"
                   style={{ color: "white", border: "none" }}
                 >
-                  {loading && <Loading />} Đăng nhập
+                  {loading ? <Loading /> : "Đăng nhập"}
                 </button>
               </div>
               <div className="text-center">

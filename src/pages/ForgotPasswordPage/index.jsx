@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Layout from "../../components/Layout";
 import Loading from "../../components/Loading";
 import { userService } from "../../services/user.service";
-import { message } from "antd";
+import createNotification from "../../utils/notification";
 
 export default function ForgotPasswordPage() {
   const [validationErrors, setValidationErrors] = useState([]);
@@ -27,11 +27,11 @@ export default function ForgotPasswordPage() {
       const response = await userService.forgotPassword(data);
       if (response.status === true) {
         setValidationErrors([]);
-        message.success(response.message);
+        createNotification("success", "topRight", response.message);
       } else {
         if (response?.status === false) {
           setValidationErrors([]);
-          message.error(response.message);
+          createNotification("error", "topRight", response.message);
         }
         setValidationErrors(
           Object.values(response.errors).map((error) => error.msg)
@@ -52,7 +52,7 @@ export default function ForgotPasswordPage() {
       >
         <div className="item-left-auth">
           <img
-            src="https://hoanghapc.vn/template/2022/images/popup-customer-bg.png"
+            src="https://hoanghapc.vn/static/assets/2022/images/popup-customer-bg.png"
             alt="popup"
             className="lazy loading"
             data-was-processed="true"
@@ -102,7 +102,7 @@ export default function ForgotPasswordPage() {
                   className="popup-btn btn-login"
                   style={{ color: "white", border: "none" }}
                 >
-                  {submitted && <Loading />} Lấy lại mật khẩu
+                  Lấy lại mật khẩu
                 </button>
               </div>
             </form>

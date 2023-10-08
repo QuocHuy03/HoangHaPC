@@ -5,7 +5,8 @@ import thunk from "redux-thunk";
 import authenticationReducer from "./authentication/reducers";
 import redirectReducer from "./redirect/reducers";
 import cartReducer from "./cart/reducers";
-import discountReducer from "./discount/reducers"
+import discountReducer from "./discount/reducers";
+import orderReducer from "./order/reducers";
 
 const persistConfig = {
   key: "root",
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   redirect: redirectReducer,
   cart: cartReducer,
   discount: discountReducer,
+  order: orderReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
