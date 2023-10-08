@@ -4,7 +4,6 @@ import Layout from "../../components/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../stores/authentication/actions";
 import Loading from "../../components/Loading";
-import { message } from "antd";
 import { URL_CONSTANTS } from "../../constants/url.constants";
 import createNotification from "../../utils/notification";
 

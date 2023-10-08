@@ -13,6 +13,8 @@ import { URL_CONSTANTS } from "../../constants/url.constants";
 import { useDispatch } from "react-redux";
 import { applyCoupon, uncheckedCoupon } from "../../stores/discount/actions";
 import { Empty, message } from "antd";
+import { orders } from "../../stores/order/actions";
+import { history } from "../../helpers/history";
 
 export default function CheckoutPage() {
   const { code } = useParams();
@@ -140,6 +142,25 @@ export default function CheckoutPage() {
     }
   };
 
+  const handleOrder = async () => {
+    const product = carts?.map((cart) => ({
+      color: cart.color,
+      product: cart.product._id,
+      quantity: cart.quantity,
+    }));
+
+    const data = {
+      code,
+      totalPrice: totalAmountAll - totalDiscount,
+      paymentID: activeItem,
+      products: product,
+    };
+    const response = await dispatch(orders(data));
+    if (response) {
+      history.push(response);
+    }
+  };
+
   return (
     <Layout>
       <div className="global-breadcrumb">
@@ -182,7 +203,7 @@ export default function CheckoutPage() {
           <div className="page-title d-inline-flex align-items-baseline">
             <h1 className="mb-0 blue-2 font-700">Thanh toán</h1>
           </div>
-          <form className="row" encType="multipart/form-data">
+          <div className="row">
             <div className="col-8">
               <div className="teko-card css-t9nop0">
                 <div className="teko-card-header css-0">
@@ -522,27 +543,13 @@ export default function CheckoutPage() {
                         </div>
                       </div>
                       <div className="teko-card-footer css-0">
-                        <div
-                          data-content-region-name="bottomCheckOut"
-                          data-track-content="true"
-                          data-content-name="checkout"
-                          className="css-0"
-                        >
-                          <button className="att-checkout-button css-v463h2">
+                        <div className="css-0">
+                          <button
+                            className="att-checkout-button css-v463h2"
+                            onClick={handleOrder}
+                          >
                             <div className="css-1lqe6yk">THANH TOÁN</div>
                           </button>
-                        </div>
-                        <div className="css-12xhfzh">
-                          <p>
-                            Nhấn "Thanh toán" đồng nghĩa với việc bạn đọc và
-                            đồng ý tuân theo{" "}
-                            <a
-                              href="https://help.phongvu.vn/chinh-sach-ban-hang/quyen-va-nghia-vu-cac-ben"
-                              target="_blank"
-                            >
-                              Điều khoản và Điều kiện
-                            </a>
-                          </p>
                         </div>
                       </div>
                     </div>
@@ -551,7 +558,7 @@ export default function CheckoutPage() {
                 <div className="checkoutInlineRight" />
               </div>
             </div>
-          </form>
+          </div>
           <div className="box-produc-comment bg-w content-detail-read clearfix">
             <div className="comment-list clearfix"></div>
             <div
