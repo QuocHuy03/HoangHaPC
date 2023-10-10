@@ -579,7 +579,7 @@ export default function CheckoutPage() {
                     <i className="fa fa-arrow-left" aria-hidden="true" />
                   </Link>
                 </div>
-                {/* <div
+                <div
                   className="form-wrap"
                   style={{
                     display: "flex",
@@ -596,11 +596,11 @@ export default function CheckoutPage() {
                   <button type="submit" onclick id="change-submit-2020">
                     Áp dụng
                   </button>
-                </div> */}
+                </div>
                 {/* Mã Khuyến Mãi */}
                 {loadingCoupon ? (
                   <Loading />
-                ) : isDiscount?.length > 0 ? (
+                ) : filterProductCoupon?.length > 0 ? (
                   filterProductCoupon?.map((huyit) => (
                     <div width="100%" className="css-aw1phq">
                       <div className="teko-row teko-row-no-wrap teko-row-space-between css-1qrgscw">
