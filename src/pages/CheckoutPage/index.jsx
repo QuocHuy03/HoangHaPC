@@ -8,17 +8,18 @@ import Loading from "../../components/Loading";
 import { AppContext } from "../../contexts/AppContextProvider";
 import { formatPrice } from "../../utils/fomatPrice";
 import formatDate from "../../utils/fomatDate";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { URL_CONSTANTS } from "../../constants/url.constants";
 import { useDispatch } from "react-redux";
 import { applyCoupon, uncheckedCoupon } from "../../stores/discount/actions";
 import { Empty, message } from "antd";
-import { orders } from "../../stores/order/actions";
+import { redirestPayment } from "../../stores/order/actions";
 import { history } from "../../helpers/history";
 
 export default function CheckoutPage() {
   const { code } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { carts, user } = useContext(AppContext);
   const [isOpen, setIsOpen] = useState(false);
   const [filterProductCoupon, setFilterProductCoupon] = useState(null);
@@ -145,7 +146,7 @@ export default function CheckoutPage() {
   const handleOrder = async () => {
     const product = carts?.map((cart) => ({
       color: cart.color,
-      product: cart.product._id,
+      productID: cart.product._id,
       quantity: cart.quantity,
     }));
 
@@ -155,9 +156,11 @@ export default function CheckoutPage() {
       paymentID: activeItem,
       products: product,
     };
-    const response = await dispatch(orders(data));
-    if (response) {
-      history.push(response);
+    const response = await dispatch(redirestPayment(data));
+    if (response && response.paymentMethod === true) {
+      history.push(response.result);
+    } else {
+      navigate(response.result);
     }
   };
 
