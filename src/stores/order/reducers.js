@@ -1,4 +1,9 @@
-import { ORDER_FAILED, ORDER_SUCCESS } from "./types";
+import {
+  ORDER_FAILED,
+  ORDER_UPDATE,
+  ORDER_REQUEST,
+  ORDER_SUCCESS,
+} from "./types";
 
 const initialState = {
   orders: null,
@@ -8,10 +13,15 @@ const initialState = {
 
 const orderReducer = (state = initialState, action) => {
   switch (action.type) {
+    case ORDER_REQUEST:
+      return { ...state, loading: true };
+    case ORDER_UPDATE:
+      return { ...state, orders: action.payload };
     case ORDER_SUCCESS:
       return {
         ...state,
         orders: action.payload,
+        error: null
       };
 
     case ORDER_FAILED:

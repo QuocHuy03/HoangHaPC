@@ -20,9 +20,9 @@ const fetchOrderByID = async (id) => {
   }
 };
 
-const fetchPostOrder = async (data) => {
+const fetchPostOrder = async (method, data) => {
   try {
-    const response = await http.get(`/order/postOrder`, data);
+    const response = await http.post(`/order/postOrder?method=${method}&source=web`, data);
     return response;
   } catch (error) {
     console.error(error);
