@@ -1,15 +1,48 @@
 import {
-  ADD_TO_CART,
-  DECREASE_QUANTIRY_CART,
-  INCREASING_QUANTIRY_CART,
-  REMOVE_ALL_CART,
-  REMOVE_CART,
+  ADD_CART_REQUEST,
+  UPDATE_CART_REQUEST,
+  REMOVE_CART_REQUEST,
+  REMOVE_ALL_CART_REQUEST,
 } from "./types";
+import { cartService } from "../../services/cart.service";
 
-export const addToCart = ({ product, color, quantity }) => ({
-  type: ADD_TO_CART,
-  payload: { product, color, quantity },
-});
+export const addToCart = (data) => {
+  return async (dispatch) => {
+    dispatch({
+      type: ADD_CART_REQUEST,
+      payload: data,
+    });
+
+    try {
+      const response = await cartService.fetchPostCart(data);
+      console.log("res add cart :", response);
+      // if (response.status === true) {
+      //   dispatch({
+      //     type: APPLY_COUPON_SUCCESS,
+      //     payload: response.result,
+      //   });
+      //   return {
+      //     status: true,
+      //     message: response.message,
+      //   };
+      // } else {
+      //   dispatch({
+      //     type: APPLY_COUPON_FAILED,
+      //     payload: response,
+      //   });
+      //   return response;
+      // }
+    } catch (error) {
+      dispatch({
+        type: APPLY_COUPON_FAILED,
+        payload: {
+          status: false,
+          message: error.message,
+        },
+      });
+    }
+  };
+};
 
 export const removeCartItem = (product) => ({
   type: REMOVE_CART,
