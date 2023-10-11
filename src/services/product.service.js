@@ -11,6 +11,15 @@ const fetchAllProducts = async () => {
   }
 };
 
+const getProductOfBrand = async (brandID) => {
+  try {
+    const response = await http.get(`/product/getProductOfBrand/${brandID}`);
+    return response.result;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const fetchProductBySlug = async (slug) => {
   try {
     const response = await http.get(`/product/getProductBySlug/${slug}`);
@@ -23,4 +32,5 @@ const fetchProductBySlug = async (slug) => {
 export const productService = {
   fetchAllProducts,
   fetchProductBySlug,
+  getProductOfBrand,
 };

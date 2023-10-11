@@ -23,7 +23,6 @@ export default function HomePage() {
     }
   );
 
-
   return (
     <Layout>
       {/* Banner */}
@@ -273,139 +272,7 @@ export default function HomePage() {
                           <Link
                             to={`/product/${item.slugProduct}`}
                             className="p-add-cart"
-                            onclick="addProductToCart(3792, 1,'')"
-                          >
-
-                          </Link>
-                        </div>
-                      </div>
-                      <div className="p-tooltip">
-                        <p className="tooltip-title">
-                          HHPC 3D i5 13600K | 32G | NVIDIA RTX 3060 12G
-                        </p>
-                        <div className="tooltip-content">
-                          <table>
-                            <tbody>
-                              <tr>
-                                <td>Giá bán</td>
-                                <td>
-                                  <span className="tooltip-price">
-                                    23.950.000 đ
-                                  </span>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>Bảo hành</td>
-                                <td>36 tháng</td>
-                              </tr>
-                            </tbody>
-                          </table>
-                          <div className="tooltip-content-item">
-                            <b className="title">
-                              <i className="tooltip-icon icon-doc" /> Thông số
-                              sản phẩm
-                            </b>
-                            <div className="tooltip-content-list">
-                              <div className="item">
-                                CPU : INTEL CORE i5 13600K up 5.1GHz | 14 CORE |
-                                20 THREAD
-                              </div>
-                              <div className="item">
-                                RAM : 32GB DDR4 3600 MHz (2x16G)
-                              </div>
-                              <div className="item">
-                                VGA : MANLI RTX 3060 12GB GDDR6
-                              </div>
-                            </div>
-                          </div>
-                          <div className="tooltip-content-item">
-                            <b className="title">
-                              <i className="tooltip-icon icon-gift" /> Chương
-                              trình khuyến mãi
-                            </b>
-                            <div className="tooltip-content-list">
-                              <div className="item">
-                                <p>
-                                  <span
-                                    style={{
-                                      color: "#ff0000",
-                                      fontSize: "12pt",
-                                    }}
-                                  >
-                                    <strong>
-                                      ƯU ĐÃI KHI MUA KÈM PC TẠI HOÀNG HÀ PC
-                                    </strong>
-                                  </span>
-                                </p>
-                              </div>
-                              <div className="item">
-                                <p>
-                                  <span style={{ fontSize: "12pt" }}>
-                                    ⭐ Tặng ngay{" "}
-                                    <span
-                                      style={{
-                                        fontSize: "13pt",
-                                        color: "#ff0000",
-                                      }}
-                                    >
-                                      <strong>
-                                        bộ phím chuột và bàn di chuột + 5 mét
-                                        dây mạng
-                                      </strong>
-                                    </span>{" "}
-                                    khi mua cấu hình PC trên{" "}
-                                  </span>
-                                </p>
-                              </div>
-                              <div className="item">
-                                <p>
-                                  <span style={{ fontSize: "12pt" }}>
-                                    ⭐ Giảm ngay{" "}
-                                    <strong>
-                                      <span style={{ color: "#ff0000" }}>
-                                        100.000đ
-                                      </span>
-                                    </strong>{" "}
-                                    khi mua thêm{" "}
-                                    <span style={{ color: "#ff0000" }}>
-                                      <strong>
-                                        <a
-                                          style={{ color: "#ff0000" }}
-                                          href="/man-hinh-may-tinh"
-                                        >
-                                          Màn Hình Máy Tính
-                                        </a>
-                                      </strong>
-                                    </span>
-                                    .
-                                  </span>
-                                </p>
-                              </div>
-                              <div className="item">
-                                <p>
-                                  <span style={{ fontSize: "12pt" }}>
-                                    ⭐ Giảm ngay{" "}
-                                    <strong>
-                                      <span style={{ color: "#ff0000" }}>
-                                        200.000đ
-                                      </span>
-                                    </strong>{" "}
-                                    khi mua thêm{" "}
-                                    <strong>
-                                      <span style={{ color: "#ff0000" }}>
-                                        <a
-                                          style={{ color: "#ff0000" }}
-                                          href="/ram-bo-nho-trong"
-                                        >
-                                          RAM
-                                        </a>
-                                      </span>
-                                    </strong>
-                                  </span>
-                                </p>
-                              </div>
-                            </div>
-                          </div>
+                          ></Link>
                         </div>
                       </div>
                     </div>
@@ -424,215 +291,95 @@ export default function HomePage() {
       >
         <div className="home-box-group js-product-container loaded">
           <div className="box-title-group">
-            <h2 className="box-title">PC Thiết Kế Đồ Họa 3D</h2>
+            <h2 className="box-title">Laptop</h2>
             <div className="box-cat-list">
-              <a href="/hhpc-3d-lumion" title="HHPC 3D Lumion">
-                <h3>HHPC 3D Lumion</h3>
-              </a>
-              <a href="/hhpc-3d" title="HHPC 3D">
-                <h3>HHPC 3D</h3>
-              </a>
-              <a href="/pc-workstation" className="font-600">
+              <Link to={`/filter/laptop`} className="font-600">
                 Xem tất cả
-              </a>
+              </Link>
             </div>
           </div>
           <div className="p-container" id="js-product-1">
-            <Carousel
-              delay={4000}
-              navigation={false}
-              pagination={false}
-              breakpoints={{
-                640: {
-                  slidesPerView: 2,
-                  spaceBetween: 20,
-                },
-                768: {
-                  slidesPerView: 4,
-                  spaceBetween: 40,
-                },
-                1024: {
-                  slidesPerView: 5,
-                  spaceBetween: 50,
-                },
-              }}
-            >
-              {data?.map((item) => (
-                <SwiperSlide key={item.id}>
-                  <div className="p-item">
-                    <Link to={`/product/${item.slugProduct}`} className="p-img">
-                      <img
-                        src={`${item.images[0].imagePath}`}
-                        alt="HHPC 3D i5 13600K | 32G | NVIDIA RTX 3060 12G"
-                        width={250}
-                        height={250}
-                      />
-                    </Link>
-                    <div className="p-text">
-                      <a
-                        href="/hhpc-3d-lumion-i5-13600k-32g-nvidia-rtx-3060-12g"
-                        className="p-name"
+            {isloading ? (
+              <Loading />
+            ) : (
+              <Carousel
+                delay={4000}
+                navigation={false}
+                pagination={false}
+                breakpoints={{
+                  640: {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                  },
+                  768: {
+                    slidesPerView: 4,
+                    spaceBetween: 40,
+                  },
+                  1024: {
+                    slidesPerView: 5,
+                    spaceBetween: 50,
+                  },
+                }}
+              >
+                {data?.map((item) => (
+                  <SwiperSlide key={item.id}>
+                    <div className="p-item">
+                      <Link
+                        to={`/product/${item.slugProduct}`}
+                        className="p-img"
                       >
-                        <h3 className="inherit">
-                          HHPC 3D i5 13600K | 32G | NVIDIA RTX 3060 12G
-                        </h3>
-                      </a>
-                      <div className="p-price-group">
-                        <span className="p-price">23.950.000 đ</span>
-                        <del className="p-old-price">26.500.000 đ</del>
-                        <span className="p-discount">(Tiết kiệm: 10%)</span>
-                      </div>
-                      <div className="p-btn-group">
-                        <p>
-                          <span style={{ color: "#0DB866" }}>
-                            <i className="icons icon-check" /> Còn hàng
-                          </span>
-                          <span style={{ color: "#A3A3A3" }}>
-                            <i className="icons icon-gift" /> Quà tặng
-                          </span>
-                        </p>
-                        <Link
-                          to={`/product/${item.slugProduct}`}
-                          className="p-add-cart"
-                          onclick="addProductToCart(3792, 1,'')"
+                        <img
+                          src={`${item.images[0].imagePath}`}
+                          alt="HHPC 3D i5 13600K | 32G | NVIDIA RTX 3060 12G"
+                          width={250}
+                          height={250}
+                        />
+                      </Link>
+                      <div className="p-text">
+                        <a
+                          href="/hhpc-3d-lumion-i5-13600k-32g-nvidia-rtx-3060-12g"
+                          className="p-name"
                         >
-
-                        </Link>
-                      </div>
-                    </div>
-                    <div className="p-tooltip">
-                      <p className="tooltip-title">
-                        HHPC 3D i5 13600K | 32G | NVIDIA RTX 3060 12G
-                      </p>
-                      <div className="tooltip-content">
-                        <table>
-                          <tbody>
-                            <tr>
-                              <td>Giá bán</td>
-                              <td>
-                                <span className="tooltip-price">
-                                  23.950.000 đ
-                                </span>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>Bảo hành</td>
-                              <td>36 tháng</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <div className="tooltip-content-item">
-                          <b className="title">
-                            <i className="tooltip-icon icon-doc" /> Thông số sản
-                            phẩm
-                          </b>
-                          <div className="tooltip-content-list">
-                            <div className="item">
-                              CPU : INTEL CORE i5 13600K up 5.1GHz | 14 CORE |
-                              20 THREAD
-                            </div>
-                            <div className="item">
-                              RAM : 32GB DDR4 3600 MHz (2x16G)
-                            </div>
-                            <div className="item">
-                              VGA : MANLI RTX 3060 12GB GDDR6
-                            </div>
-                          </div>
+                          <h3 className="inherit">
+                            HHPC 3D i5 13600K | 32G | NVIDIA RTX 3060 12G
+                          </h3>
+                        </a>
+                        <div className="p-price-group">
+                          <span className="p-price">
+                            {formatPrice(item.initial_price)}đ
+                          </span>
+                          <del className="p-old-price">
+                            {formatPrice(item.price_has_dropped)} đ
+                          </del>
+                          <span className="p-discount">
+                            (Tiết kiệm:{" "}
+                            {calculateDiscountPercentage(
+                              item?.initial_price,
+                              item?.price_has_dropped
+                            )}
+                            )
+                          </span>
                         </div>
-                        <div className="tooltip-content-item">
-                          <b className="title">
-                            <i className="tooltip-icon icon-gift" /> Chương
-                            trình khuyến mãi
-                          </b>
-                          <div className="tooltip-content-list">
-                            <div className="item">
-                              <p>
-                                <span
-                                  style={{
-                                    color: "#ff0000",
-                                    fontSize: "12pt",
-                                  }}
-                                >
-                                  <strong>
-                                    ƯU ĐÃI KHI MUA KÈM PC TẠI HOÀNG HÀ PC
-                                  </strong>
-                                </span>
-                              </p>
-                            </div>
-                            <div className="item">
-                              <p>
-                                <span style={{ fontSize: "12pt" }}>
-                                  ⭐ Tặng ngay{" "}
-                                  <span
-                                    style={{
-                                      fontSize: "13pt",
-                                      color: "#ff0000",
-                                    }}
-                                  >
-                                    <strong>
-                                      bộ phím chuột và bàn di chuột + 5 mét dây
-                                      mạng
-                                    </strong>
-                                  </span>{" "}
-                                  khi mua cấu hình PC trên{" "}
-                                </span>
-                              </p>
-                            </div>
-                            <div className="item">
-                              <p>
-                                <span style={{ fontSize: "12pt" }}>
-                                  ⭐ Giảm ngay{" "}
-                                  <strong>
-                                    <span style={{ color: "#ff0000" }}>
-                                      100.000đ
-                                    </span>
-                                  </strong>{" "}
-                                  khi mua thêm{" "}
-                                  <span style={{ color: "#ff0000" }}>
-                                    <strong>
-                                      <a
-                                        style={{ color: "#ff0000" }}
-                                        href="/man-hinh-may-tinh"
-                                      >
-                                        Màn Hình Máy Tính
-                                      </a>
-                                    </strong>
-                                  </span>
-                                  .
-                                </span>
-                              </p>
-                            </div>
-                            <div className="item">
-                              <p>
-                                <span style={{ fontSize: "12pt" }}>
-                                  ⭐ Giảm ngay{" "}
-                                  <strong>
-                                    <span style={{ color: "#ff0000" }}>
-                                      200.000đ
-                                    </span>
-                                  </strong>{" "}
-                                  khi mua thêm{" "}
-                                  <strong>
-                                    <span style={{ color: "#ff0000" }}>
-                                      <a
-                                        style={{ color: "#ff0000" }}
-                                        href="/ram-bo-nho-trong"
-                                      >
-                                        RAM
-                                      </a>
-                                    </span>
-                                  </strong>
-                                </span>
-                              </p>
-                            </div>
-                          </div>
+                        <div className="p-btn-group">
+                          <p>
+                            <span style={{ color: "#0DB866" }}>
+                              <i className="icons icon-check" /> Còn hàng
+                            </span>
+                            <span style={{ color: "#A3A3A3" }}>
+                              <i className="icons icon-gift" /> Quà tặng
+                            </span>
+                          </p>
+                          <Link
+                            to={`/product/${item.slugProduct}`}
+                            className="p-add-cart"
+                          ></Link>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Carousel>
+                  </SwiperSlide>
+                ))}
+              </Carousel>
+            )}
           </div>
         </div>
       </div>

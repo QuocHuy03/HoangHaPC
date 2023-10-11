@@ -7,6 +7,7 @@ import { logout } from "../../stores/authentication/actions";
 import { userService } from "../../services/user.service";
 import { message } from "antd";
 import { LOAD_CURRENT_LOGIN_USER_SUCCESS } from "../../stores/authentication/types";
+import createNotification from "../../utils/notification";
 
 export default function ProfilePage() {
   const dispatch = useDispatch();
@@ -51,12 +52,12 @@ export default function ProfilePage() {
       console.log(response);
       if (response.status === true) {
         setValidationErrors([]);
-        message.success(response.message);
+        createNotification("success", "topRight", response.message);
         await dispatch(logout(refreshToken));
       } else {
         if (response.status === false) {
           setValidationErrors([]);
-          message.error(response.message);
+          createNotification("error", "topRight", response.message);
         }
         setValidationErrors(
           Object.values(response.errors).map((error) => error.msg)
@@ -182,9 +183,9 @@ export default function ProfilePage() {
           payload: response.user,
         });
         if (response.status === true) {
-          message.success(response.message);
+          createNotification("success", "topRight", response.message);
         } else {
-          message.error(response.message);
+          createNotification("error", "topRight", response.message);
         }
       } catch (error) {
         console.error("An error occurred:", error);
