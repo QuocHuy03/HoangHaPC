@@ -124,7 +124,12 @@ const cartReducer = (state = initialState, action) => {
       }
 
     case REMOVE_CART_SUCCESS:
+
     case UPDATE_CART_SUCCESS:
+      return {
+        ...state,
+        carts: updatedCarts,
+      };
     case REMOVE_ALL_CART_SUCCESS:
       return handleCartAction(state, action.type, action.payload);
 

@@ -45,6 +45,43 @@ export const addToCart = (data) => {
   };
 };
 
+export const updateToCart = (data) => {
+  return async (dispatch) => {
+    dispatch({
+      type: UPDATE_CART_REQUEST,
+      payload: data,
+    });
+
+    try {
+      const response = await cartService.fetchUpdateCart(data);
+      if (response.status === true) {
+        dispatch({
+          type: ADD_CART_SUCCESS,
+          payload: response.result,
+        });
+        return {
+          status: true,
+          message: response.message,
+        };
+      } else {
+        dispatch({
+          type: ADD_CART_FAILED,
+          payload: response,
+        });
+        return response;
+      }
+    } catch (error) {
+      dispatch({
+        type: ADD_CART_FAILED,
+        payload: {
+          status: false,
+          message: error.message,
+        },
+      });
+    }
+  };
+};
+
 export const removeCartItem = (product) => ({
   type: REMOVE_CART,
   payload: product,

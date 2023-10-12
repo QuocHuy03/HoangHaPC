@@ -13,10 +13,12 @@ import { formatPrice } from "../../utils/fomatPrice";
 import { AppContext } from "../../contexts/AppContextProvider";
 import { v4 as uuidv4 } from "uuid";
 import createNotification from "../../utils/notification";
+import { useQuery } from "@tanstack/react-query";
+import { productService } from "../../services/product.service";
 
 export default function CartPage() {
   const dispatch = useDispatch();
-  const { carts, user } = useContext(AppContext);
+  let { carts, user } = useContext(AppContext);
   const totalAmountAll = carts?.reduce(
     (total, item) => total + item?.product.price_has_dropped * item.quantity,
     0
@@ -111,7 +113,7 @@ export default function CartPage() {
                     <div key={item.product._id} className="item js-item-row">
                       <div className="item-left">
                         <span className="item-img">
-                          <img src={item.product.images[0].imagePath} />
+                          <img src={item.product.image} />
                         </span>
                         <div className="item-text">
                           <div className="item-color">

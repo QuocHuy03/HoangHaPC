@@ -20,9 +20,9 @@ const fetchPostCart = async (data) => {
   }
 };
 
-const fetchUpdateCart = async (id, data) => {
+const fetchUpdateCart = async (data) => {
   try {
-    const response = await http.update(`/cart/updateCart/${id}`, data);
+    const response = await http.update(`/cart/updateCart`, data);
     return response;
   } catch (error) {
     console.error(error);
