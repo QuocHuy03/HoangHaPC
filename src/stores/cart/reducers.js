@@ -14,7 +14,7 @@ import {
 } from "./types";
 
 const initialState = {
-  carts: null,
+  carts: [],
   loading: false,
   error: null,
 };
@@ -79,54 +79,64 @@ const initialState = {
 //   // }
 // }
 
-const handleCartAction = (state, action, type) => {
-  switch (type) {
-    case `${action}_REQUEST`:
-      return { ...state, loading: true, error: null };
+const handleCartAction = (state, actionType, payload) => {
+  return {
+    ...state,
+    loading: false,
+    error: null,
+    carts: [payload],
+  };
+};
 
-    case `${action}_SUCCESS`:
-      return {
-        ...state,
-        carts: action.payload,
-        loading: false,
-      };
-
-    case `${action}_FAILED`:
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
-
-    default:
-      return state;
-  }
+const handleError = (state, actionType, error) => {
+  return {
+    ...state,
+    loading: false,
+    error: error,
+  };
 };
 
 const cartReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_CART_REQUEST:
-    case ADD_CART_SUCCESS:
-    case ADD_CART_FAILED:
-      return handleCartAction(state, action, "ADD_CART");
-
     case REMOVE_CART_REQUEST:
-    case REMOVE_CART_SUCCESS:
-    case REMOVE_CART_FAILED:
-      return handleCartAction(state, action, "REMOVE_CART");
-
     case UPDATE_CART_REQUEST:
-    case UPDATE_CART_SUCCESS:
-    case UPDATE_CART_FAILED:
-      return handleCartAction(state, action, "UPDATE_CART");
-
     case REMOVE_ALL_CART_REQUEST:
+      return { ...state, loading: true, error: null };
+
+    case ADD_CART_SUCCESS:
+      const { productID } = action.payload;
+      const existingItemIndex = state.carts.findIndex(
+        (item) => item.productID === productID
+      );
+      if (existingItemIndex !== -1) {
+        const updatedCarts = [...state.carts];
+        updatedCarts[existingItemIndex] = action.payload;
+        return {
+          ...state,
+          carts: updatedCarts,
+        };
+      } else {
+        return {
+          ...state,
+          carts: [...state.carts, action.payload],
+        };
+      }
+
+    case REMOVE_CART_SUCCESS:
+    case UPDATE_CART_SUCCESS:
     case REMOVE_ALL_CART_SUCCESS:
+      return handleCartAction(state, action.type, action.payload);
+
+    case ADD_CART_FAILED:
+    case REMOVE_CART_FAILED:
+    case UPDATE_CART_FAILED:
     case REMOVE_ALL_CART_FAILED:
-      return handleCartAction(state, action, "REMOVE_ALL_CART");
+      return handleError(state, action.type, action.payload);
 
     default:
       return state;
   }
 };
+
 export default cartReducer;
