@@ -10,7 +10,6 @@ import {
   removeCartItem,
 } from "../../stores/cart/actions";
 import { formatPrice } from "../../utils/fomatPrice";
-import { message } from "antd";
 import { AppContext } from "../../contexts/AppContextProvider";
 import { v4 as uuidv4 } from "uuid";
 import createNotification from "../../utils/notification";

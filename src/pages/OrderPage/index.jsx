@@ -26,6 +26,7 @@ export default function OrderPage() {
     message: queryParams.get("message"),
   };
 
+
   const paymentVnpay = {
     vnp_Amount: queryParams.get("vnp_Amount"),
     vnp_BankCode: queryParams.get("vnp_BankCode"),
@@ -41,7 +42,6 @@ export default function OrderPage() {
       ...(paymentMomo && paymentMomo.transId !== null ? { paymentMomo } : {}),
       ...(paymentVnpay && paymentVnpay.vnp_BankTranNo !== null ? { paymentVnpay } : {}),
     };
-
     try {
       const response = await dispatch(orders(data, paymentMethod));
 
@@ -49,11 +49,11 @@ export default function OrderPage() {
         createNotification("success", "topRight", response.message);
       } else {
         createNotification("error", "topRight", response.message);
-        navigate(`/checkout/${uuidv4()}`);
+        // navigate(`/checkout/${uuidv4()}`);
       }
     } catch (error) {
       console.error(error);
-      navigate(`/checkout/${uuidv4()}`);
+      // navigate(`/checkout/${uuidv4()}`);
     }
   };
 
