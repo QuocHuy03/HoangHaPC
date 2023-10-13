@@ -5,6 +5,8 @@ import {
   REMOVE_ALL_CART_REQUEST,
   ADD_CART_SUCCESS,
   ADD_CART_FAILED,
+  UPDATE_CART_SUCCESS,
+  UPDATE_CART_FAILED,
 } from "./types";
 import { cartService } from "../../services/cart.service";
 
@@ -56,7 +58,7 @@ export const updateToCart = (data) => {
       const response = await cartService.fetchUpdateCart(data);
       if (response.status === true) {
         dispatch({
-          type: ADD_CART_SUCCESS,
+          type: UPDATE_CART_SUCCESS,
           payload: response.result,
         });
         return {
@@ -65,14 +67,14 @@ export const updateToCart = (data) => {
         };
       } else {
         dispatch({
-          type: ADD_CART_FAILED,
+          type: UPDATE_CART_FAILED,
           payload: response,
         });
         return response;
       }
     } catch (error) {
       dispatch({
-        type: ADD_CART_FAILED,
+        type: UPDATE_CART_FAILED,
         payload: {
           status: false,
           message: error.message,
@@ -84,16 +86,6 @@ export const updateToCart = (data) => {
 
 export const removeCartItem = (product) => ({
   type: REMOVE_CART,
-  payload: product,
-});
-
-export const increaseQuantity = (product) => ({
-  type: INCREASING_QUANTIRY_CART,
-  payload: product,
-});
-
-export const decreaseQuantity = (product) => ({
-  type: DECREASE_QUANTIRY_CART,
   payload: product,
 });
 

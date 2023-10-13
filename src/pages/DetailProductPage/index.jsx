@@ -103,23 +103,23 @@ export default function DetailProductPage() {
     }
   };
 
-  const buyCart = (product) => {
+  const buyCart = async (product) => {
     if (!selectedColor) {
       setShowColorError(true);
       return;
     }
-    dispatch(
+    const response = await dispatch(
       addToCart({
         productID: product._id,
         color: selectedColor,
         quantity: 1,
       })
     );
-    createNotification(
-      "success",
-      "topRight",
-      "Thêm sản phẩm vào giỏ hàng thành công"
-    );
+    if (response.status === true) {
+      createNotification("success", "topRight", response.message);
+    } else {
+      createNotification("error", "topRight", response.message);
+    }
   };
 
   const addCart = (product) => {

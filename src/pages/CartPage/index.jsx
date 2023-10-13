@@ -4,17 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { URL_CONSTANTS } from "../../constants/url.constants";
 import {
-  decreaseQuantity,
-  increaseQuantity,
   removeAllCart,
   removeCartItem,
+  updateToCart,
 } from "../../stores/cart/actions";
 import { formatPrice } from "../../utils/fomatPrice";
 import { AppContext } from "../../contexts/AppContextProvider";
 import { v4 as uuidv4 } from "uuid";
 import createNotification from "../../utils/notification";
-import { useQuery } from "@tanstack/react-query";
-import { productService } from "../../services/product.service";
 
 export default function CartPage() {
   const dispatch = useDispatch();
@@ -24,12 +21,20 @@ export default function CartPage() {
     0
   );
 
-  const handleIncreasingQuantity = (item) => {
-    dispatch(increaseQuantity(item));
-  };
-
-  const handleDecreaseQuantity = (item) => {
-    dispatch(decreaseQuantity(item));
+  const handleUpdateCart = async (item, operation) => {
+    const updatedItem = { ...item };
+    const quantityCart = parseInt(updatedItem.quantity, 10);
+    if (operation === "increment") {
+      updatedItem.quantity = quantityCart + 1;
+    } else if (operation === "decrement") {
+      if (updatedItem.quantity > 1) {
+        updatedItem.quantity = quantityCart - 1;
+      }
+    }
+    delete updatedItem.product;
+    delete updatedItem._id;
+    const response = await dispatch(updateToCart(updatedItem));
+    console.log(response);
   };
 
   const handleDeleteItem = (item) => {
@@ -152,7 +157,7 @@ export default function CartPage() {
                       <div className="item-right">
                         <div className="item-quantity-holder">
                           <a
-                            onClick={() => handleDecreaseQuantity(item)}
+                            onClick={() => handleUpdateCart(item, "decrement")}
                             className="js-quantity-change fas fa-minus"
                             aria-hidden="true"
                           />
@@ -164,11 +169,12 @@ export default function CartPage() {
                             readOnly
                           />
                           <a
-                            onClick={() => handleIncreasingQuantity(item)}
+                            onClick={() => handleUpdateCart(item, "increment")}
                             className="js-quantity-change fas fa-plus"
                             aria-hidden="true"
                           />
                         </div>
+
                         <a
                           className="js-delete-item icon-delete"
                           onClick={() => handleDeleteItem(item)}
