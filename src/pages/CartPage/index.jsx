@@ -1,13 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Layout from "../../components/Layout";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { URL_CONSTANTS } from "../../constants/url.constants";
 import {
-  decreaseQuantity,
-  increaseQuantity,
-  removeAllCart,
-  removeCartItem,
+  deleteToCartAll,
+  deleteToCartItem,
+  getCart,
+  updateToCart,
 } from "../../stores/cart/actions";
 import { formatPrice } from "../../utils/fomatPrice";
 import { AppContext } from "../../contexts/AppContextProvider";
@@ -16,27 +16,44 @@ import createNotification from "../../utils/notification";
 
 export default function CartPage() {
   const dispatch = useDispatch();
-  const { carts, user } = useContext(AppContext);
+  let { carts, user } = useContext(AppContext);
+
+  useEffect(() => {
+    dispatch(getCart(user?._id));
+  }, []);
+
   const totalAmountAll = carts?.reduce(
     (total, item) => total + item?.product.price_has_dropped * item.quantity,
     0
   );
 
-  const handleIncreasingQuantity = (item) => {
-    dispatch(increaseQuantity(item));
+  const handleUpdateCart = async (item, operation) => {
+    const updatedItem = { ...item };
+    const quantityCart = parseInt(updatedItem.quantity, 10);
+    if (operation === "increment") {
+      updatedItem.quantity = quantityCart + 1;
+    } else if (operation === "decrement") {
+      if (updatedItem.quantity > 1) {
+        updatedItem.quantity = quantityCart - 1;
+      }
+    }
+    delete updatedItem.product;
+    delete updatedItem._id;
+    const response = await dispatch(updateToCart(updatedItem));
+    if (response.status === true) {
+    } else {
+      createNotification("error", "topRight", response.message);
+    }
   };
 
-  const handleDecreaseQuantity = (item) => {
-    dispatch(decreaseQuantity(item));
+  const handleDeleteItem = async (item) => {
+    const response = await dispatch(deleteToCartItem(item));
+    console.log(response);
   };
 
-  const handleDeleteItem = (item) => {
-    dispatch(removeCartItem(item));
-  };
-
-  const handleDeleteAll = () => {
-    dispatch(removeAllCart());
-    createNotification("success", "topRight", "Xóa Tất Cả Sản Phẩm Thành Công");
+  const handleDeleteAll = async () => {
+    const response = await dispatch(deleteToCartAll());
+    console.log(response);
   };
 
   const initialInputValues = {
@@ -111,7 +128,7 @@ export default function CartPage() {
                     <div key={item.product._id} className="item js-item-row">
                       <div className="item-left">
                         <span className="item-img">
-                          <img src={item.product.images[0].imagePath} />
+                          <img src={item.product.image} />
                         </span>
                         <div className="item-text">
                           <div className="item-color">
@@ -150,7 +167,7 @@ export default function CartPage() {
                       <div className="item-right">
                         <div className="item-quantity-holder">
                           <a
-                            onClick={() => handleDecreaseQuantity(item)}
+                            onClick={() => handleUpdateCart(item, "decrement")}
                             className="js-quantity-change fas fa-minus"
                             aria-hidden="true"
                           />
@@ -162,14 +179,15 @@ export default function CartPage() {
                             readOnly
                           />
                           <a
-                            onClick={() => handleIncreasingQuantity(item)}
+                            onClick={() => handleUpdateCart(item, "increment")}
                             className="js-quantity-change fas fa-plus"
                             aria-hidden="true"
                           />
                         </div>
+
                         <a
                           className="js-delete-item icon-delete"
-                          onClick={() => handleDeleteItem(item)}
+                          onClick={() => handleDeleteItem(item._id)}
                         />
                         <div className="item-price-holder">
                           <p className="item-price">
