@@ -18,10 +18,6 @@ export default function CartPage() {
   const dispatch = useDispatch();
   let { carts, user } = useContext(AppContext);
 
-  useEffect(() => {
-    dispatch(getCart(user?._id));
-  }, []);
-
   const totalAmountAll = carts?.reduce(
     (total, item) => total + item?.product.price_has_dropped * item.quantity,
     0
@@ -48,12 +44,20 @@ export default function CartPage() {
 
   const handleDeleteItem = async (item) => {
     const response = await dispatch(deleteToCartItem(item));
-    console.log(response);
+    if (response.status === true) {
+      createNotification("success", "topRight", response.message);
+    } else {
+      createNotification("error", "topRight", response.message);
+    }
   };
 
   const handleDeleteAll = async () => {
     const response = await dispatch(deleteToCartAll());
-    console.log(response);
+    if (response.status === true) {
+      createNotification("success", "topRight", response.message);
+    } else {
+      createNotification("error", "topRight", response.message);
+    }
   };
 
   const initialInputValues = {

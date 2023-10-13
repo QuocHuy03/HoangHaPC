@@ -153,11 +153,11 @@ const cartReducer = (state = initialState, action) => {
 
     case REMOVE_CART_SUCCESS:
       const { productID: removeProductID } = action.payload;
-      console.log(removeProductID);
+      // console.log(removeProductID);
       const deleteCart = state.carts.filter(
         (item) => item._id !== removeProductID
       );
-      console.log("delete cart", deleteCart);
+      // console.log("delete cart", deleteCart);
       return {
         ...state,
         carts: deleteCart,

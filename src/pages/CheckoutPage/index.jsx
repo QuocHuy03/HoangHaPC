@@ -146,7 +146,7 @@ export default function CheckoutPage() {
   const handleOrder = async () => {
     const product = carts?.map((cart) => ({
       color: cart.color,
-      productID: cart.product._id,
+      productID: cart.productID,
       quantity: cart.quantity,
     }));
 
@@ -381,7 +381,7 @@ export default function CheckoutPage() {
                                   <img
                                     className="lazyload css-jdz5ak"
                                     alt="product"
-                                    src={item.product.images[0].imagePath}
+                                    src={item.product.image}
                                     loading="lazy"
                                     decoding="async"
                                   />
