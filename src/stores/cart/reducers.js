@@ -2,6 +2,9 @@ import {
   ADD_CART_FAILED,
   ADD_CART_REQUEST,
   ADD_CART_SUCCESS,
+  GET_CART_FAILED,
+  GET_CART_REQUEST,
+  GET_CART_SUCCESS,
   REMOVE_ALL_CART_FAILED,
   REMOVE_ALL_CART_REQUEST,
   REMOVE_ALL_CART_SUCCESS,
@@ -98,16 +101,23 @@ const handleError = (state, actionType, error) => {
 
 const cartReducer = (state = initialState, action) => {
   switch (action.type) {
+    case GET_CART_REQUEST:
     case ADD_CART_REQUEST:
     case REMOVE_CART_REQUEST:
     case UPDATE_CART_REQUEST:
     case REMOVE_ALL_CART_REQUEST:
       return { ...state, loading: true, error: null };
 
+    case GET_CART_SUCCESS:
+      return {
+        ...state,
+        carts: action.payload,
+      };
+
     case ADD_CART_SUCCESS:
-      const { productID } = action.payload;
+      const { productID: addProductID } = action.payload;
       const existingItemPostIndex = state.carts.findIndex(
-        (item) => item.productID === productID
+        (item) => item.productID === addProductID
       );
       if (existingItemPostIndex !== -1) {
         const updatedCarts = [...state.carts];
@@ -132,7 +142,7 @@ const cartReducer = (state = initialState, action) => {
       // console.log(action.payload);
       if (existingItemUpdateIndex !== -1) {
         const updatedCarts = [...state.carts];
-        console.log("update carts", updatedCarts);
+        // console.log("update carts", updatedCarts);
         updatedCarts[existingItemUpdateIndex] = action.payload;
         return {
           ...state,
@@ -142,10 +152,22 @@ const cartReducer = (state = initialState, action) => {
       return state;
 
     case REMOVE_CART_SUCCESS:
-
+      const { productID: removeProductID } = action.payload;
+      console.log(removeProductID);
+      const deleteCart = state.carts.filter(
+        (item) => item._id !== removeProductID
+      );
+      console.log("delete cart", deleteCart);
+      return {
+        ...state,
+        carts: deleteCart,
+      };
     case REMOVE_ALL_CART_SUCCESS:
-      return handleCartAction(state, action.type, action.payload);
-
+      return {
+        ...state,
+        carts: [],
+      };
+    case GET_CART_FAILED:
     case ADD_CART_FAILED:
     case REMOVE_CART_FAILED:
     case UPDATE_CART_FAILED:

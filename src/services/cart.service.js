@@ -5,7 +5,7 @@ const http = new Http();
 const fetchCartByUserID = async (id) => {
   try {
     const response = await http.get(`/cart/getCartByUserId/${id}`);
-    return response.result;
+    return response;
   } catch (error) {
     console.error(error);
   }
@@ -38,9 +38,19 @@ const fetchDeleteCartByID = async (id) => {
   }
 };
 
+const fetchDeleteCartAllByUserID = async () => {
+  try {
+    const response = await http.delete(`/cart/deleteCartAllByUserId`);
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const cartService = {
   fetchCartByUserID,
   fetchPostCart,
   fetchUpdateCart,
   fetchDeleteCartByID,
+  fetchDeleteCartAllByUserID,
 };
